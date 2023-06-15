@@ -5,5 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 interface Entity {
-    Sprite getSprite();
+    float getCenterX();
+    float getCenterY();
+    int getCenterWidth();
+    float getRotationDegrees();
+    Sprite getTexture();
+
 }

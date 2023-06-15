@@ -1,40 +1,18 @@
 package space.battle.client;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 class SpaceShipPlayer implements Entity {
-    private float x;
-    private float y;
-    private float rotation;
-    final private Texture texture = new Texture("space_ship_player.png");
+    final private Sprite sprite = new Sprite(new Texture("space_ship_player.png"));
 
     @Override
-    public float getX() {
-        return x;
-    }
-    @Override
-    public float getY() {
-        return y;
+    public Sprite getSprite() {
+        return sprite;
     }
 
-    @Override
-    public float getRotation() {
-        return 0;
-    }
-
-    @Override
-    public Texture getTexture() {
-        return texture;
-    }
-
-    @Override
-    public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y);
-    }
-
-    public SpaceShipPlayer(float x, float y, float rotation) {
-        this.x = x;
-        this.y = y;
+    SpaceShipPlayer(float x, float y, float rotationDegrees) {
+        sprite.setPosition(x, y);
+        sprite.setRotation(rotationDegrees);
     }
 }

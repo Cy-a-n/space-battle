@@ -26,9 +26,6 @@ public class App extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0, 0 , 0, 1);
 
-        camera.position.x = spaceShipPlayer.getSprite().getX();
-        camera.position.y = spaceShipPlayer.getSprite().getY();
-
 
         // Update the camera
         camera.update();
@@ -37,7 +34,7 @@ public class App extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        spaceShipPlayer.getSprite().draw(batch);
+        spaceShipPlayer.draw(batch);
         batch.end();
     }
 

@@ -1,21 +1,24 @@
 package space.battle.client;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;-
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import java.util.ArrayList;
 
 class SpaceShipPlayer implements Entity {
 
     private ArrayList<Entity> childEntities;
     private float x, y, rotationDegrees;
-    private int width, height;
-    final private Texture texture = new Texture("space_ship_player.png");
+    final private int width = 32;
+    final private int height = 16;
 
 
 
     @Override
-    public List<Entity> getChildEntities() {
+    public ArrayList<Entity> getChildEntities() {
         return childEntities;
     }
 
@@ -44,18 +47,12 @@ class SpaceShipPlayer implements Entity {
         return rotationDegrees;
     }
 
-    @Override
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public SpaceShipPlayer(List<Entity> childEntities, float x, float y, float rotationDegrees, int width, int height) {
-        this.childEntities = (childEntities == null)? new List<Entity>() :
+    public SpaceShipPlayer(ArrayList<Entity> childEntities, float x, float y, float rotationDegrees) {
+        this.childEntities = (childEntities == null)? new ArrayList<Entity>() : childEntities;
+        this.childEntities.ensureCapacity(16);
         this.x = x;
         this.y = y;
         this.rotationDegrees = rotationDegrees;
-        this.width = width;
-        this.height = height;
     }
 
     @Override
@@ -69,7 +66,12 @@ class SpaceShipPlayer implements Entity {
     }
 
     @Override
-    public void draw(SpriteBatch batch) {
+    public void drawShapes(ShapeRenderer shapeRenderer) {
+        shapeRenderer.rect(x, y, 0, 0, width, height, 0, 0, rotationDegrees, Color.CYAN, Color.CYAN, Color.CYAN, Color.CYAN);
+    }
+
+    @Override
+    public void drawTexture(SpriteBatch batch) {
 
     }
 }

@@ -1,15 +1,17 @@
 package space.battle.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class App extends ApplicationAdapter {
+    SpriteBatch batch;
     OrthographicCamera camera;
     private SpaceShipPlayer spaceShipPlayer;
-    SpriteBatch batch;
 
     @Override
     public void create() {
@@ -18,8 +20,9 @@ public class App extends ApplicationAdapter {
         camera.setToOrtho(false, 256, 256);
         batch = new SpriteBatch();
 
+
         // Initialize attributes
-        spaceShipPlayer = new SpaceShipPlayer(0, 0, 0);
+        spaceShipPlayer = new SpaceShipPlayer(null, 100f, 100f, 0f);
     }
 
     @Override
@@ -28,14 +31,10 @@ public class App extends ApplicationAdapter {
 
 
         // Update the camera
+        camera.zoom = 20f;
         camera.update();
 
-        // Set the projection matrix of the SpriteBatch to the camera's combined matrix
-        batch.setProjectionMatrix(camera.combined);
-
-        batch.begin();
-        spaceShipPlayer.draw(batch);
-        batch.end();
+        
     }
 
 

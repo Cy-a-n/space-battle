@@ -3,6 +3,7 @@ package space.battle.client;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ interface Entity {
     /**
      * Returns the child entities of the current entity.
      */
-    List<Entity> getChildEntities();
+    ArrayList<Entity> getChildEntities();
 
     /**
      * Returns the X coordinate of the center of the entity.
@@ -39,11 +40,6 @@ interface Entity {
     float getRotationDegrees();
 
     /**
-     * Returns the texture (sprite) of the entity.
-     */
-    Texture getTexture();
-
-    /**
      * This method is called before the physic simulation calculates the next step.
      * Useful for getting user input and updating the physics simulation.
      */
@@ -56,10 +52,17 @@ interface Entity {
     void updateAfterPhysicsSimulation();
 
     /**
-     * Draws the texture at the position and rotation of the entity.
+     * Draws the shape of the entity, if existent, at the position and rotation of the entity.
      * This method is called at the end of the loop after updateAfterPhysicsSimulation.
-     * @param batch The SpriteBatch used for drawing
+     * @param shapeRenderer The ShapeRenderer used for drawing simple shapes.
      */
-    void draw(SpriteBatch batch);
+    void drawShapes(ShapeRenderer shapeRenderer);
+
+    /**
+     * Draws the texture, if existent, at the position and rotation of the entity.
+     * This method is called at the end of the loop after drawShapes.
+     * @param batch The SpriteBatch used for drawing Textures or TextureRegions.
+     */
+    void drawTexture(SpriteBatch batch);
 }
 

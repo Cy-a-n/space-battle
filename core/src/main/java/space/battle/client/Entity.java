@@ -1,11 +1,10 @@
 package space.battle.client;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
 interface Entity {
@@ -39,30 +38,19 @@ interface Entity {
      */
     float getRotationDegrees();
 
+    // TODO: Use {link} tag for physics sim after implementation
     /**
-     * This method is called before the physic simulation calculates the next step.
-     * Useful for getting user input and updating the physics simulation.
+     * This method is called every frame after the physics simulation .
+     * Useful for updating the entity's position based on the result of the physic simulation, reading input and updating the physics simulation for the next frame.
      */
-    void updateBeforePhysicsSimulation();
+    void update();
 
     /**
-     * This method is called after the physics simulation calculates the next step.
-     * Useful for updating the entity based on the result of the physic simulation.
+     * This method is called every frame at the end of the loop after {@link #update()}.
+     * Draw the associated shape or texture of the entity, if present, centered around the position and rotation of the entity.
+     * @param batch The {@link SpriteBatch} used for drawing {@link Texture} or {@link TextureRegion}.
+     * @param shapeDrawer The {@link ShapeDrawer} used for drawing simple shapes. Unlike {@link ShapeRenderer} it can be called during {@link SpriteBatch#begin()} and {@link SpriteBatch#end()}
      */
-    void updateAfterPhysicsSimulation();
-
-    /**
-     * Draws the shape of the entity, if existent, at the position and rotation of the entity.
-     * This method is called at the end of the loop after updateAfterPhysicsSimulation.
-     * @param shapeRenderer The ShapeRenderer used for drawing simple shapes.
-     */
-    void drawShapes(ShapeRenderer shapeRenderer);
-
-    /**
-     * Draws the texture, if existent, at the position and rotation of the entity.
-     * This method is called at the end of the loop after drawShapes.
-     * @param batch The SpriteBatch used for drawing Textures or TextureRegions.
-     */
-    void drawTexture(SpriteBatch batch);
+    void draw(SpriteBatch batch, ShapeDrawer shapeDrawer);
 }
 

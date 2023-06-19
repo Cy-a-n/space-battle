@@ -1,7 +1,11 @@
 .gradle/
 core/build/
+core/bin/
 lwjgl3/build/
+lwjgl3/bin/
 shared/build/
+shared/bin/
 server/build/
+server/bin/
 .idea/shelf/
 .idea/workspace.xml

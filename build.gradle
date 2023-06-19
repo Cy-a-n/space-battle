@@ -1,52 +1,60 @@
 buildscript {
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    mavenLocal()
-    google()
-    gradlePluginPortal()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-  }
-  dependencies {
-  }
+    repositories {
+        mavenCentral()
+        maven { url 'https://s01.oss.sonatype.org' }
+        mavenLocal()
+        google()
+        gradlePluginPortal()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+    dependencies {
+    }
 }
 
 allprojects {
-  apply plugin: 'eclipse'
-  apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
 
-  ext {
-    shapedrawerVersion = '2.5.0'
-  }
-  repositories {
-    maven { url 'https://jitpack.io' }
-  }
+    ext {
+        shapedrawerVersion = '2.5.0'
+    }
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 configure(subprojects) {
-  apply plugin: 'java-library'
-  sourceCompatibility = 17
-  compileJava {
-    options.incremental = true
-  }
+    apply plugin: 'java-library'
+    sourceCompatibility = 17
+    compileJava {
+        options.incremental = true
+    }
 }
 
 subprojects {
-  version = '1.0.0'
-  ext.appName = 'space-battle'
-  repositories {
-    mavenCentral()
-    maven { url 'https://s01.oss.sonatype.org' }
-    // You may want to remove the following line if you have errors downloading dependencies.
-    mavenLocal()
-    gradlePluginPortal()
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
-    maven { url 'https://jitpack.io' }
-  }
+    version = '1.0.0'
+    ext.appName = 'space-battle'
+    repositories {
+        mavenCentral()
+        maven { url 'https://s01.oss.sonatype.org' }
+        // You may want to remove the following line if you have errors downloading dependencies.
+        mavenLocal()
+        gradlePluginPortal()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
 
-  // Move the downloadDependencies task inside the subprojects block
+
+    test {
+        useJUnitPlatform()
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    }
 }
 
 eclipse.project.name = 'space-battle' + '-parent'

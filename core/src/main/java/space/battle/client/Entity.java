@@ -14,16 +14,6 @@ interface Entity {
     ArrayList<Entity> getChildEntities();
 
     /**
-     * Returns the X coordinate of the center of the entity.
-     */
-    float getCenterX();
-
-    /**
-     * Returns the Y coordinate of the center of the entity.
-     */
-    float getCenterY();
-
-    /**
      * Returns the width of the entity ignoring rotation.
      */
     int getWidth();
@@ -33,10 +23,7 @@ interface Entity {
      */
     int getHeight();
 
-    /**
-     * Returns the rotation of the entity in degrees.
-     */
-    float getRotationDegrees();
+
 
     // TODO: Use {link} tag for physics sim after implementation
     /**

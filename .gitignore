@@ -2,3 +2,4 @@
 core/build/
 lwjgl3/build/
 shared/build/
+server/build/

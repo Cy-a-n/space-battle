@@ -14,7 +14,9 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.utils.ScreenUtils;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/**
+ * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
+ */
 public class App extends ApplicationAdapter {
     TextureAtlas textureAtlas;
     SpriteBatch batch;
@@ -35,12 +37,11 @@ public class App extends ApplicationAdapter {
 
     @Override
     public void render() {
-        ScreenUtils.clear(0, 0 , 0, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        new SpaceShipPlayer(null, 0, 0,0 );
         batch.end();
     }
 

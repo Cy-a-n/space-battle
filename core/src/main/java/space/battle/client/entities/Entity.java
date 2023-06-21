@@ -1,10 +1,8 @@
 package space.battle.client.entities;
 
-public class Entity extends BaseEntity {
-    BaseEntity parentEntity;
+public abstract class Entity {
+    public int x;
+    public int y;
 
-    public BaseEntity getParentEntity() {
-        return parentEntity;
-    }
+    abstract void move();
 }
-

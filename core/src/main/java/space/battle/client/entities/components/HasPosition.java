@@ -1,5 +1,5 @@
 package space.battle.client.entities.components;
 
-public interface HasPosition extends Component {
-     PositionComponent getPosition();
+public interface HasPosition {
+    PositionComponent getPosition();
 }

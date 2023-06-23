@@ -1,5 +1,4 @@
 package space.battle.client.entities.behaviors;
 
-public interface IsMoveable {
-
+public interface Behavior {
 }

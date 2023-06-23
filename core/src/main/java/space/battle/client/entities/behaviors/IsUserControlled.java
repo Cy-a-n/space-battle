@@ -1,4 +1,4 @@
 package space.battle.client.entities.behaviors;
 
-public interface IsUserControlled {
+public interface IsUserControlled extends Behavior {
 }

@@ -7,22 +7,39 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class provides logic for managing entities that move constantly in the game.
+ */
 public class MovingConstantLogic {
 	private static Set<IsMovingConstant> movingEntities = new HashSet<>();
 
+	/**
+	 * Returns an unmodifiable set of constantly moving entities in the game.
+	 *
+	 * @return An unmodifiable set of constantly moving entities.
+	 */
 	public static Set<IsMovingConstant> getMovingEntities () {
 		return Collections.unmodifiableSet(movingEntities);
 	}
 
+	/**
+	 * Adds a constantly moving entity to the set of moving entities.
+	 *
+	 * @param movingEntity The constantly moving entity to be added.
+	 */
 	static void addMovingEntity (@NotNull IsMovingConstant movingEntity) {
 		movingEntities.add(movingEntity);
 	}
 
-	static void update (float deltaTimeSeconds) {
+	/**
+	 * Updates the position of constantly moving entities based on their velocity and the elapsed time.
+	 *
+	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
+	 */
+	static void update (float deltaTimeInSeconds) {
 		for (IsMovingConstant movingEntity : movingEntities) {
-			movingEntity.getPosition().setX(movingEntity.getPosition().getX() + movingEntity.getVelocity().getX() * deltaTimeSeconds);
-			System.out.println(movingEntity.getPosition().getX() + movingEntity.getVelocity().getX() * deltaTimeSeconds);
-			movingEntity.getPosition().setY(movingEntity.getPosition().getY() + movingEntity.getVelocity().getY() * deltaTimeSeconds);
+			movingEntity.getPosition().setX(movingEntity.getPosition().getX() + movingEntity.getVelocity().getX() * deltaTimeInSeconds);
+			movingEntity.getPosition().setY(movingEntity.getPosition().getY() + movingEntity.getVelocity().getY() * deltaTimeInSeconds);
 		}
 	}
 }

@@ -4,5 +4,5 @@ import space.battle.entity.component.system.components.HasAcceleration;
 import space.battle.entity.component.system.components.HasPosition;
 import space.battle.entity.component.system.components.HasVelocity;
 
-public interface IsMovingConstant extends HasPosition, HasVelocity {
+public interface IsMovingWithAcceleration extends HasPosition, HasVelocity, HasAcceleration {
 }

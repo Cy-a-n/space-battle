@@ -8,20 +8,37 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-// TODO: Tests
-
+/**
+ * This class provides logic for managing cameras in the game.
+ */
 public class CameraLogic {
 	private static final Set<IsCamera> cameras = new HashSet<>();
 	private static IsCamera mainCamera;
 
+	/**
+	 * Returns an unmodifiable set of cameras in the game.
+	 *
+	 * @return An unmodifiable set of cameras.
+	 */
 	public static Set<IsCamera> getCameras () {
 		return Collections.unmodifiableSet(cameras);
 	}
 
+	/**
+	 * Returns the main camera of the game.
+	 *
+	 * @return The main camera.
+	 */
 	public static IsCamera getMainCamera () {
 		return mainCamera;
 	}
 
+	/**
+	 * Sets the main camera of the game.
+	 *
+	 * @param camera The camera to be set as the main camera.
+	 * @throws IllegalArgumentException If the specified camera is not found in the cameras set.
+	 */
 	public static void setMainCamera (@NotNull IsCamera camera) {
 		if (!cameras.contains(camera)) {
 			throw new IllegalArgumentException("Camera not found in cameras set");
@@ -30,6 +47,11 @@ public class CameraLogic {
 		mainCamera = camera;
 	}
 
+	/**
+	 * Adds a camera to the set of cameras.
+	 *
+	 * @param camera The camera to be added.
+	 */
 	static void addCamera (@NotNull IsCamera camera) {
 		cameras.add(camera);
 		if (cameras.size() == 1) {
@@ -37,6 +59,11 @@ public class CameraLogic {
 		}
 	}
 
+	/**
+	 * Updates the position of the OrthographicCamera based on the main camera's position.
+	 *
+	 * @param camera The OrthographicCamera to be updated.
+	 */
 	static void update (@NotNull OrthographicCamera camera) {
 		if (mainCamera != null) {
 			camera.position.x = mainCamera.getPosition().getX();

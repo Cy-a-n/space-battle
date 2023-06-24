@@ -1,6 +1,7 @@
 package space.battle.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.dataclasses.Position;
+import space.battle.entity.component.system.dataclasses.Velocity;
+import space.battle.entity.component.system.entities.TestCamera;
 import space.battle.entity.component.system.entities.TestEntity;
 
 /**
@@ -29,13 +32,15 @@ public class App extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 1000);
 
-		BehaviorLogic.addEntity(new TestEntity(new Position(0, 0), textureAtlas.findRegion("test_entity")));
+		BehaviorLogic.addEntityWithGraphics(new TestEntity(new Position(0, 0), textureAtlas.findRegion("test_entity"),
+				new Velocity(10, 10)));
+		BehaviorLogic.addEntity(new TestCamera(new Position(0, 0)));
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
-		BehaviorLogic.updateWithGraphics(batch, camera);
+		BehaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, camera);
 	}
 
 

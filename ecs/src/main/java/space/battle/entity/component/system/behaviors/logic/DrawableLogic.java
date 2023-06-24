@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: Tests
+
 public class DrawableLogic {
 	private static Set<IsDrawable> drawables = new HashSet<>();
 
@@ -20,7 +22,7 @@ public class DrawableLogic {
 		drawables.add(drawable);
 	}
 
-	static void update (SpriteBatch batch, OrthographicCamera camera) {
+	static void update (@NotNull SpriteBatch batch, @NotNull OrthographicCamera camera) {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();

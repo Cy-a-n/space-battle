@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+// TODO: Tests
+
 public class CameraLogic {
 	private static final Set<IsCamera> cameras = new HashSet<>();
 	private static IsCamera mainCamera;

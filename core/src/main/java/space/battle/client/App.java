@@ -33,8 +33,8 @@ public class App extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 1000);
 
-		BehaviorLogic.addEntityWithGraphics(new TestEntity(new Position(0, 0), textureAtlas.findRegion("test_entity"),
-				new Velocity(10, 10), new Acceleration(0, 0)));
+		BehaviorLogic.addEntityWithGraphics(new TestEntity(new Position(100, 100), textureAtlas.findRegion(
+				"test_entity"), new Velocity(500, 500), new Acceleration(10, 10), 1f));
 		BehaviorLogic.addEntity(new TestCamera(new Position(0, 0)));
 	}
 

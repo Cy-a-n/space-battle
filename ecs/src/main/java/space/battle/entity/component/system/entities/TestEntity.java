@@ -8,6 +8,7 @@ import space.battle.entity.component.system.behaviors.interfaces.IsMovingWithAcc
 import space.battle.entity.component.system.dataclasses.*;
 
 public class TestEntity implements IsDrawable, IsMovingWithAcceleration {
+	private final float frictionConstant;
 	private Position position;
 	private TextureRegion textureRegion;
 	private Origin origin;
@@ -18,15 +19,17 @@ public class TestEntity implements IsDrawable, IsMovingWithAcceleration {
 	private Acceleration acceleration;
 
 
-	public TestEntity (Position position, TextureRegion textureRegion, Velocity velocity, Acceleration acceleration) {
+	public TestEntity (Position position, TextureRegion textureRegion, Velocity velocity, Acceleration acceleration,
+					   float frictionConstant) {
 		this.position = position;
 		this.textureRegion = textureRegion;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
+		this.frictionConstant = frictionConstant;
 	}
 
 	public TestEntity (Position position, TextureRegion textureRegion, Origin origin, Size size, Scale scale,
-					   float rotationDegrees, Velocity velocity, Acceleration acceleration) {
+					   float rotationDegrees, Velocity velocity, Acceleration acceleration, float frictionConstant) {
 		this.position = position;
 		this.textureRegion = textureRegion;
 		this.origin = origin;
@@ -35,6 +38,7 @@ public class TestEntity implements IsDrawable, IsMovingWithAcceleration {
 		this.rotationDegrees = rotationDegrees;
 		this.velocity = velocity;
 		this.acceleration = acceleration;
+		this.frictionConstant = frictionConstant;
 	}
 
 	@Override
@@ -80,5 +84,10 @@ public class TestEntity implements IsDrawable, IsMovingWithAcceleration {
 	@Override
 	public Acceleration getAcceleration () {
 		return acceleration;
+	}
+
+	@Override
+	public float getFrictionConstant () {
+		return frictionConstant;
 	}
 }

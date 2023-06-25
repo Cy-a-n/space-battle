@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.behaviors.logic;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import space.battle.entity.component.system.behaviors.interfaces.IsCamera;
+import space.battle.entity.component.system.behaviors.interfaces.CameraBehavior;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -12,15 +12,15 @@ import java.util.Set;
  * This class provides logic for managing cameras in the game.
  */
 public class CameraLogic {
-	private static final Set<IsCamera> cameras = new HashSet<>();
-	private static IsCamera mainCamera;
+	private static final Set<CameraBehavior> cameras = new HashSet<>();
+	private static CameraBehavior mainCamera;
 
 	/**
 	 * Returns an unmodifiable set of cameras in the game.
 	 *
 	 * @return An unmodifiable set of cameras.
 	 */
-	public static Set<IsCamera> getCameras () {
+	public static Set<CameraBehavior> getCameras () {
 		return Collections.unmodifiableSet(cameras);
 	}
 
@@ -29,7 +29,7 @@ public class CameraLogic {
 	 *
 	 * @return The main camera.
 	 */
-	public static IsCamera getMainCamera () {
+	public static CameraBehavior getMainCamera () {
 		return mainCamera;
 	}
 
@@ -39,7 +39,7 @@ public class CameraLogic {
 	 * @param camera The camera to be set as the main camera.
 	 * @throws IllegalArgumentException If the specified camera is not found in the cameras set.
 	 */
-	public static void setMainCamera (@NotNull IsCamera camera) {
+	public static void setMainCamera (@NotNull CameraBehavior camera) {
 		if (!cameras.contains(camera)) {
 			throw new IllegalArgumentException("Camera not found in cameras set");
 		}
@@ -52,7 +52,7 @@ public class CameraLogic {
 	 *
 	 * @param camera The camera to be added.
 	 */
-	static void addCamera (@NotNull IsCamera camera) {
+	static void addCamera (@NotNull CameraBehavior camera) {
 		cameras.add(camera);
 		if (cameras.size() == 1) {
 			mainCamera = camera;

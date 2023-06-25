@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
-import space.battle.entity.component.system.dataclasses.Acceleration;
-import space.battle.entity.component.system.dataclasses.Position;
-import space.battle.entity.component.system.dataclasses.Velocity;
-import space.battle.entity.component.system.entities.TestCamera;
-import space.battle.entity.component.system.entities.TestEntity;
+import space.battle.entity.component.system.dataclasses.Vector2;
+import space.battle.entity.component.system.entities.GreenFighter;
+import space.battle.entity.component.system.entities.StaticEntity;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -20,6 +19,7 @@ import space.battle.entity.component.system.entities.TestEntity;
 public class App extends ApplicationAdapter {
 	TextureAtlas textureAtlas;
 	SpriteBatch batch;
+	ShapeDrawer shapeDrawer;
 	OrthographicCamera camera;
 	private Viewport viewport;
 
@@ -29,13 +29,13 @@ public class App extends ApplicationAdapter {
 		// Many libgdx types can only be instantiated in the create method, since they rely on native libraries
 		textureAtlas = new TextureAtlas("texture_atlas.atlas");
 		batch = new SpriteBatch();
+		shapeDrawer = new ShapeDrawer(batch, textureAtlas.findRegion("white_pixel"));
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 1000, 1000);
 
-		BehaviorLogic.addEntityWithGraphics(new TestEntity(new Position(100, 100), textureAtlas.findRegion(
-				"test_entity"), new Velocity(500, 500), new Acceleration(10, 10), 1f));
-		BehaviorLogic.addEntity(new TestCamera(new Position(0, 0)));
+		BehaviorLogic.addEntityWithGraphics(new GreenFighter(new Vector2(0, 0), 0f, textureAtlas));
+		BehaviorLogic.addEntityWithGraphics(new StaticEntity(new Vector2(100, 100), 0f, textureAtlas));
 	}
 
 	@Override

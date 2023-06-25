@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.dataclasses.Scale;
+import space.battle.entity.component.system.dataclasses.Vector2;
 
 public interface HasScale {
-	Scale getScale ();
+	Vector2 getScale ();
 }

@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.dataclasses.Position;
+import space.battle.entity.component.system.dataclasses.Vector2;
 
 public interface HasPosition {
-	Position getPosition ();
+	Vector2 getPosition ();
 }

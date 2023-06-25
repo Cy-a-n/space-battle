@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.dataclasses.Size;
+import space.battle.entity.component.system.dataclasses.Vector2;
 
 public interface HasSize {
-	Size getSize ();
+	Vector2 getSize ();
 }

@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.dataclasses.Velocity;
+import space.battle.entity.component.system.dataclasses.Vector2;
 
 public interface HasVelocity {
-	Velocity getVelocity ();
+	Vector2 getVelocity ();
 }

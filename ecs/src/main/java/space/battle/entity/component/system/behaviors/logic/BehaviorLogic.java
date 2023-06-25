@@ -3,10 +3,7 @@ package space.battle.entity.component.system.behaviors.logic;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.IsCamera;
-import space.battle.entity.component.system.behaviors.interfaces.IsDrawable;
-import space.battle.entity.component.system.behaviors.interfaces.IsMovingConstant;
-import space.battle.entity.component.system.behaviors.interfaces.IsMovingWithAcceleration;
+import space.battle.entity.component.system.behaviors.interfaces.*;
 
 /**
  * This class provides behavior logic for entities that implement specific interfaces.
@@ -18,11 +15,14 @@ public class BehaviorLogic {
 	 * @param entity The entity to be added.
 	 */
 	public static void addEntity (@NotNull Object entity) {
-		if (entity instanceof IsMovingConstant)
-			MovingConstantLogic.addMovingEntity((IsMovingConstant) entity);
+		if (entity instanceof ConstantMovementBehavior)
+			MovingConstantLogic.addMovingEntity((ConstantMovementBehavior) entity);
 
-		if (entity instanceof IsMovingWithAcceleration)
-			MovingWithAccelerationLogic.addMovingEntity((IsMovingWithAcceleration) entity);
+		if (entity instanceof MovingWithAccelerationBehavior)
+			MovingWithAccelerationLogic.addMovingEntity((MovingWithAccelerationBehavior) entity);
+
+		if (entity instanceof PlayerShipBehavior)
+			PlayerShipLogic.addPlayerShip((PlayerShipBehavior) entity);
 	}
 
 	/**
@@ -33,11 +33,11 @@ public class BehaviorLogic {
 	public static void addEntityWithGraphics (@NotNull Object entity) {
 		addEntity(entity);
 
-		if (entity instanceof IsDrawable)
-			DrawableLogic.addDrawables((IsDrawable) entity);
+		if (entity instanceof TextureBehavior)
+			DrawableLogic.addDrawables((TextureBehavior) entity);
 
-		if (entity instanceof IsCamera)
-			CameraLogic.addCamera((IsCamera) entity);
+		if (entity instanceof CameraBehavior)
+			CameraLogic.addCamera((CameraBehavior) entity);
 	}
 
 	/**
@@ -48,6 +48,7 @@ public class BehaviorLogic {
 	public static void update (float deltaTimeInSeconds) {
 		MovingConstantLogic.update(deltaTimeInSeconds);
 		MovingWithAccelerationLogic.update(deltaTimeInSeconds);
+		PlayerShipLogic.update();
 	}
 
 	/**

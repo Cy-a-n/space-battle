@@ -173,7 +173,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">test_entity.png</key>
+            <key type="filename">green_fighter_by_stephen_challener_on_open_game_art.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -182,9 +182,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>64,64,128,128</rect>
+                <rect>11,8,21,17</rect>
                 <key>scale9Paddings</key>
-                <rect>64,64,128,128</rect>
+                <rect>11,8,21,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -211,7 +211,7 @@
                 <key>files</key>
                 <array>
                     <filename>white_pixel.png</filename>
-                    <filename>test_entity.png</filename>
+                    <filename>green_fighter_by_stephen_challener_on_open_game_art.png</filename>
                 </array>
             </struct>
         </map>

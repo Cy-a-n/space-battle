@@ -1,8 +1,7 @@
 package space.battle.entity.component.system.behaviors.logic;
 
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.IsMovingConstant;
-import space.battle.entity.component.system.behaviors.interfaces.IsMovingWithAcceleration;
+import space.battle.entity.component.system.behaviors.interfaces.MovingWithAccelerationBehavior;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,14 +11,14 @@ import java.util.Set;
  * This class provides logic for managing entities that move with acceleration in the game.
  */
 public class MovingWithAccelerationLogic {
-	private static Set<IsMovingWithAcceleration> movingEntities = new HashSet<>();
+	private static Set<MovingWithAccelerationBehavior> movingEntities = new HashSet<>();
 
 	/**
 	 * Returns an unmodifiable set of entities moving with acceleration in the game.
 	 *
 	 * @return An unmodifiable set of entities moving with acceleration.
 	 */
-	public static Set<IsMovingWithAcceleration> getMovingEntities () {
+	public static Set<MovingWithAccelerationBehavior> getMovingEntities () {
 		return Collections.unmodifiableSet(movingEntities);
 	}
 
@@ -28,7 +27,7 @@ public class MovingWithAccelerationLogic {
 	 *
 	 * @param movingEntity The moving entity with acceleration to be added.
 	 */
-	static void addMovingEntity (@NotNull IsMovingWithAcceleration movingEntity) {
+	static void addMovingEntity (@NotNull MovingWithAccelerationBehavior movingEntity) {
 		movingEntities.add(movingEntity);
 	}
 
@@ -39,7 +38,7 @@ public class MovingWithAccelerationLogic {
 	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
 	 */
 	static void update (float deltaTimeInSeconds) {
-		for (IsMovingWithAcceleration movingEntity : movingEntities) {
+		for (MovingWithAccelerationBehavior movingEntity : movingEntities) {
 			// Check roughly if the entity is decelerating due to friction and close to standstill
 			if (movingEntity.getFrictionConstant() != 0 && movingEntity.getAcceleration().getX() == 0 && movingEntity.getAcceleration().getY() == 0 && movingEntity.getVelocity().getX() < 1f && movingEntity.getVelocity().getX() > -1f && movingEntity.getVelocity().getY() < 1f && movingEntity.getVelocity().getY() > -1f) {
 				continue;

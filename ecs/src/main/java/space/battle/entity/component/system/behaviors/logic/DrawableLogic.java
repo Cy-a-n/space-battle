@@ -3,7 +3,7 @@ package space.battle.entity.component.system.behaviors.logic;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.IsDrawable;
+import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,14 +13,14 @@ import java.util.Set;
  * This class provides logic for managing drawable entities in the game.
  */
 public class DrawableLogic {
-	private static Set<IsDrawable> drawables = new HashSet<>();
+	private static Set<TextureBehavior> drawables = new HashSet<>();
 
 	/**
 	 * Returns an unmodifiable set of drawable entities in the game.
 	 *
 	 * @return An unmodifiable set of drawable entities.
 	 */
-	public static Set<IsDrawable> getDrawables () {
+	public static Set<TextureBehavior> getDrawables () {
 		return Collections.unmodifiableSet(drawables);
 	}
 
@@ -29,7 +29,7 @@ public class DrawableLogic {
 	 *
 	 * @param drawable The drawable entity to be added.
 	 */
-	static void addDrawables (@NotNull IsDrawable drawable) {
+	static void addDrawables (@NotNull TextureBehavior drawable) {
 		drawables.add(drawable);
 	}
 
@@ -43,14 +43,11 @@ public class DrawableLogic {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		for (IsDrawable drawable : drawables) {
-			if (drawable.getOrigin() == null || drawable.getSize() == null || drawable.getScale() == null)
-				batch.draw(drawable.getTextureRegion(), drawable.getPosition().getX(), drawable.getPosition().getY());
-			else
-				batch.draw(drawable.getTextureRegion(), drawable.getPosition().getX(), drawable.getPosition().getY(),
-						drawable.getOrigin().getX(), drawable.getOrigin().getY(), drawable.getSize().getWidth(),
-						drawable.getSize().getHeight(), drawable.getScale().getX(), drawable.getScale().getY(),
-						drawable.getRotationDegrees());
+		for (TextureBehavior drawable : drawables) {
+			batch.draw(drawable.getTextureRegion(), drawable.getPosition().getX(), drawable.getPosition().getY(),
+					drawable.getOrigin().getX(), drawable.getOrigin().getY(), drawable.getSize().getY(),
+					drawable.getSize().getX(), drawable.getScale().getX(), drawable.getScale().getY(),
+					drawable.getRotationDegrees());
 		}
 		batch.end();
 	}

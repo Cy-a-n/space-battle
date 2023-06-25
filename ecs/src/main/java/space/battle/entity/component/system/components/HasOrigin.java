@@ -1,7 +1,7 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.dataclasses.Origin;
+import space.battle.entity.component.system.dataclasses.Vector2;
 
 public interface HasOrigin {
-	Origin getOrigin ();
+	Vector2 getOrigin ();
 }

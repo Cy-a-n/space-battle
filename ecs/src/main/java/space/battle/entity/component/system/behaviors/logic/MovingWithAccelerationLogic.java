@@ -1,25 +1,26 @@
 package space.battle.entity.component.system.behaviors.logic;
 
+import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.MovingWithAccelerationBehavior;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides logic for managing entities that move with acceleration in the game.
  */
 public class MovingWithAccelerationLogic {
-	private static Set<MovingWithAccelerationBehavior> movingEntities = new HashSet<>();
+	private final List<MovingWithAccelerationBehavior> movingEntities = new ArrayList<>();
 
 	/**
 	 * Returns an unmodifiable set of entities moving with acceleration in the game.
 	 *
 	 * @return An unmodifiable set of entities moving with acceleration.
 	 */
-	public static Set<MovingWithAccelerationBehavior> getMovingEntities () {
-		return Collections.unmodifiableSet(movingEntities);
+	public List<MovingWithAccelerationBehavior> getMovingEntities () {
+		return Collections.unmodifiableList(movingEntities);
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class MovingWithAccelerationLogic {
 	 *
 	 * @param movingEntity The moving entity with acceleration to be added.
 	 */
-	static void addMovingEntity (@NotNull MovingWithAccelerationBehavior movingEntity) {
+	void addMovingEntity (@NotNull MovingWithAccelerationBehavior movingEntity) {
 		movingEntities.add(movingEntity);
 	}
 
@@ -37,17 +38,26 @@ public class MovingWithAccelerationLogic {
 	 *
 	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
 	 */
-	static void update (float deltaTimeInSeconds) {
+	void update (float deltaTimeInSeconds) {
 		for (MovingWithAccelerationBehavior movingEntity : movingEntities) {
-			// Check roughly if the entity is decelerating due to friction and close to standstill
-			if (movingEntity.getFrictionConstant() != 0 && movingEntity.getAcceleration().getX() == 0 && movingEntity.getAcceleration().getY() == 0 && movingEntity.getVelocity().getX() < 1f && movingEntity.getVelocity().getX() > -1f && movingEntity.getVelocity().getY() < 1f && movingEntity.getVelocity().getY() > -1f) {
-				continue;
-			}
-			movingEntity.getVelocity().setX(movingEntity.getVelocity().getX() + (movingEntity.getAcceleration().getX() + movingEntity.getVelocity().getX() * -movingEntity.getFrictionConstant()) * deltaTimeInSeconds);
-			movingEntity.getVelocity().setY(movingEntity.getVelocity().getY() + (movingEntity.getAcceleration().getY() + movingEntity.getVelocity().getY() * -movingEntity.getFrictionConstant()) * deltaTimeInSeconds);
+			float frictionConstant = movingEntity.getFrictionConstant();
+			Vector2 acceleration = movingEntity.getAcceleration();
+			Vector2 velocity = movingEntity.getVelocity();
+			Vector2 position = movingEntity.getPosition();
 
-			movingEntity.getPosition().setX(movingEntity.getPosition().getX() + movingEntity.getVelocity().getX() * deltaTimeInSeconds);
-			movingEntity.getPosition().setY(movingEntity.getPosition().getY() + movingEntity.getVelocity().getY() * deltaTimeInSeconds);
+			// Check roughly and without expensive calculations if the entity is decelerating due to friction and
+			// close to standstill
+			//			if (frictionConstant != 0 && acceleration.x == 0 && acceleration.y == 0 && velocity.x < 1f &&
+			//			velocity.x > -1f && velocity.y < 1f && velocity.y > -1f) {
+			//				continue;
+			//			}
+
+			// Calculate the new velocity based on acceleration and friction.
+			velocity.x += acceleration.x * deltaTimeInSeconds;
+			velocity.y += acceleration.y * deltaTimeInSeconds;
+
+			position.x += velocity.x * deltaTimeInSeconds;
+			position.y += velocity.y * deltaTimeInSeconds;
 		}
 	}
 }

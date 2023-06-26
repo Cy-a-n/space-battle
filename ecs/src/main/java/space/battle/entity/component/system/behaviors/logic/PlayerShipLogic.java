@@ -1,36 +1,37 @@
 package space.battle.entity.component.system.behaviors.logic;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
+
+import static com.badlogic.gdx.Gdx.input;
+
+import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class PlayerShipLogic {
-	static private Set<PlayerShipBehavior> playerShips = new HashSet<>();
+	private PlayerShipBehavior playerShip;
 
-	static void addPlayerShip (PlayerShipBehavior playerShip) {
-		playerShips.add(playerShip);
+	public PlayerShipBehavior getPlayerShip () {
+		return playerShip;
 	}
 
-	static void update () {
-		float resultingAccelerationX = 0;
-		float resultingAccelerationY = 0;
+	void setPlayerShip (@NotNull PlayerShipBehavior playerShip) {
+		this.playerShip = playerShip;
+	}
 
-		if (Gdx.input.isKeyPressed(Input.Keys.A))
-			resultingAccelerationX -= 100;
-		if (Gdx.input.isKeyPressed(Input.Keys.D))
-			resultingAccelerationX += 100;
+	void update () {
+		Vector2 resultingAcceleration = new Vector2();
 
-		if (Gdx.input.isKeyPressed(Input.Keys.S))
-			resultingAccelerationY -= 100;
-		if (Gdx.input.isKeyPressed(Input.Keys.W))
-			resultingAccelerationY += 100;
+		if (input.isKeyPressed(Keys.A))
+			resultingAcceleration.x = -100;
+		if (input.isKeyPressed(Keys.D))
+			resultingAcceleration.x = 100;
 
-		for (PlayerShipBehavior playerShip : playerShips) {
-			playerShip.getAcceleration().setX(resultingAccelerationX);
-			playerShip.getAcceleration().setY(resultingAccelerationY);
-		}
+		if (input.isKeyPressed(Keys.S))
+			resultingAcceleration.y = -100;
+		if (input.isKeyPressed(Keys.W))
+			resultingAcceleration.y = 100;
+
+		playerShip.getAcceleration().set(resultingAcceleration);
 	}
 }

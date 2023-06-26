@@ -3,23 +3,21 @@ package space.battle.entity.component.system.behaviors.logic;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.ConstantMovementBehavior;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class provides logic for managing entities that move constantly in the game.
  */
 public class MovingConstantLogic {
-	private static Set<ConstantMovementBehavior> movingEntities = new HashSet<>();
+	private final List<ConstantMovementBehavior> movingEntities = new ArrayList<>();
 
 	/**
 	 * Returns an unmodifiable set of constantly moving entities in the game.
 	 *
 	 * @return An unmodifiable set of constantly moving entities.
 	 */
-	public static Set<ConstantMovementBehavior> getMovingEntities () {
-		return Collections.unmodifiableSet(movingEntities);
+	public List<ConstantMovementBehavior> getMovingEntities () {
+		return Collections.unmodifiableList(movingEntities);
 	}
 
 	/**
@@ -27,7 +25,7 @@ public class MovingConstantLogic {
 	 *
 	 * @param movingEntity The constantly moving entity to be added.
 	 */
-	static void addMovingEntity (@NotNull ConstantMovementBehavior movingEntity) {
+	void addMovingEntity (@NotNull ConstantMovementBehavior movingEntity) {
 		movingEntities.add(movingEntity);
 	}
 
@@ -36,10 +34,12 @@ public class MovingConstantLogic {
 	 *
 	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
 	 */
-	static void update (float deltaTimeInSeconds) {
+	void update (float deltaTimeInSeconds) {
 		for (ConstantMovementBehavior movingEntity : movingEntities) {
-			movingEntity.getPosition().setX(movingEntity.getPosition().getX() + movingEntity.getVelocity().getX() * deltaTimeInSeconds);
-			movingEntity.getPosition().setY(movingEntity.getPosition().getY() + movingEntity.getVelocity().getY() * deltaTimeInSeconds);
+			movingEntity.getPosition().x =
+					movingEntity.getPosition().x + movingEntity.getVelocity().x * deltaTimeInSeconds;
+			movingEntity.getPosition().y =
+					movingEntity.getPosition().y + movingEntity.getVelocity().y * deltaTimeInSeconds;
 		}
 	}
 }

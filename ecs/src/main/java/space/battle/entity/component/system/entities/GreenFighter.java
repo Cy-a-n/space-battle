@@ -2,13 +2,12 @@ package space.battle.entity.component.system.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.VisualHitboxBehavior;
-import space.battle.entity.component.system.dataclasses.*;
+import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
+import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
-
-public class GreenFighter implements PlayerShipBehavior, VisualHitboxBehavior {
+public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior {
 	private final float frictionConstant;
 	private Vector2 acceleration;
 	private Vector2 origin;
@@ -19,7 +18,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualHitboxBehavior {
 	private TextureRegion textureRegion;
 	private Vector2 velocity;
 	private int health;
-	private ArrayList<Vector2> hitbox;
+	private Polygon shape;
 
 	public GreenFighter (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
 		this.frictionConstant = 0.2f;
@@ -33,6 +32,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualHitboxBehavior {
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		this.velocity = new Vector2(0, 0);
 		this.health = 10;
+		this.shape = new Polygon(new float[]{100, 100, 100, -100, -100, -100, -100, 100});
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualHitboxBehavior {
 	}
 
 	@Override
-	public ArrayList<Vector2> getHitbox () {
-		return hitbox;
+	public Polygon getShape () {
+		return shape;
 	}
 }

@@ -3,9 +3,9 @@ package space.battle.entity.component.system.entities;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
-import space.battle.entity.component.system.dataclasses.*;
+import com.badlogic.gdx.math.Vector2;
 
-public class StaticEntity implements TextureBehavior {
+public class StaticEntity extends Entity implements TextureBehavior {
 	private Vector2 origin;
 	private Vector2 position;
 	private float rotationDegrees;

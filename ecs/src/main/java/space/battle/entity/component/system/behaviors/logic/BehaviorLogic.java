@@ -115,8 +115,8 @@ public class BehaviorLogic {
 		cameraLogic.update(camera, batch);
 
 		batch.begin();
-		drawableLogic.update(batch);
 		visualShapeLogic.update(shapeDrawer);
+		drawableLogic.update(batch);
 		batch.end();
 	}
 }

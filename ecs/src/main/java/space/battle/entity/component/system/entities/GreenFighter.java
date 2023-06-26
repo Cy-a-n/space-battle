@@ -24,15 +24,16 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 		this.frictionConstant = 0.2f;
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.acceleration = new Vector2(0, 0);
-		this.origin = new Vector2((float) -textureRegion.getRegionWidth() / 2,
-				(float) -textureRegion.getRegionHeight() / 2);
+		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
+				(float) textureRegion.getRegionHeight() / 2);
 		this.position = position;
-		this.rotationDegrees = rotationDegrees;
+		this.rotationDegrees = 0;
 		this.scale = new Vector2(1, 1);
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		this.velocity = new Vector2(0, 0);
 		this.health = 10;
-		this.shape = new Polygon(new float[]{100, 100, 100, -100, -100, -100, -100, 100});
+		this.shape = new Polygon(new float[]{2, 0, 13, 10, 29, 10, 34, 15, 34, 19, 29, 24, 13, 24, 2, 34, 0, 21, 0,
+				13});
 	}
 
 	@Override

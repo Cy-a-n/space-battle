@@ -40,17 +40,17 @@ public class App extends ApplicationAdapter {
 		shapeDrawer = new ShapeDrawer(batch, textureAtlas.findRegion("white_pixel"));
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 512, 512);
+		camera.setToOrtho(false, (float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
 		behaviorLogic = new BehaviorLogic();
 
 		behaviorLogic.addEntityWithGraphics(new GreenFighter(new Vector2(0, 0), 0f, textureAtlas));
-		behaviorLogic.addEntityWithGraphics(new StaticEntity(new Vector2(100, 100), 0f, textureAtlas));
+		behaviorLogic.addEntityWithGraphics(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(Color.BLUE);
+		ScreenUtils.clear(new Color(0.05f, 0.05f, 0.05f, 1f));
 		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera);
 	}
 

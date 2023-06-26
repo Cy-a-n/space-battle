@@ -23,7 +23,8 @@ public class VisualShapeLogic {
 	void update (@NotNull ShapeDrawer shapeDrawer) {
 		for (VisualShapeBehavior visualShape : visualShapes) {
 			shapeDrawer.setColor(Color.WHITE);
-			shapeDrawer.polygon(visualShape.getShape());
+			visualShape.getShape().setPosition(visualShape.getPosition().x, visualShape.getPosition().y);
+			shapeDrawer.filledPolygon(visualShape.getShape().getTransformedVertices());
 		}
 	}
 }

@@ -3,6 +3,7 @@ package space.battle.entity.component.system.entities;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
+import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
@@ -21,13 +22,13 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	private Polygon shape;
 
 	public GreenFighter (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
-		this.frictionConstant = 0.2f;
+		this.frictionConstant = 0.01f;
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.acceleration = new Vector2(0, 0);
 		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
 				(float) textureRegion.getRegionHeight() / 2);
 		this.position = position;
-		this.rotationDegrees = 0;
+		this.rotationDegrees = rotationDegrees;
 		this.scale = new Vector2(1, 1);
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		this.velocity = new Vector2(0, 0);
@@ -37,7 +38,7 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	}
 
 	@Override
-	public Vector2 getAcceleration () {
+	public @NotNull Vector2 getAcceleration () {
 		return acceleration;
 	}
 
@@ -47,12 +48,12 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	}
 
 	@Override
-	public Vector2 getOrigin () {
+	public @NotNull Vector2 getOrigin () {
 		return origin;
 	}
 
 	@Override
-	public Vector2 getPosition () {
+	public @NotNull Vector2 getPosition () {
 		return position;
 	}
 
@@ -67,22 +68,22 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	}
 
 	@Override
-	public Vector2 getScale () {
+	public @NotNull Vector2 getScale () {
 		return scale;
 	}
 
 	@Override
-	public Vector2 getSize () {
+	public @NotNull Vector2 getSize () {
 		return size;
 	}
 
 	@Override
-	public TextureRegion getTextureRegion () {
+	public @NotNull TextureRegion getTextureRegion () {
 		return textureRegion;
 	}
 
 	@Override
-	public Vector2 getVelocity () {
+	public @NotNull Vector2 getVelocity () {
 		return velocity;
 	}
 
@@ -97,7 +98,7 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	}
 
 	@Override
-	public Polygon getShape () {
+	public @NotNull Polygon getShape () {
 		return shape;
 	}
 }

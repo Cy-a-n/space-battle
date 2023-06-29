@@ -22,33 +22,35 @@ public class BehaviorLogic {
 	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
 	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
 	private final VisualShapeLogic visualShapeLogic = new VisualShapeLogic();
+	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
+			new RelativePositionAndRotationLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
 
-	public CameraLogic getCameraLogic () {
+	CameraLogic getCameraLogic () {
 		return cameraLogic;
 	}
 
-	public DrawableLogic getDrawableLogic () {
+	DrawableLogic getDrawableLogic () {
 		return drawableLogic;
 	}
 
-	public MovingConstantLogic getMovingConstantLogic () {
+	MovingConstantLogic getMovingConstantLogic () {
 		return movingConstantLogic;
 	}
 
-	public MovingWithAccelerationLogic getMovingWithAccelerationLogic () {
+	MovingWithAccelerationLogic getMovingWithAccelerationLogic () {
 		return movingWithAccelerationLogic;
 	}
 
-	public PlayerShipLogic getPlayerShipLogic () {
+	PlayerShipLogic getPlayerShipLogic () {
 		return playerShipLogic;
 	}
 
-	public VisualShapeLogic getVisualShapeLogic () {
+	VisualShapeLogic getVisualShapeLogic () {
 		return visualShapeLogic;
 	}
 
-	public Set<Entity> getAllEntities () {
+	Set<Entity> getAllEntities () {
 		return Collections.unmodifiableSet(allEntities);
 	}
 
@@ -64,31 +66,26 @@ public class BehaviorLogic {
 		allEntities.add(entity);
 
 		if (entity instanceof ConstantMovementBehavior)
-			movingConstantLogic.addMovingEntity((ConstantMovementBehavior) entity);
+			movingConstantLogic.addEntity((ConstantMovementBehavior) entity);
 
 		if (entity instanceof MovingWithAccelerationBehavior)
-			movingWithAccelerationLogic.addMovingEntity((MovingWithAccelerationBehavior) entity);
+			movingWithAccelerationLogic.addEntity((MovingWithAccelerationBehavior) entity);
 
 		if (entity instanceof PlayerShipBehavior)
-			playerShipLogic.setPlayerShip((PlayerShipBehavior) entity);
-	}
+			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
-	/**
-	 * Adds an entity with graphics to the corresponding logic system based on its implemented interfaces.
-	 *
-	 * @param entity The entity with graphics to be added.
-	 */
-	public void addEntityWithGraphics (@NotNull Entity entity) {
-		addEntity(entity);
+		if (entity instanceof RelativePositionAndRotationBehavior) {
+			relativePositionAndRotationLogic.addEntity((RelativePositionAndRotationBehavior) entity);
+		}
 
 		if (entity instanceof TextureBehavior)
-			drawableLogic.addDrawables((TextureBehavior) entity);
+			drawableLogic.addEntity((TextureBehavior) entity);
 
 		if (entity instanceof CameraBehavior)
-			cameraLogic.addCamera((CameraBehavior) entity);
+			cameraLogic.addEntity((CameraBehavior) entity);
 
 		if (entity instanceof VisualShapeBehavior)
-			visualShapeLogic.addVisualShape((VisualShapeBehavior) entity);
+			visualShapeLogic.addEntity((VisualShapeBehavior) entity);
 	}
 
 	/**
@@ -97,9 +94,10 @@ public class BehaviorLogic {
 	 * @param deltaTimeInSeconds The time that has passed since the last update in seconds.
 	 */
 	public void update (float deltaTimeInSeconds) {
+		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
-		playerShipLogic.update();
+		relativePositionAndRotationLogic.update();
 	}
 
 	/**

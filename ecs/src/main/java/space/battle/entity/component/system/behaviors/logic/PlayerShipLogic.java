@@ -8,15 +8,29 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 
-public class PlayerShipLogic {
-	private PlayerShipBehavior playerShip;
+import java.util.ArrayList;
+import java.util.List;
 
-	public PlayerShipBehavior getPlayerShip () {
-		return playerShip;
+class PlayerShipLogic {
+	private List<PlayerShipBehavior> entities = new ArrayList<>();
+	private PlayerShipBehavior currentEntity;
+
+	void setCurrentEntity (@NotNull PlayerShipBehavior currentEntity) {
+		if (!entities.contains(currentEntity))
+			throw new IllegalArgumentException(String.format("Cannot set %s to %s, because %s does not contain " +
+					"this instance of %s. Make sure that you only pass entities to this method that have been " +
+					"added to %s.", "space.battle.entity.component.system.behaviors.logic.PlayerShipLogic" +
+					".currentPlayerShip", (Object) currentEntity, "space.battle.entity.component.system" + ".behaviors"
+					+ ".logic.PlayerShipLogic.playerShips", PlayerShipBehavior.class, "space.battle" + ".entity" +
+					".component" + ".system.behaviors.logic" + ".BehaviorLogic" + ".addEntity()"));
+		this.currentEntity = currentEntity;
 	}
 
-	void setPlayerShip (@NotNull PlayerShipBehavior playerShip) {
-		this.playerShip = playerShip;
+	void addEntity (@NotNull PlayerShipBehavior entity) {
+		entities.add(currentEntity);
+		if (entities.size() == 1) {
+			this.currentEntity = entity;
+		}
 	}
 
 	void update () {
@@ -32,6 +46,8 @@ public class PlayerShipLogic {
 		if (input.isKeyPressed(Keys.W))
 			resultingAcceleration.y = 100;
 
-		playerShip.getAcceleration().set(resultingAcceleration);
+		if (currentEntity != null) {
+			currentEntity.getAcceleration().set(resultingAcceleration);
+		}
 	}
 }

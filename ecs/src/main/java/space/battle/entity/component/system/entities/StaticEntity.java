@@ -2,6 +2,7 @@ package space.battle.entity.component.system.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
 
@@ -23,12 +24,12 @@ public class StaticEntity extends Entity implements TextureBehavior {
 	}
 
 	@Override
-	public Vector2 getOrigin () {
+	public @NotNull Vector2 getOrigin () {
 		return origin;
 	}
 
 	@Override
-	public Vector2 getPosition () {
+	public @NotNull Vector2 getPosition () {
 		return position;
 	}
 
@@ -43,17 +44,17 @@ public class StaticEntity extends Entity implements TextureBehavior {
 	}
 
 	@Override
-	public Vector2 getScale () {
+	public @NotNull Vector2 getScale () {
 		return scale;
 	}
 
 	@Override
-	public Vector2 getSize () {
+	public @NotNull Vector2 getSize () {
 		return size;
 	}
 
 	@Override
-	public TextureRegion getTextureRegion () {
+	public @NotNull TextureRegion getTextureRegion () {
 		return textureRegion;
 	}
 }

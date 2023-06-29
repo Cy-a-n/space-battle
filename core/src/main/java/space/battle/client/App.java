@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.entities.GreenFighter;
 import space.battle.entity.component.system.entities.StaticEntity;
+import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import static com.badlogic.gdx.Gdx.input;
@@ -44,8 +45,10 @@ public class App extends ApplicationAdapter {
 
 		behaviorLogic = new BehaviorLogic();
 
-		behaviorLogic.addEntityWithGraphics(new GreenFighter(new Vector2(0, 0), 0f, textureAtlas));
-		behaviorLogic.addEntityWithGraphics(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
+		GreenFighter greenFighter = new GreenFighter(new Vector2(0, 0), 90f, textureAtlas);
+		behaviorLogic.addEntity(greenFighter);
+		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter, greenFighter));
+		behaviorLogic.addEntity(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
 	}
 
 	@Override

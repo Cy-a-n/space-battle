@@ -8,25 +8,16 @@ import java.util.*;
 /**
  * This class provides logic for managing entities that move constantly in the game.
  */
-public class MovingConstantLogic {
-	private final List<ConstantMovementBehavior> movingEntities = new ArrayList<>();
-
-	/**
-	 * Returns an unmodifiable set of constantly moving entities in the game.
-	 *
-	 * @return An unmodifiable set of constantly moving entities.
-	 */
-	public List<ConstantMovementBehavior> getMovingEntities () {
-		return Collections.unmodifiableList(movingEntities);
-	}
+class MovingConstantLogic {
+	private final List<ConstantMovementBehavior> entities = new ArrayList<>();
 
 	/**
 	 * Adds a constantly moving entity to the set of moving entities.
 	 *
-	 * @param movingEntity The constantly moving entity to be added.
+	 * @param entity The constantly moving entity to be added.
 	 */
-	void addMovingEntity (@NotNull ConstantMovementBehavior movingEntity) {
-		movingEntities.add(movingEntity);
+	void addEntity (@NotNull ConstantMovementBehavior entity) {
+		entities.add(entity);
 	}
 
 	/**
@@ -35,11 +26,9 @@ public class MovingConstantLogic {
 	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
 	 */
 	void update (float deltaTimeInSeconds) {
-		for (ConstantMovementBehavior movingEntity : movingEntities) {
-			movingEntity.getPosition().x =
-					movingEntity.getPosition().x + movingEntity.getVelocity().x * deltaTimeInSeconds;
-			movingEntity.getPosition().y =
-					movingEntity.getPosition().y + movingEntity.getVelocity().y * deltaTimeInSeconds;
+		for (ConstantMovementBehavior entity : entities) {
+			entity.getPosition().x += entity.getVelocity().x * deltaTimeInSeconds;
+			entity.getPosition().y += entity.getVelocity().y * deltaTimeInSeconds;
 		}
 	}
 }

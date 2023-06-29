@@ -5,26 +5,21 @@ import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisualShapeLogic {
-	private final List<VisualShapeBehavior> visualShapes = new ArrayList<>();
+	private final List<VisualShapeBehavior> entities = new ArrayList<>();
 
-	public List<VisualShapeBehavior> getVisualShapes () {
-		return Collections.unmodifiableList(visualShapes);
-	}
-
-	void addVisualShape (@NotNull VisualShapeBehavior visualShape) {
-		visualShapes.add(visualShape);
+	void addEntity (@NotNull VisualShapeBehavior entity) {
+		entities.add(entity);
 	}
 
 	void update (@NotNull ShapeDrawer shapeDrawer) {
-		for (VisualShapeBehavior visualShape : visualShapes) {
+		for (VisualShapeBehavior entity : entities) {
 			shapeDrawer.setColor(Color.WHITE);
-			visualShape.getShape().setPosition(visualShape.getPosition().x, visualShape.getPosition().y);
-			shapeDrawer.filledPolygon(visualShape.getShape().getTransformedVertices());
+			entity.getShape().setPosition(entity.getPosition().x, entity.getPosition().y);
+			shapeDrawer.filledPolygon(entity.getShape().getTransformedVertices());
 		}
 	}
 }

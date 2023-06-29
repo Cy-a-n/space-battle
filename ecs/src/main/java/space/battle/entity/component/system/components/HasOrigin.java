@@ -1,7 +1,8 @@
 package space.battle.entity.component.system.components;
 
 import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.NotNull;
 
 public interface HasOrigin {
-	Vector2 getOrigin ();
+	@NotNull Vector2 getOrigin ();
 }

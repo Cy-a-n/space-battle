@@ -43,7 +43,7 @@ public class App extends ApplicationAdapter {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, (float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
 
-		behaviorLogic = new BehaviorLogic();
+		behaviorLogic = BehaviorLogic.getInstance();
 
 		GreenFighter greenFighter = new GreenFighter(new Vector2(0, 0), 90f, textureAtlas);
 		behaviorLogic.addEntity(greenFighter);
@@ -67,6 +67,7 @@ public class App extends ApplicationAdapter {
 		// of these types.
 		behaviorLogic = null;
 		shapeDrawer = null;
+		BehaviorLogic.disposeInstance();
 
 		textureAtlas.dispose();
 		batch.dispose();

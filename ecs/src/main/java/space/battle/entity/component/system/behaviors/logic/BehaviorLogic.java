@@ -16,6 +16,20 @@ import java.util.Set;
  * Logic classes are not static, so that they can be flagged for garbage collection, which reduces errors.
  */
 public class BehaviorLogic {
+	private static BehaviorLogic instance;
+
+	public static @NotNull BehaviorLogic getInstance() {
+		if (instance == null) {
+			instance = new BehaviorLogic();
+		}
+
+		return instance;
+	}
+
+	public static void disposeInstance() {
+		instance = null;
+	}
+
 	private final CameraLogic cameraLogic = new CameraLogic();
 	private final DrawableLogic drawableLogic = new DrawableLogic();
 	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
@@ -25,34 +39,6 @@ public class BehaviorLogic {
 	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
 			new RelativePositionAndRotationLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
-
-	CameraLogic getCameraLogic () {
-		return cameraLogic;
-	}
-
-	DrawableLogic getDrawableLogic () {
-		return drawableLogic;
-	}
-
-	MovingConstantLogic getMovingConstantLogic () {
-		return movingConstantLogic;
-	}
-
-	MovingWithAccelerationLogic getMovingWithAccelerationLogic () {
-		return movingWithAccelerationLogic;
-	}
-
-	PlayerShipLogic getPlayerShipLogic () {
-		return playerShipLogic;
-	}
-
-	VisualShapeLogic getVisualShapeLogic () {
-		return visualShapeLogic;
-	}
-
-	Set<Entity> getAllEntities () {
-		return Collections.unmodifiableSet(allEntities);
-	}
 
 	/**
 	 * Adds an entity to the corresponding logic system based on its implemented interfaces.
@@ -117,4 +103,6 @@ public class BehaviorLogic {
 		drawableLogic.update(batch);
 		batch.end();
 	}
+
+	private BehaviorLogic() {}
 }

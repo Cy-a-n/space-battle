@@ -6,23 +6,25 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.RelativePositionAndRotationBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
+import space.battle.entity.component.system.components.HasChildrenWithRelativePosition;
+import space.battle.entity.component.system.components.HasChildrenWithRelativeRotationDegrees;
 import space.battle.entity.component.system.components.HasPosition;
 import space.battle.entity.component.system.components.HasRotationDegrees;
 
 public class TestEntity extends Entity implements RelativePositionAndRotationBehavior, TextureBehavior {
-	final TextureRegion textureRegion;
-	final Vector2 relativePosition;
-	final HasPosition parentWithPosition;
-	final Vector2 origin;
-	final Vector2 scale;
-	final Vector2 size;
-	final float relativeRotationDegrees;
-	final HasRotationDegrees parentWithRotationDegrees;
-	Vector2 position;
-	float rotationDegrees;
+	private @NotNull Vector2 position;
+	private float rotationDegrees;
+	private final float relativeRotationDegrees;
+	private final @NotNull TextureRegion textureRegion;
+	private final @NotNull Vector2 relativePosition;
+	private final @NotNull Vector2 origin;
+	private final @NotNull Vector2 scale;
+	private final @NotNull Vector2 size;
+	private final @NotNull HasChildrenWithRelativePosition parentWithPosition;
+	private final @NotNull HasChildrenWithRelativeRotationDegrees parentWithRotationDegrees;
 
-	public TestEntity (TextureAtlas textureAtlas, HasPosition parentWithPosition,
-					   HasRotationDegrees parentWithRotationDegrees) {
+	public TestEntity (TextureAtlas textureAtlas, HasChildrenWithRelativePosition parentWithPosition,
+					   HasChildrenWithRelativeRotationDegrees parentWithRotationDegrees) {
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.relativePosition = new Vector2(100, 100);
 		this.parentWithPosition = parentWithPosition;
@@ -44,11 +46,6 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 	@Override
 	public @NotNull Vector2 getRelativePosition () {
 		return relativePosition;
-	}
-
-	@Override
-	public @NotNull HasPosition getParentWithPosition () {
-		return parentWithPosition;
 	}
 
 	@Override
@@ -92,7 +89,12 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 	}
 
 	@Override
-	public @NotNull HasRotationDegrees getParentWithRotationDegrees () {
+	public HasChildrenWithRelativeRotationDegrees getParentWithRotationDegrees() {
 		return parentWithRotationDegrees;
+	}
+
+	@Override
+	public @NotNull HasChildrenWithRelativePosition getParentWithPosition () {
+		return parentWithPosition;
 	}
 }

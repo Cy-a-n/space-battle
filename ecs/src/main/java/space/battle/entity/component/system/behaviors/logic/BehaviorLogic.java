@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
-import space.battle.entity.component.system.entities.Entity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +15,18 @@ import java.util.Set;
  */
 public class BehaviorLogic {
 	private static BehaviorLogic instance;
+	private final CameraLogic cameraLogic = new CameraLogic();
+	private final DrawableLogic drawableLogic = new DrawableLogic();
+	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
+	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
+	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
+	private final VisualShapeLogic visualShapeLogic = new VisualShapeLogic();
+	private final RelativePositionLogic relativePositionLogic = new RelativePositionLogic();
+	private final Set<Entity> allEntities = new HashSet<>();
 
-	public static @NotNull BehaviorLogic getInstance() {
+	private BehaviorLogic () {}
+
+	public static @NotNull BehaviorLogic getInstance () {
 		if (instance == null) {
 			instance = new BehaviorLogic();
 		}
@@ -26,19 +34,9 @@ public class BehaviorLogic {
 		return instance;
 	}
 
-	public static void disposeInstance() {
+	public static void disposeInstance () {
 		instance = null;
 	}
-
-	private final CameraLogic cameraLogic = new CameraLogic();
-	private final DrawableLogic drawableLogic = new DrawableLogic();
-	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
-	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
-	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
-	private final VisualShapeLogic visualShapeLogic = new VisualShapeLogic();
-	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
-			new RelativePositionAndRotationLogic();
-	private final Set<Entity> allEntities = new HashSet<>();
 
 	/**
 	 * Adds an entity to the corresponding logic system based on its implemented interfaces.
@@ -60,8 +58,8 @@ public class BehaviorLogic {
 		if (entity instanceof PlayerShipBehavior)
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
-		if (entity instanceof RelativePositionAndRotationBehavior) {
-			relativePositionAndRotationLogic.addEntity((RelativePositionAndRotationBehavior) entity);
+		if (entity instanceof RelativePositionBehavior) {
+			relativePositionLogic.addEntity((RelativePositionBehavior) entity);
 		}
 
 		if (entity instanceof TextureBehavior)
@@ -83,7 +81,7 @@ public class BehaviorLogic {
 		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
-		relativePositionAndRotationLogic.update();
+		relativePositionLogic.update();
 	}
 
 	/**
@@ -103,6 +101,4 @@ public class BehaviorLogic {
 		drawableLogic.update(batch);
 		batch.end();
 	}
-
-	private BehaviorLogic() {}
 }

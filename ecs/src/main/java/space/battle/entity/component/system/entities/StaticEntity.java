@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
+import space.battle.entity.component.system.behaviors.logic.Entity;
 
 public class StaticEntity extends Entity implements TextureBehavior {
 	private Vector2 origin;

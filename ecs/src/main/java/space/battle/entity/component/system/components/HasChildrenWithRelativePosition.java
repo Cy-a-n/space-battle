@@ -1,9 +1,8 @@
 package space.battle.entity.component.system.components;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import space.battle.entity.component.system.utilities.RelativePositionParentChildrenRelationship;
 
 public interface HasChildrenWithRelativePosition {
-    @NotNull List<HasChildrenWithRelativePosition> getChildrenWithRelativePosition();
+	@NotNull RelativePositionParentChildrenRelationship getRelativePositionParentChildrenRelationship ();
 }

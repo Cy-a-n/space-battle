@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
+import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.RelativePositionBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
@@ -13,19 +14,19 @@ import space.battle.entity.component.system.behaviors.logic.Entity;
 import space.battle.entity.component.system.components.HasChildrenWithRelativePosition;
 import space.battle.entity.component.system.utilities.RelativePositionParentChildrenRelationship;
 
-public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior, RelativePositionBehavior {
+public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior, ChildrenWithRelativePositionBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
 	private final @NotNull Vector2 size;
 	private final @NotNull TextureRegion textureRegion;
-	private @NotNull Vector2 acceleration;
-	private @NotNull Vector2 position;
+	private final @NotNull Vector2 acceleration;
+	private final @NotNull Vector2 position;
 	private float rotationDegrees;
-	private @NotNull Vector2 velocity;
+	private final @NotNull Vector2 velocity;
 	private int health;
-	private @NotNull Polygon shape;
-	private @NotNull RelativePositionParentChildrenRelationship relativePositionParentChildrenRelationship;
+	private final @NotNull Polygon shape;
+	private final @NotNull RelativePositionParentChildrenRelationship relativePositionParentChildrenRelationship;
 
 	private GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
 		this.frictionConstant = 0.01f;

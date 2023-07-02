@@ -21,7 +21,7 @@ public class BehaviorLogic {
 	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
 	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
 	private final VisualShapeLogic visualShapeLogic = new VisualShapeLogic();
-	private final RelativePositionLogic relativePositionLogic = new RelativePositionLogic();
+	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic = new RelativePositionAndRotationLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
 
 	private BehaviorLogic () {}
@@ -59,7 +59,7 @@ public class BehaviorLogic {
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
 		if (entity instanceof RelativePositionBehavior) {
-			relativePositionLogic.addEntity((RelativePositionBehavior) entity);
+			relativePositionAndRotationLogic.addEntity((RelativePositionBehavior) entity);
 		}
 
 		if (entity instanceof TextureBehavior)
@@ -81,7 +81,7 @@ public class BehaviorLogic {
 		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
-		relativePositionLogic.update();
+		relativePositionAndRotationLogic.update();
 	}
 
 	/**

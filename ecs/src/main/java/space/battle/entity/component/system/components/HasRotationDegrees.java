@@ -4,5 +4,4 @@ public interface HasRotationDegrees {
 	float getRotationDegrees ();
 
 	void setRotationDegrees (float rotationDegrees);
-
 }

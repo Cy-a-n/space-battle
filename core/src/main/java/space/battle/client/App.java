@@ -2,22 +2,16 @@ package space.battle.client;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.entities.GreenFighter;
 import space.battle.entity.component.system.entities.StaticEntity;
 import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import static com.badlogic.gdx.Gdx.input;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -45,9 +39,9 @@ public class App extends ApplicationAdapter {
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
-		GreenFighter greenFighter = new GreenFighter(new Vector2(0, 0), 90f, textureAtlas);
+		GreenFighter greenFighter = new GreenFighter(new Vector2(0, 0), 180f, textureAtlas);
 		behaviorLogic.addEntity(greenFighter);
-		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter, greenFighter));
+		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
 		behaviorLogic.addEntity(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
 	}
 

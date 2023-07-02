@@ -4,17 +4,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.RelativePositionBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
-import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.behaviors.logic.Entity;
-import space.battle.entity.component.system.components.HasChildrenWithRelativePosition;
-import space.battle.entity.component.system.utilities.RelativePositionParentChildrenRelationship;
 
-public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior, ChildrenWithRelativePositionBehavior {
+public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior,
+		ChildrenWithRelativePositionAndRotationDegreesBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
@@ -22,13 +19,12 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	private final @NotNull TextureRegion textureRegion;
 	private final @NotNull Vector2 acceleration;
 	private final @NotNull Vector2 position;
-	private float rotationDegrees;
 	private final @NotNull Vector2 velocity;
-	private int health;
 	private final @NotNull Polygon shape;
-	private final @NotNull RelativePositionParentChildrenRelationship relativePositionParentChildrenRelationship;
+	private float rotationDegrees;
+	private int health;
 
-	private GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
+	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
 		this.frictionConstant = 0.01f;
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.acceleration = new Vector2(0, 0);
@@ -42,13 +38,6 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 		this.health = 10;
 		this.shape = new Polygon(new float[]{2, 0, 13, 10, 29, 10, 34, 15, 34, 19, 29, 24, 13, 24, 2, 34, 0, 21, 0,
 				13});
-		relativePositionParentChildrenRelationship =
-				new RelativePositionParentChildrenRelationship((HasChildrenWithRelativePosition) this);
-	}
-
-	public static void addNewToBehaviorLogic (@NotNull Vector2 position, float rotationDegrees,
-											  @NotNull TextureAtlas textureAtlas) {
-		BehaviorLogic.getInstance().addEntity(new GreenFighter(position, rotationDegrees, textureAtlas));
 	}
 
 	@Override
@@ -114,10 +103,5 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	@Override
 	public @NotNull Polygon getShape () {
 		return shape;
-	}
-
-	@Override
-	public @NotNull RelativePositionParentChildrenRelationship getRelativePositionParentChildrenRelationship () {
-		return relativePositionParentChildrenRelationship;
 	}
 }

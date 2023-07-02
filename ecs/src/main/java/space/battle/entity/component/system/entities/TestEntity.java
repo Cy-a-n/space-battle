@@ -4,29 +4,37 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
+import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.RelativePositionAndRotationBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import space.battle.entity.component.system.behaviors.logic.Entity;
-import space.battle.entity.component.system.components.HasRelativePosition;
-import space.battle.entity.component.system.utilities.RelativePositionParentChildrenRelationship;
+import space.battle.entity.component.system.components.HasChildrenWithRelativeRotationDegrees;
 
-public class TestEntity extends Entity implements HasRelativePosition, TextureBehavior {
+public class TestEntity extends Entity implements RelativePositionAndRotationBehavior, TextureBehavior {
 	private final @NotNull TextureRegion textureRegion;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
 	private final @NotNull Vector2 size;
-	private final @NotNull RelativePositionParentChildrenRelationship relativePositionParentChildrenRelationship;
-	private @NotNull Vector2 position;
+	private final @NotNull Vector2 position;
+	private final @NotNull Vector2 relativePosition;
+	private final @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior parentWithRelativePosition;
+	private final HasChildrenWithRelativeRotationDegrees parentWithRelativeRotationDegrees;
+	private float relativeRotationDegrees;
 	private float rotationDegrees;
 
-	public TestEntity (TextureAtlas textureAtlas) {
+	public TestEntity (@NotNull TextureAtlas textureAtlas,
+					   @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior parent) {
+		this.relativeRotationDegrees = 90;
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
+		this.parentWithRelativePosition = parent;
+		this.parentWithRelativeRotationDegrees = parent;
 		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
 				(float) textureRegion.getRegionHeight() / 2);
 		this.scale = new Vector2(1, 1);
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		this.position = new Vector2(0, 0);
 		this.rotationDegrees = 0;
-		this.relativePositionParentChildrenRelationship = new RelativePositionParentChildrenRelationship()
+		this.relativePosition = new Vector2(100, 100);
 	}
 
 	@Override
@@ -37,11 +45,6 @@ public class TestEntity extends Entity implements HasRelativePosition, TextureBe
 	@Override
 	public @NotNull Vector2 getRelativePosition () {
 		return relativePosition;
-	}
-
-	@Override
-	public @NotNull RelativePositionParentChildrenRelationship relativePositionParentChildrenRelationship () {
-		return null;
 	}
 
 	@Override
@@ -72,5 +75,25 @@ public class TestEntity extends Entity implements HasRelativePosition, TextureBe
 	@Override
 	public @NotNull TextureRegion getTextureRegion () {
 		return textureRegion;
+	}
+
+	@Override
+	public @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior getParentWithPosition () {
+		return parentWithRelativePosition;
+	}
+
+	@Override
+	public float getRelativeRotationDegrees () {
+		return relativeRotationDegrees;
+	}
+
+	@Override
+	public void setRelativeRotationDegrees (float relativeRotationDegrees) {
+		this.relativeRotationDegrees = relativeRotationDegrees;
+	}
+
+	@Override
+	public @NotNull HasChildrenWithRelativeRotationDegrees getParentWithRotationDegrees () {
+		return parentWithRelativeRotationDegrees;
 	}
 }

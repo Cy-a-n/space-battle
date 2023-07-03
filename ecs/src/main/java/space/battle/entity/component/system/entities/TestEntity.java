@@ -17,10 +17,13 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 	private final @NotNull Vector2 size;
 	private final @NotNull Vector2 position;
 	private final @NotNull Vector2 relativePosition;
+	private boolean positionChanged;
+	private boolean rotationChanged;
 	private final @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior parentWithRelativePosition;
 	private final HasChildrenWithRelativeRotationDegrees parentWithRelativeRotationDegrees;
 	private float relativeRotationDegrees;
 	private float rotationDegrees;
+	private boolean originChanged;
 
 	public TestEntity (@NotNull TextureAtlas textureAtlas,
 					   @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior parent) {
@@ -35,6 +38,10 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 		this.position = new Vector2(0, 0);
 		this.rotationDegrees = 0;
 		this.relativePosition = new Vector2(100, 100);
+
+		positionChanged = true;
+		rotationChanged = true;
+		originChanged = true;
 	}
 
 	@Override
@@ -95,5 +102,34 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 	@Override
 	public @NotNull HasChildrenWithRelativeRotationDegrees getParentWithRotationDegrees () {
 		return parentWithRelativeRotationDegrees;
+	}
+
+	@Override
+	public boolean positionChanged() {
+		return positionChanged;
+	}
+	@Override
+	public boolean rotationChanged() {
+		return rotationChanged;
+	}
+
+	@Override
+	public void setRotationChanged(boolean rotationChanged) {
+		this.rotationChanged = rotationChanged;
+	}
+
+	@Override
+	public void setPositionChanged(boolean positionChanged) {
+		this.positionChanged = positionChanged;
+	}
+
+	@Override
+	public boolean originChanged() {
+		return originChanged;
+	}
+
+	@Override
+	public void setOriginChanged(boolean originChanged) {
+		this.originChanged = originChanged;
 	}
 }

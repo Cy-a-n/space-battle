@@ -13,6 +13,8 @@ import space.battle.entity.component.system.entities.StaticEntity;
 import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import java.util.HashSet;
+
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
  */
@@ -43,6 +45,12 @@ public class App extends ApplicationAdapter {
 		behaviorLogic.addEntity(greenFighter);
 		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
 		behaviorLogic.addEntity(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
+
+		Integer int1 = Integer.valueOf(0);
+		Integer int2 = Integer.valueOf(1);
+		HashSet<Integer> set1 = new HashSet<>();
+		HashSet<Integer> set2 = new HashSet<>();
+		HashSet<HashSet<Integer>> set3 = new HashSet<>();
 	}
 
 	@Override

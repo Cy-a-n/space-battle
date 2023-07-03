@@ -5,4 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface HasOrigin {
 	@NotNull Vector2 getOrigin ();
+
+	boolean originChanged();
+	void setOriginChanged(boolean originChanged);
 }

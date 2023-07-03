@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RelativePositionAndRotationLogic {
+class RelativePositionAndRotationLogic {
 	private Map<ChildrenWithRelativePositionAndRotationDegreesBehavior, List<RelativePositionAndRotationBehavior>> parentChildren = new HashMap<>();
 
 	void addEntity (@NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior entity) {
@@ -39,6 +39,10 @@ public class RelativePositionAndRotationLogic {
 			float parentRotationDegrees = parent.getRotationDegrees();
 			List<RelativePositionAndRotationBehavior> children = parentChildrenPair.getValue();
 			parent.setRotationDegrees(parentRotationDegrees + 1);
+			parent.setRotationChanged(true);
+			float angleRadians = MathUtils.degreesToRadians * parentRotationDegrees;
+			float cosTheta = MathUtils.cos(angleRadians);
+			float sinTheta = MathUtils.sin(angleRadians);
 
 			for (RelativePositionAndRotationBehavior child : children) {
 				Vector2 relativePosition = child.getRelativePosition();
@@ -46,9 +50,7 @@ public class RelativePositionAndRotationLogic {
 				Vector2 childPosition = child.getPosition();
 				float childRelativeRotationDegrees = child.getRelativeRotationDegrees();
 
-				float angleRadians = MathUtils.degreesToRadians * parentRotationDegrees;
-				float cosTheta = MathUtils.cos(angleRadians);
-				float sinTheta = MathUtils.sin(angleRadians);
+				// TODO: Rotating every frame is kinda inefficient
 				resultingRelativePosition.x = relativePosition.x * cosTheta - relativePosition.y * sinTheta;
 				resultingRelativePosition.y = relativePosition.x * sinTheta + relativePosition.y * cosTheta;
 

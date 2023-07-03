@@ -6,11 +6,11 @@ import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.VisualShapeBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
 import space.battle.entity.component.system.behaviors.logic.Entity;
 
-public class GreenFighter extends Entity implements PlayerShipBehavior, VisualShapeBehavior,
+public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCollisionShapeBehavior,
 		ChildrenWithRelativePositionAndRotationDegreesBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
@@ -23,6 +23,9 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	private final @NotNull Polygon shape;
 	private float rotationDegrees;
 	private int health;
+	private boolean positionChanged;
+	private boolean rotationChanged;
+	private boolean originChanged;
 
 	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
 		this.frictionConstant = 0.01f;
@@ -38,6 +41,9 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 		this.health = 10;
 		this.shape = new Polygon(new float[]{2, 0, 13, 10, 29, 10, 34, 15, 34, 19, 29, 24, 13, 24, 2, 34, 0, 21, 0,
 				13});
+		positionChanged = true;
+		rotationChanged = true;
+		originChanged = true;
 	}
 
 	@Override
@@ -56,8 +62,28 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	}
 
 	@Override
+	public boolean originChanged() {
+		return originChanged;
+	}
+
+	@Override
+	public void setOriginChanged(boolean originChanged) {
+		this.originChanged = originChanged;
+	}
+
+	@Override
 	public @NotNull Vector2 getPosition () {
 		return position;
+	}
+
+	@Override
+	public boolean positionChanged() {
+		return positionChanged;
+	}
+
+	@Override
+	public void setPositionChanged(boolean positionChanged) {
+		this.positionChanged = positionChanged;
 	}
 
 	@Override
@@ -68,6 +94,16 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualSh
 	@Override
 	public void setRotationDegrees (float rotationDegrees) {
 		this.rotationDegrees = rotationDegrees;
+	}
+
+	@Override
+	public boolean rotationChanged() {
+		return rotationChanged;
+	}
+
+	@Override
+	public void setRotationChanged(boolean rotationChanged) {
+		this.rotationChanged = rotationChanged;
 	}
 
 	@Override

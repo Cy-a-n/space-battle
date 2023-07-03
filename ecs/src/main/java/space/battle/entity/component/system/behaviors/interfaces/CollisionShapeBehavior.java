@@ -1,8 +1,9 @@
 package space.battle.entity.component.system.behaviors.interfaces;
 
-import space.battle.entity.component.system.components.HasHealth;
+import space.battle.entity.component.system.components.HasOrigin;
 import space.battle.entity.component.system.components.HasPosition;
 import space.battle.entity.component.system.components.HasRotationDegrees;
 import space.battle.entity.component.system.components.HasShape;
 
-public interface CollisionBehavior extends HasShape, HasPosition, HasRotationDegrees, HasHealth {}
+public interface CollisionShapeBehavior extends HasShape, HasPosition, HasRotationDegrees, HasOrigin {
+}

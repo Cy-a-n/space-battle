@@ -47,6 +47,8 @@ class MovingWithAccelerationLogic {
 
 			position.x += velocity.x * deltaTimeInSeconds;
 			position.y += velocity.y * deltaTimeInSeconds;
+
+			entity.setPositionChanged(true);
 		}
 	}
 }

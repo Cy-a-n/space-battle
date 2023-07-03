@@ -15,6 +15,10 @@ public class StaticEntity extends Entity implements TextureBehavior {
 	private Vector2 size;
 	private TextureRegion textureRegion;
 
+	private boolean positionChanged;
+	private boolean rotationChanged;
+	private boolean originChanged;
+
 	public StaticEntity (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.origin = new Vector2(-textureRegion.getRegionWidth() / 2, -textureRegion.getRegionHeight() / 2);
@@ -22,6 +26,10 @@ public class StaticEntity extends Entity implements TextureBehavior {
 		this.rotationDegrees = rotationDegrees;
 		this.scale = new Vector2(1, 1);
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+
+		positionChanged = true;
+		rotationChanged = true;
+		originChanged = true;
 	}
 
 	@Override
@@ -57,5 +65,34 @@ public class StaticEntity extends Entity implements TextureBehavior {
 	@Override
 	public @NotNull TextureRegion getTextureRegion () {
 		return textureRegion;
+	}
+	@Override
+	public boolean positionChanged() {
+		return positionChanged;
+	}
+
+	@Override
+	public boolean rotationChanged() {
+		return rotationChanged;
+	}
+
+	@Override
+	public void setRotationChanged(boolean rotationChanged) {
+		this.rotationChanged = rotationChanged;
+	}
+
+	@Override
+	public void setPositionChanged(boolean positionChanged) {
+		this.positionChanged = positionChanged;
+	}
+
+	@Override
+	public boolean originChanged() {
+		return originChanged;
+	}
+
+	@Override
+	public void setOriginChanged(boolean originChanged) {
+		this.originChanged = originChanged;
 	}
 }

@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
+import space.battle.entity.component.system.components.HasOrigin;
+import space.battle.entity.component.system.components.HasPosition;
+import space.battle.entity.component.system.components.HasRotationDegrees;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.HashSet;
@@ -15,12 +18,15 @@ import java.util.Set;
  */
 public class BehaviorLogic {
 	private static BehaviorLogic instance;
+	private final HasOriginLogic hasOriginLogic = new HasOriginLogic();
+	private final HasPositionLogic hasPositionLogic = new HasPositionLogic();
+	private final HasRotationDegreesLogic hasRotationDegreesLogic = new HasRotationDegreesLogic();
 	private final CameraLogic cameraLogic = new CameraLogic();
 	private final DrawableLogic drawableLogic = new DrawableLogic();
 	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
 	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
 	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
-	private final VisualShapeLogic visualShapeLogic = new VisualShapeLogic();
+	private final VisualCollisionShapeLogic visualCollisionShapeLogic = new VisualCollisionShapeLogic();
 	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
 			new RelativePositionAndRotationLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
@@ -50,6 +56,15 @@ public class BehaviorLogic {
 					+ "instance of %s twice.", allEntities, entity, Entity.class));
 		allEntities.add(entity);
 
+		if (entity instanceof HasPosition)
+			hasPositionLogic.addEntity((HasPosition) entity);
+
+		if (entity instanceof HasRotationDegrees)
+			hasRotationDegreesLogic.addEntity((HasRotationDegrees) entity);
+
+		if (entity instanceof HasOrigin)
+			hasOriginLogic.addEntity((HasOrigin) entity);
+
 		if (entity instanceof ConstantMovementBehavior)
 			movingConstantLogic.addEntity((ConstantMovementBehavior) entity);
 
@@ -73,8 +88,8 @@ public class BehaviorLogic {
 		if (entity instanceof CameraBehavior)
 			cameraLogic.addEntity((CameraBehavior) entity);
 
-		if (entity instanceof VisualShapeBehavior)
-			visualShapeLogic.addEntity((VisualShapeBehavior) entity);
+		if (entity instanceof VisualCollisionShapeBehavior)
+			visualCollisionShapeLogic.addEntity((VisualCollisionShapeBehavior) entity);
 	}
 
 	/**
@@ -83,10 +98,16 @@ public class BehaviorLogic {
 	 * @param deltaTimeInSeconds The time that has passed since the last update in seconds.
 	 */
 	public void update (float deltaTimeInSeconds) {
+		// Update position, rotation, etc
 		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
 		relativePositionAndRotationLogic.update();
+
+		// Reset the components
+		hasPositionLogic.update();
+		hasRotationDegreesLogic.update();
+		hasOriginLogic.update();
 	}
 
 	/**
@@ -98,12 +119,22 @@ public class BehaviorLogic {
 	 */
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
 									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera) {
-		update(deltaTimeInSeconds);
-		cameraLogic.update(camera, batch);
+		// Update position, rotation, etc
+		playerShipLogic.update();
+		movingConstantLogic.update(deltaTimeInSeconds);
+		movingWithAccelerationLogic.update(deltaTimeInSeconds);
+		relativePositionAndRotationLogic.update();
 
+		// Draw
+		cameraLogic.update(camera, batch);
 		batch.begin();
-		visualShapeLogic.update(shapeDrawer);
+		visualCollisionShapeLogic.update(shapeDrawer);
 		drawableLogic.update(batch);
 		batch.end();
+
+		// Reset the components
+		hasPositionLogic.update();
+		hasRotationDegreesLogic.update();
+		hasOriginLogic.update();
 	}
 }

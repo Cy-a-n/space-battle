@@ -29,6 +29,7 @@ class MovingConstantLogic {
 		for (ConstantMovementBehavior entity : entities) {
 			entity.getPosition().x += entity.getVelocity().x * deltaTimeInSeconds;
 			entity.getPosition().y += entity.getVelocity().y * deltaTimeInSeconds;
+			entity.setPositionChanged(true);
 		}
 	}
 }

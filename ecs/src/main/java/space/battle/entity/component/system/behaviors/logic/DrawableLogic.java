@@ -28,7 +28,7 @@ class DrawableLogic {
 	 */
 	void update (@NotNull SpriteBatch batch) {
 		for (TextureBehavior entity : entities) {
-			batch.draw(entity.getTextureRegion(), entity.getPosition().x, entity.getPosition().y, entity.getOrigin().x
+			batch.draw(entity.getTextureRegion(), entity.getPosition().x - entity.getOrigin().x, entity.getPosition().y - entity.getOrigin().y, entity.getOrigin().x
 					, entity.getOrigin().y, entity.getSize().y, entity.getSize().x, entity.getScale().x,
 					entity.getScale().y, entity.getRotationDegrees());
 		}

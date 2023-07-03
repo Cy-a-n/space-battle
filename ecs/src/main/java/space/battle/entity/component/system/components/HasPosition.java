@@ -5,4 +5,8 @@ import org.jetbrains.annotations.NotNull;
 
 public interface HasPosition {
 	@NotNull Vector2 getPosition ();
+
+	boolean positionChanged();
+
+	void setPositionChanged(boolean positionChanged);
 }

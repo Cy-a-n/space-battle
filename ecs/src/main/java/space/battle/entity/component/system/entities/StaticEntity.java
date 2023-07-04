@@ -2,22 +2,24 @@ package space.battle.entity.component.system.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
+import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import space.battle.entity.component.system.behaviors.logic.Entity;
 
-public class StaticEntity extends Entity implements TextureBehavior {
+public class StaticEntity extends Entity implements TextureBehavior, VisualCollisionShapeBehavior {
 	private Vector2 origin;
 	private Vector2 position;
 	private float rotationDegrees;
 	private Vector2 scale;
 	private Vector2 size;
 	private TextureRegion textureRegion;
-
 	private boolean positionChanged;
 	private boolean rotationChanged;
 	private boolean originChanged;
+	private Polygon shape;
 
 	public StaticEntity (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
@@ -26,7 +28,7 @@ public class StaticEntity extends Entity implements TextureBehavior {
 		this.rotationDegrees = rotationDegrees;
 		this.scale = new Vector2(1, 1);
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-
+		this.shape = new Polygon(new float[]{0, 13, 2, 0, 29, 10, 34, 17, 29, 24, 2, 34, 0, 21});
 		positionChanged = true;
 		rotationChanged = true;
 		originChanged = true;
@@ -66,33 +68,39 @@ public class StaticEntity extends Entity implements TextureBehavior {
 	public @NotNull TextureRegion getTextureRegion () {
 		return textureRegion;
 	}
+
 	@Override
-	public boolean positionChanged() {
+	public boolean positionChanged () {
 		return positionChanged;
 	}
 
 	@Override
-	public boolean rotationChanged() {
+	public boolean rotationChanged () {
 		return rotationChanged;
 	}
 
 	@Override
-	public void setRotationChanged(boolean rotationChanged) {
+	public void setRotationChanged (boolean rotationChanged) {
 		this.rotationChanged = rotationChanged;
 	}
 
 	@Override
-	public void setPositionChanged(boolean positionChanged) {
+	public void setPositionChanged (boolean positionChanged) {
 		this.positionChanged = positionChanged;
 	}
 
 	@Override
-	public boolean originChanged() {
+	public boolean originChanged () {
 		return originChanged;
 	}
 
 	@Override
-	public void setOriginChanged(boolean originChanged) {
+	public void setOriginChanged (boolean originChanged) {
 		this.originChanged = originChanged;
+	}
+
+	@Override
+	public @NotNull Polygon getShape () {
+		return shape;
 	}
 }

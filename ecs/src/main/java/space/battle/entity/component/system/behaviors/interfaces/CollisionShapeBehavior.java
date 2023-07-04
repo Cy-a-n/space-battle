@@ -5,5 +5,4 @@ import space.battle.entity.component.system.components.HasPosition;
 import space.battle.entity.component.system.components.HasRotationDegrees;
 import space.battle.entity.component.system.components.HasShape;
 
-public interface CollisionShapeBehavior extends HasShape, HasPosition, HasRotationDegrees, HasOrigin {
-}
+public interface CollisionShapeBehavior extends HasShape, PositionBehavior, RotationDegreesBehavior, OriginBehavior {}

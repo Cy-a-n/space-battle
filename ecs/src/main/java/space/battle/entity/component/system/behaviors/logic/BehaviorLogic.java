@@ -18,9 +18,9 @@ import java.util.Set;
  */
 public class BehaviorLogic {
 	private static BehaviorLogic instance;
-	private final HasOriginLogic hasOriginLogic = new HasOriginLogic();
-	private final HasPositionLogic hasPositionLogic = new HasPositionLogic();
-	private final HasRotationDegreesLogic hasRotationDegreesLogic = new HasRotationDegreesLogic();
+	private final OriginLogic originLogic = new OriginLogic();
+	private final PositionLogic positionLogic = new PositionLogic();
+	private final RotationDegreesLogic rotationDegreesLogic = new RotationDegreesLogic();
 	private final CameraLogic cameraLogic = new CameraLogic();
 	private final DrawableLogic drawableLogic = new DrawableLogic();
 	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
@@ -29,6 +29,7 @@ public class BehaviorLogic {
 	private final VisualCollisionShapeLogic visualCollisionShapeLogic = new VisualCollisionShapeLogic();
 	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
 			new RelativePositionAndRotationLogic();
+	private final CollisionShapeLogic collisionShapeLogic = new CollisionShapeLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
 
 	private BehaviorLogic () {}
@@ -56,14 +57,14 @@ public class BehaviorLogic {
 					+ "instance of %s twice.", allEntities, entity, Entity.class));
 		allEntities.add(entity);
 
-		if (entity instanceof HasPosition)
-			hasPositionLogic.addEntity((HasPosition) entity);
+		if (entity instanceof PositionBehavior)
+			positionLogic.addEntity((PositionBehavior) entity);
 
-		if (entity instanceof HasRotationDegrees)
-			hasRotationDegreesLogic.addEntity((HasRotationDegrees) entity);
+		if (entity instanceof RotationDegreesBehavior)
+			rotationDegreesLogic.addEntity((RotationDegreesBehavior) entity);
 
-		if (entity instanceof HasOrigin)
-			hasOriginLogic.addEntity((HasOrigin) entity);
+		if (entity instanceof OriginBehavior)
+			originLogic.addEntity((OriginBehavior) entity);
 
 		if (entity instanceof ConstantMovementBehavior)
 			movingConstantLogic.addEntity((ConstantMovementBehavior) entity);
@@ -74,9 +75,8 @@ public class BehaviorLogic {
 		if (entity instanceof PlayerShipBehavior)
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
-		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior) {
+		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
 			relativePositionAndRotationLogic.addEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
-		}
 
 		if (entity instanceof RelativePositionAndRotationBehavior) {
 			relativePositionAndRotationLogic.addEntity((RelativePositionAndRotationBehavior) entity);
@@ -87,6 +87,9 @@ public class BehaviorLogic {
 
 		if (entity instanceof CameraBehavior)
 			cameraLogic.addEntity((CameraBehavior) entity);
+
+		if (entity instanceof CollisionShapeBehavior)
+			collisionShapeLogic.addEntity((CollisionShapeBehavior) entity);
 
 		if (entity instanceof VisualCollisionShapeBehavior)
 			visualCollisionShapeLogic.addEntity((VisualCollisionShapeBehavior) entity);
@@ -104,10 +107,13 @@ public class BehaviorLogic {
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
 		relativePositionAndRotationLogic.update();
 
+		// Check for collisions
+		collisionShapeLogic.update();
+
 		// Reset the components
-		hasPositionLogic.update();
-		hasRotationDegreesLogic.update();
-		hasOriginLogic.update();
+		positionLogic.update();
+		rotationDegreesLogic.update();
+		originLogic.update();
 	}
 
 	/**
@@ -125,6 +131,9 @@ public class BehaviorLogic {
 		movingWithAccelerationLogic.update(deltaTimeInSeconds);
 		relativePositionAndRotationLogic.update();
 
+		// Check for collisions
+		collisionShapeLogic.update();
+
 		// Draw
 		cameraLogic.update(camera, batch);
 		batch.begin();
@@ -133,8 +142,8 @@ public class BehaviorLogic {
 		batch.end();
 
 		// Reset the components
-		hasPositionLogic.update();
-		hasRotationDegreesLogic.update();
-		hasOriginLogic.update();
+		positionLogic.update();
+		rotationDegreesLogic.update();
+		originLogic.update();
 	}
 }

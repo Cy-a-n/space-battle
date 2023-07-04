@@ -38,8 +38,7 @@ class RelativePositionAndRotationLogic {
 			Vector2 parentPosition = parent.getPosition();
 			float parentRotationDegrees = parent.getRotationDegrees();
 			List<RelativePositionAndRotationBehavior> children = parentChildrenPair.getValue();
-			parent.setRotationDegrees(parentRotationDegrees + 1);
-			parent.setRotationChanged(true);
+
 			float angleRadians = MathUtils.degreesToRadians * parentRotationDegrees;
 			float cosTheta = MathUtils.cos(angleRadians);
 			float sinTheta = MathUtils.sin(angleRadians);

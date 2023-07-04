@@ -39,8 +39,7 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
 		this.velocity = new Vector2(0, 0);
 		this.health = 10;
-		this.shape = new Polygon(new float[]{2, 0, 13, 10, 29, 10, 34, 15, 34, 19, 29, 24, 13, 24, 2, 34, 0, 21, 0,
-				13});
+		this.shape = new Polygon(new float[]{0, 13, 2, 0, 29, 10, 34, 17, 29, 24, 2, 34, 0, 21});
 		positionChanged = true;
 		rotationChanged = true;
 		originChanged = true;
@@ -62,12 +61,12 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 	}
 
 	@Override
-	public boolean originChanged() {
+	public boolean originChanged () {
 		return originChanged;
 	}
 
 	@Override
-	public void setOriginChanged(boolean originChanged) {
+	public void setOriginChanged (boolean originChanged) {
 		this.originChanged = originChanged;
 	}
 
@@ -77,12 +76,12 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 	}
 
 	@Override
-	public boolean positionChanged() {
+	public boolean positionChanged () {
 		return positionChanged;
 	}
 
 	@Override
-	public void setPositionChanged(boolean positionChanged) {
+	public void setPositionChanged (boolean positionChanged) {
 		this.positionChanged = positionChanged;
 	}
 
@@ -97,12 +96,12 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 	}
 
 	@Override
-	public boolean rotationChanged() {
+	public boolean rotationChanged () {
 		return rotationChanged;
 	}
 
 	@Override
-	public void setRotationChanged(boolean rotationChanged) {
+	public void setRotationChanged (boolean rotationChanged) {
 		this.rotationChanged = rotationChanged;
 	}
 

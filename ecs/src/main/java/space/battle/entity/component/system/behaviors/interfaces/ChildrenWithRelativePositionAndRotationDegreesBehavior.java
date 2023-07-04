@@ -6,4 +6,4 @@ import space.battle.entity.component.system.components.HasPosition;
 import space.battle.entity.component.system.components.HasRotationDegrees;
 
 public interface ChildrenWithRelativePositionAndRotationDegreesBehavior extends HasChildrenWithRelativePosition,
-		HasPosition, HasChildrenWithRelativeRotationDegrees, HasRotationDegrees {}
+		PositionBehavior, HasChildrenWithRelativeRotationDegrees, RotationDegreesBehavior {}

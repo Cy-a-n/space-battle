@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.entities.GreenFighter;
+import space.battle.entity.component.system.entities.SimpleShapeEntity;
 import space.battle.entity.component.system.entities.StaticEntity;
 import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -41,16 +42,10 @@ public class App extends ApplicationAdapter {
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
-		GreenFighter greenFighter = new GreenFighter(new Vector2(0, 0), 180f, textureAtlas);
+		GreenFighter greenFighter = new GreenFighter(new Vector2(100, 100), 180f, textureAtlas);
 		behaviorLogic.addEntity(greenFighter);
 		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
-		behaviorLogic.addEntity(new StaticEntity(new Vector2(0, 0), 0f, textureAtlas));
-
-		Integer int1 = Integer.valueOf(0);
-		Integer int2 = Integer.valueOf(1);
-		HashSet<Integer> set1 = new HashSet<>();
-		HashSet<Integer> set2 = new HashSet<>();
-		HashSet<HashSet<Integer>> set3 = new HashSet<>();
+		behaviorLogic.addEntity(new StaticEntity(new Vector2(10, 10), 0f, textureAtlas));
 	}
 
 	@Override

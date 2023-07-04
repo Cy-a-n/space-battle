@@ -16,17 +16,13 @@ class VisualCollisionShapeLogic {
 	}
 
 	void update (@NotNull ShapeDrawer shapeDrawer) {
+		shapeDrawer.setColor(Color.DARK_GRAY);
+		for (VisualCollisionShapeBehavior entity : entities) {
+			shapeDrawer.filledRectangle(entity.getShape().getBoundingRectangle());
+		}
+
 		shapeDrawer.setColor(Color.WHITE);
 		for (VisualCollisionShapeBehavior entity : entities) {
-			if (entity.positionChanged())
-				entity.getShape().setPosition(entity.getPosition().x - entity.getOrigin().x, entity.getPosition().y - entity.getOrigin().y);
-
-			if (entity.rotationChanged())
-			 	entity.getShape().setRotation(entity.getRotationDegrees());
-
-			if (entity.originChanged())
-				entity.getShape().setOrigin(entity.getOrigin().x, entity.getOrigin().y);
-
 			shapeDrawer.filledPolygon(entity.getShape().getTransformedVertices());
 		}
 	}

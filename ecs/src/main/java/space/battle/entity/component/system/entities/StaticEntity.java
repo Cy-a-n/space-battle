@@ -4,12 +4,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
+import space.battle.entity.component.system.behaviors.interfaces.ConstantRotationBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
-public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavior {
+public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavior, ConstantRotationBehavior {
+	private final Polygon shape;
 	private Vector2 origin;
 	private Vector2 position;
 	private float rotationDegrees;
@@ -19,12 +21,13 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 	private boolean positionChanged;
 	private boolean rotationChanged;
 	private boolean originChanged;
-	private Polygon shape;
 	private int health;
+	private float rotationalVelocity;
 
 	public StaticEntity (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
-		this.origin = new Vector2(-textureRegion.getRegionWidth() / 2, -textureRegion.getRegionHeight() / 2);
+		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
+				(float) textureRegion.getRegionHeight() / 2);
 		this.position = position;
 		this.rotationDegrees = rotationDegrees;
 		this.scale = new Vector2(1, 1);
@@ -34,6 +37,7 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 		rotationChanged = true;
 		originChanged = true;
 		health = 100;
+		rotationalVelocity = 10;
 	}
 
 	@Override
@@ -124,5 +128,15 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 	@Override
 	public int effectiveAgainstArmorClass () {
 		return 2;
+	}
+
+	@Override
+	public float getRotationalVelocity () {
+		return rotationalVelocity;
+	}
+
+	@Override
+	public void setRotationalVelocity (float rotationalVelocity) {
+		this.rotationalVelocity = rotationalVelocity;
 	}
 }

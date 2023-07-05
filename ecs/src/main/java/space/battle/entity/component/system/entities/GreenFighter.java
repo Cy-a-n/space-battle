@@ -23,11 +23,14 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private final @NotNull Polygon shape;
 	private final int armorClass;
 	private final int effectiveAgainstAmorClass;
+	private final float rotationalFrictionConstant;
 	private float rotationDegrees;
 	private int health;
 	private boolean positionChanged;
 	private boolean rotationChanged;
 	private boolean originChanged;
+	private float rotationalVelocity;
+	private float rotationalAcceleration;
 
 	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
 		this.frictionConstant = 0.01f;
@@ -48,6 +51,9 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 		health = 100;
 		armorClass = 1;
 		effectiveAgainstAmorClass = 1;
+		rotationalVelocity = 0;
+		rotationalAcceleration = 0;
+		rotationalFrictionConstant = 0.01f;
 	}
 
 	@Override
@@ -153,5 +159,30 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	@Override
 	public @NotNull Polygon getShape () {
 		return shape;
+	}
+
+	@Override
+	public float getRotationalAcceleration () {
+		return rotationalAcceleration;
+	}
+
+	@Override
+	public void setRotationalAcceleration (float rotationalAcceleration) {
+		this.rotationalAcceleration = rotationalAcceleration;
+	}
+
+	@Override
+	public float getRotationalVelocity () {
+		return rotationalVelocity;
+	}
+
+	@Override
+	public void setRotationalVelocity (float rotationalVelocity) {
+		this.rotationalVelocity = rotationalVelocity;
+	}
+
+	@Override
+	public float getRotationalFrictionConstant () {
+		return rotationalFrictionConstant;
 	}
 }

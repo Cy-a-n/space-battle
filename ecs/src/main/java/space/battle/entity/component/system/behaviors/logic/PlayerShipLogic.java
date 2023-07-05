@@ -67,10 +67,19 @@ class PlayerShipLogic {
 		if (input.isKeyPressed(Keys.S))
 			resultingAcceleration.y = -100;
 		if (input.isKeyPressed(Keys.W))
+
 			resultingAcceleration.y = 100;
+
+		float resultingRotationalAcceleration = 0;
+
+		if (input.isKeyPressed(Keys.E))
+			resultingRotationalAcceleration = -100;
+		if (input.isKeyPressed(Keys.Q))
+			resultingRotationalAcceleration = 100;
 
 		if (currentEntity != null) {
 			currentEntity.getAcceleration().set(resultingAcceleration);
+			currentEntity.setRotationalAcceleration(resultingRotationalAcceleration);
 		}
 	}
 }

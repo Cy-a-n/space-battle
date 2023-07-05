@@ -20,8 +20,8 @@ public class BehaviorLogic {
 	private final RotationDegreesLogic rotationDegreesLogic = new RotationDegreesLogic();
 	private final CameraLogic cameraLogic = new CameraLogic();
 	private final DrawableLogic drawableLogic = new DrawableLogic();
-	private final MovingConstantLogic movingConstantLogic = new MovingConstantLogic();
-	private final MovingWithAccelerationLogic movingWithAccelerationLogic = new MovingWithAccelerationLogic();
+	private final ConstantMovementLogic constantMovementLogic = new ConstantMovementLogic();
+	private final AcceleratedMovementLogic acceleratedMovementLogic = new AcceleratedMovementLogic();
 	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
 	private final VisualCollisionShapeLogic visualCollisionShapeLogic = new VisualCollisionShapeLogic();
 	private final RelativePositionAndRotationLogic relativePositionAndRotationLogic =
@@ -29,6 +29,8 @@ public class BehaviorLogic {
 	private final CollisionShapeLogic collisionShapeLogic = new CollisionShapeLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
 	private final Set<Entity> entitiesQueuedForRemoval = new HashSet<>();
+	private final ConstantRotationLogic constantRotationLogic = new ConstantRotationLogic();
+	private final AcceleratedRotationLogic acceleratedRotationLogic = new AcceleratedRotationLogic();
 
 	private BehaviorLogic () {}
 
@@ -42,112 +44,6 @@ public class BehaviorLogic {
 
 	public static void disposeInstance () {
 		instance = null;
-	}
-
-	/**
-	 * Queues an entity for removal from the system.
-	 * All entities queued for removal will be removed at the beginning of the next frame.
-	 *
-	 * @param entity The entity to be queued for removal.
-	 * @throws IllegalArgumentException If the entity was never added to the system.
-	 */
-	public void queueEntityForRemoval (Entity entity) {
-		if (!allEntities.contains(entity))
-			throw new IllegalArgumentException(String.format("%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.", allEntities, entity, Entity.class, "space.battle.entity.component.system.behaviors.logic.BehaviorLogic.addEntity()"));
-		entitiesQueuedForRemoval.add(entity);
-	}
-
-	/**
-	 * Remove all entities queued for removal from the game tree.
-	 */
-	private void removeEntities () {
-		for (Entity entity : entitiesQueuedForRemoval) {
-			// Remove entities queued for removal
-			allEntities.remove(entity);
-
-			if (entity instanceof PositionBehavior)
-				positionLogic.removeEntity((PositionBehavior) entity);
-
-			if (entity instanceof RotationDegreesBehavior)
-				rotationDegreesLogic.removeEntity((RotationDegreesBehavior) entity);
-
-			if (entity instanceof OriginBehavior)
-				originLogic.removeEntity((OriginBehavior) entity);
-
-			if (entity instanceof ConstantMovementBehavior)
-				movingConstantLogic.removeEntity((ConstantMovementBehavior) entity);
-
-			if (entity instanceof MovingWithAccelerationBehavior)
-				movingWithAccelerationLogic.removeEntity((MovingWithAccelerationBehavior) entity);
-
-			if (entity instanceof PlayerShipBehavior)
-				playerShipLogic.removeEntity((PlayerShipBehavior) entity);
-
-			if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
-				relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
-
-			if (entity instanceof RelativePositionAndRotationBehavior) {
-				relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
-			}
-
-			if (entity instanceof TextureBehavior)
-				drawableLogic.removeEntity((TextureBehavior) entity);
-
-			if (entity instanceof CameraBehavior)
-				cameraLogic.removeEntity((CameraBehavior) entity);
-
-			if (entity instanceof CollisionShapeBehavior)
-				collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
-
-			if (entity instanceof VisualCollisionShapeBehavior)
-				visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
-		}
-		entitiesQueuedForRemoval.clear();
-	}
-
-	/**
-	 * Remove an entity directly. This method should only be called from other logic classes.
-	 */
-	void removeEntity (Entity entity) {
-		// Remove entities queued for removal
-		allEntities.remove(entity);
-
-		if (entity instanceof PositionBehavior)
-			positionLogic.removeEntity((PositionBehavior) entity);
-
-		if (entity instanceof RotationDegreesBehavior)
-			rotationDegreesLogic.removeEntity((RotationDegreesBehavior) entity);
-
-		if (entity instanceof OriginBehavior)
-			originLogic.removeEntity((OriginBehavior) entity);
-
-		if (entity instanceof ConstantMovementBehavior)
-			movingConstantLogic.removeEntity((ConstantMovementBehavior) entity);
-
-		if (entity instanceof MovingWithAccelerationBehavior)
-			movingWithAccelerationLogic.removeEntity((MovingWithAccelerationBehavior) entity);
-
-		if (entity instanceof PlayerShipBehavior)
-			playerShipLogic.removeEntity((PlayerShipBehavior) entity);
-
-		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
-			relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
-
-		if (entity instanceof RelativePositionAndRotationBehavior) {
-			relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
-		}
-
-		if (entity instanceof TextureBehavior)
-			drawableLogic.removeEntity((TextureBehavior) entity);
-
-		if (entity instanceof CameraBehavior)
-			cameraLogic.removeEntity((CameraBehavior) entity);
-
-		if (entity instanceof CollisionShapeBehavior)
-			collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
-
-		if (entity instanceof VisualCollisionShapeBehavior)
-			visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
 	}
 
 	/**
@@ -170,33 +66,111 @@ public class BehaviorLogic {
 		if (entity instanceof OriginBehavior)
 			originLogic.addEntity((OriginBehavior) entity);
 
-		if (entity instanceof ConstantMovementBehavior)
-			movingConstantLogic.addEntity((ConstantMovementBehavior) entity);
-
-		if (entity instanceof MovingWithAccelerationBehavior)
-			movingWithAccelerationLogic.addEntity((MovingWithAccelerationBehavior) entity);
-
 		if (entity instanceof PlayerShipBehavior)
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
+		if (entity instanceof AcceleratedMovementBehavior)
+			acceleratedMovementLogic.addEntity((AcceleratedMovementBehavior) entity);
+
+		if (entity instanceof AcceleratedRotationBehavior)
+			acceleratedRotationLogic.addEntity((AcceleratedRotationBehavior) entity);
+
+		if (entity instanceof ConstantMovementBehavior)
+			constantMovementLogic.addEntity((ConstantMovementBehavior) entity);
+
+		if (entity instanceof ConstantRotationBehavior)
+			constantRotationLogic.addEntity((ConstantRotationBehavior) entity);
+
 		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
 			relativePositionAndRotationLogic.addEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+
+		if (entity instanceof CollisionShapeBehavior)
+			collisionShapeLogic.addEntity((CollisionShapeBehavior) entity);
 
 		if (entity instanceof RelativePositionAndRotationBehavior) {
 			relativePositionAndRotationLogic.addEntity((RelativePositionAndRotationBehavior) entity);
 		}
 
-		if (entity instanceof TextureBehavior)
-			drawableLogic.addEntity((TextureBehavior) entity);
-
 		if (entity instanceof CameraBehavior)
 			cameraLogic.addEntity((CameraBehavior) entity);
 
-		if (entity instanceof CollisionShapeBehavior)
-			collisionShapeLogic.addEntity((CollisionShapeBehavior) entity);
+		if (entity instanceof TextureBehavior)
+			drawableLogic.addEntity((TextureBehavior) entity);
 
 		if (entity instanceof VisualCollisionShapeBehavior)
 			visualCollisionShapeLogic.addEntity((VisualCollisionShapeBehavior) entity);
+	}
+
+	/**
+	 * Queues an entity for removal from the system.
+	 * All entities queued for removal will be removed at the beginning of the next frame.
+	 *
+	 * @param entity The entity to be queued for removal.
+	 * @throws IllegalArgumentException If the entity was never added to the system.
+	 */
+	public void queueEntityForRemoval (Entity entity) {
+		if (!allEntities.contains(entity))
+			throw new IllegalArgumentException(String.format("%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.", allEntities, entity, Entity.class, "space.battle.entity.component.system.behaviors.logic.BehaviorLogic.addEntity()"));
+		entitiesQueuedForRemoval.add(entity);
+	}
+
+	/**
+	 * Remove all entities queued for removal from the game tree.
+	 */
+	private void removeEntities () {
+		for (Entity entity : entitiesQueuedForRemoval) {
+			removeEntity(entity);
+		}
+		entitiesQueuedForRemoval.clear();
+	}
+
+	/**
+	 * Remove an entity directly.
+	 */
+	void removeEntity (Entity entity) {
+		allEntities.remove(entity);
+
+		if (entity instanceof PositionBehavior)
+			positionLogic.removeEntity((PositionBehavior) entity);
+
+		if (entity instanceof RotationDegreesBehavior)
+			rotationDegreesLogic.removeEntity((RotationDegreesBehavior) entity);
+
+		if (entity instanceof OriginBehavior)
+			originLogic.removeEntity((OriginBehavior) entity);
+
+		if (entity instanceof PlayerShipBehavior)
+			playerShipLogic.removeEntity((PlayerShipBehavior) entity);
+
+		if (entity instanceof AcceleratedMovementBehavior)
+			acceleratedMovementLogic.removeEntity((AcceleratedMovementBehavior) entity);
+
+		if (entity instanceof AcceleratedRotationBehavior)
+			acceleratedRotationLogic.addEntity((AcceleratedRotationBehavior) entity);
+
+		if (entity instanceof ConstantMovementBehavior)
+			constantMovementLogic.removeEntity((ConstantMovementBehavior) entity);
+
+		if (entity instanceof ConstantRotationBehavior)
+			constantRotationLogic.removeEntity((ConstantRotationBehavior) entity);
+
+		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
+			relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+
+		if (entity instanceof RelativePositionAndRotationBehavior)
+			relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
+
+		if (entity instanceof CollisionShapeBehavior)
+			collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
+
+		if (entity instanceof CameraBehavior)
+			cameraLogic.removeEntity((CameraBehavior) entity);
+
+		if (entity instanceof TextureBehavior)
+			drawableLogic.removeEntity((TextureBehavior) entity);
+
+		if (entity instanceof VisualCollisionShapeBehavior)
+			visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
 	}
 
 	/**
@@ -206,10 +180,14 @@ public class BehaviorLogic {
 	 */
 	public void update (float deltaTimeInSeconds) {
 		removeEntities();
-		// Update position, rotation, etc
 		playerShipLogic.update();
-		movingConstantLogic.update(deltaTimeInSeconds);
-		movingWithAccelerationLogic.update(deltaTimeInSeconds);
+
+		// Update position, rotation, etc
+		acceleratedMovementLogic.update(deltaTimeInSeconds);
+		acceleratedRotationLogic.update(deltaTimeInSeconds);
+		constantMovementLogic.update(deltaTimeInSeconds);
+		constantRotationLogic.update(deltaTimeInSeconds);
+
 		relativePositionAndRotationLogic.update();
 
 		// Check for collisions
@@ -231,10 +209,14 @@ public class BehaviorLogic {
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
 									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera) {
 		removeEntities();
-		// Update position, rotation, etc
 		playerShipLogic.update();
-		movingConstantLogic.update(deltaTimeInSeconds);
-		movingWithAccelerationLogic.update(deltaTimeInSeconds);
+
+		// Update position, rotation, etc
+		acceleratedMovementLogic.update(deltaTimeInSeconds);
+		acceleratedRotationLogic.update(deltaTimeInSeconds);
+		constantMovementLogic.update(deltaTimeInSeconds);
+		constantRotationLogic.update(deltaTimeInSeconds);
+
 		relativePositionAndRotationLogic.update();
 
 		// Check for collisions

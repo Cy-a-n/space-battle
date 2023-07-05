@@ -1,7 +1,5 @@
 package space.battle.entity.component.system.components;
 
-import org.jetbrains.annotations.NotNull;
-
-public interface HasFriction {
+public interface HasFrictionConstant {
 	float getFrictionConstant ();
 }

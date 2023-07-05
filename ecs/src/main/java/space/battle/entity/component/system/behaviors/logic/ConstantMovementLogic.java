@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * This class provides logic for managing entities that move constantly in the game.
  */
-class MovingConstantLogic {
+class ConstantMovementLogic {
 	private final Set<ConstantMovementBehavior> entities = new HashSet<>();
 
 	/**

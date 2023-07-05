@@ -4,40 +4,103 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 import space.battle.entity.component.system.behaviors.interfaces.RelativePositionAndRotationBehavior;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.HashSet;
 
+/**
+ * This class is responsible for processing relative position and rotation logic.
+ */
 class RelativePositionAndRotationLogic {
-	private Map<ChildrenWithRelativePositionAndRotationDegreesBehavior, List<RelativePositionAndRotationBehavior>> parentChildren = new HashMap<>();
+	/**
+	 * Stores entities and their children. The HashSet allows O(1) complexity for removal operations.
+	 */
+	private Map<ChildrenWithRelativePositionAndRotationDegreesBehavior, HashSet<RelativePositionAndRotationBehavior>> parentChildren = new HashMap<>();
 
+	/**
+	 * Registers an entity as a parent of RelativePositionAndRotationBehavior entities.
+	 *
+	 * @param entity - The entity being added as a parent entity.
+	 */
 	void addEntity (@NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior entity) {
-		parentChildren.put(entity, new ArrayList<>());
+		parentChildren.put(entity, new HashSet<>());
 	}
 
+	/**
+	 * Registers an entity as a child of a parent ChildrenWithRelativePositionAndRotationDegreesBehavior entity.
+	 * An error is thrown if the parent entity has not been added before the child, or if the parent
+	 * with the position is not the same as the parent with rotation degrees.
+	 *
+	 * @param entity - The entity being added as a child entity.
+	 */
 	void addEntity (@NotNull RelativePositionAndRotationBehavior entity) {
-		List<RelativePositionAndRotationBehavior> children = parentChildren.get(entity.getParentWithPosition());
-		if (children == null)
+		if (!(entity.getParentWithPosition() instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior parent) || entity.getParentWithPosition() != entity.getParentWithRotationDegrees()) {
+			throw new IllegalArgumentException(String.format("The parent %s specified by %s does not implement %s or " + "the parent with position is not the same as the parent with rotation degrees.", entity.getParentWithPosition(), entity, ChildrenWithRelativePositionAndRotationDegreesBehavior.class));
+		}
+
+		HashSet<RelativePositionAndRotationBehavior> children = parentChildren.get(parent);
+		if (children == null) {
 			throw new IllegalArgumentException(String.format("The parent %s specified by %s was not found in %s. Make "
 					+ "sure you add the parent entity implementing %s with %s before adding any child entity " +
-					"implementing %s referencing the parent.", entity.getParentWithPosition(), entity,
-					"space.battle" + ".entity.component.system.behaviors.logic.RelativePositionAndRotationLogic" +
-							".parentChildren", ChildrenWithRelativePositionAndRotationDegreesBehavior.class,
-					"space" + ".battle.entity" + ".component.system.behaviors.logic" + ".BehaviorLogic.addEntity()",
+					"implementing %s referencing the parent.", parent, entity, "space.battle" + ".entity.component" +
+					".system.behaviors.logic.RelativePositionAndRotationLogic" + ".parentChildren",
+					ChildrenWithRelativePositionAndRotationDegreesBehavior.class, "space" + ".battle.entity" +
+							".component.system.behaviors.logic" + ".BehaviorLogic.addEntity()",
 					RelativePositionAndRotationBehavior.class));
+		}
 		children.add(entity);
 	}
 
+	/**
+	 * Removes an entity and all of its child entities.
+	 * The entities are also to be removed from the ECS, which is a task to be added later.
+	 *
+	 * @param entity - The entity and its children being removed.
+	 */
+	void removeEntity (@NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior entity) {
+		HashSet<RelativePositionAndRotationBehavior> children = parentChildren.get(entity);
+		if (children != null) {
+			for (RelativePositionAndRotationBehavior child : children)
+				BehaviorLogic.getInstance().removeEntity(child);
+		}
+
+		parentChildren.remove(entity);
+	}
+
+	/**
+	 * Removes an entity only from its parent's set of entities.
+	 *
+	 * @param entity - The entity being removed.
+	 */
+	void removeEntity (@NotNull RelativePositionAndRotationBehavior entity) {
+		if (!(entity.getParentWithPosition() instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior parent) || entity.getParentWithPosition() != entity.getParentWithRotationDegrees()) {
+			throw new IllegalArgumentException(String.format("The parent %s specified by %s does not implement %s or " + "the parent with position is not the same as the parent with rotation degrees.", entity.getParentWithPosition(), entity, ChildrenWithRelativePositionAndRotationDegreesBehavior.class));
+		}
+
+		HashSet<RelativePositionAndRotationBehavior> children = parentChildren.get(parent);
+		if (children != null) {
+			children.remove(entity);
+		}
+	}
+
+	/**
+	 * Updates the position and rotation of all child entities relative to their parent entities.
+	 * This method iterates over each parent-child pair in the parentChildren map. For each child, it updates its
+	 * position
+	 * and rotation based on its relative position and rotation to the parent. The rotation is calculated using the
+	 * cosine
+	 * and sine of the parent's rotation angle.
+	 */
 	void update () {
 		for (Map.Entry<ChildrenWithRelativePositionAndRotationDegreesBehavior,
-				List<RelativePositionAndRotationBehavior>> parentChildrenPair : parentChildren.entrySet()) {
+				HashSet<RelativePositionAndRotationBehavior>> parentChildrenPair : parentChildren.entrySet()) {
 			ChildrenWithRelativePositionAndRotationDegreesBehavior parent = parentChildrenPair.getKey();
 			Vector2 parentPosition = parent.getPosition();
 			float parentRotationDegrees = parent.getRotationDegrees();
-			List<RelativePositionAndRotationBehavior> children = parentChildrenPair.getValue();
+			HashSet<RelativePositionAndRotationBehavior> children = parentChildrenPair.getValue();
 
 			float angleRadians = MathUtils.degreesToRadians * parentRotationDegrees;
 			float cosTheta = MathUtils.cos(angleRadians);
@@ -61,3 +124,4 @@ class RelativePositionAndRotationLogic {
 		}
 	}
 }
+

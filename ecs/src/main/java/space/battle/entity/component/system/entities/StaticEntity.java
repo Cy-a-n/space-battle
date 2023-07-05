@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
-import space.battle.entity.component.system.behaviors.logic.Entity;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
-public class StaticEntity extends Entity implements TextureBehavior, VisualCollisionShapeBehavior {
+public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavior {
 	private Vector2 origin;
 	private Vector2 position;
 	private float rotationDegrees;
@@ -20,6 +20,7 @@ public class StaticEntity extends Entity implements TextureBehavior, VisualColli
 	private boolean rotationChanged;
 	private boolean originChanged;
 	private Polygon shape;
+	private int health;
 
 	public StaticEntity (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
@@ -32,6 +33,7 @@ public class StaticEntity extends Entity implements TextureBehavior, VisualColli
 		positionChanged = true;
 		rotationChanged = true;
 		originChanged = true;
+		health = 100;
 	}
 
 	@Override
@@ -102,5 +104,25 @@ public class StaticEntity extends Entity implements TextureBehavior, VisualColli
 	@Override
 	public @NotNull Polygon getShape () {
 		return shape;
+	}
+
+	@Override
+	public int getHealth () {
+		return health;
+	}
+
+	@Override
+	public void setHealth (int health) {
+		this.health = health;
+	}
+
+	@Override
+	public int getArmorClass () {
+		return 1;
+	}
+
+	@Override
+	public int effectiveAgainstArmorClass () {
+		return 2;
 	}
 }

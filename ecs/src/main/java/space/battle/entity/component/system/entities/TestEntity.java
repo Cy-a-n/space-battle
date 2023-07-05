@@ -7,20 +7,20 @@ import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.RelativePositionAndRotationBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
-import space.battle.entity.component.system.behaviors.logic.Entity;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 import space.battle.entity.component.system.components.HasChildrenWithRelativeRotationDegrees;
 
-public class TestEntity extends Entity implements RelativePositionAndRotationBehavior, TextureBehavior {
+public class TestEntity implements RelativePositionAndRotationBehavior, TextureBehavior {
 	private final @NotNull TextureRegion textureRegion;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
 	private final @NotNull Vector2 size;
 	private final @NotNull Vector2 position;
 	private final @NotNull Vector2 relativePosition;
-	private boolean positionChanged;
-	private boolean rotationChanged;
 	private final @NotNull ChildrenWithRelativePositionAndRotationDegreesBehavior parentWithRelativePosition;
 	private final HasChildrenWithRelativeRotationDegrees parentWithRelativeRotationDegrees;
+	private boolean positionChanged;
+	private boolean rotationChanged;
 	private float relativeRotationDegrees;
 	private float rotationDegrees;
 	private boolean originChanged;
@@ -105,31 +105,32 @@ public class TestEntity extends Entity implements RelativePositionAndRotationBeh
 	}
 
 	@Override
-	public boolean positionChanged() {
+	public boolean positionChanged () {
 		return positionChanged;
 	}
+
 	@Override
-	public boolean rotationChanged() {
+	public boolean rotationChanged () {
 		return rotationChanged;
 	}
 
 	@Override
-	public void setRotationChanged(boolean rotationChanged) {
+	public void setRotationChanged (boolean rotationChanged) {
 		this.rotationChanged = rotationChanged;
 	}
 
 	@Override
-	public void setPositionChanged(boolean positionChanged) {
+	public void setPositionChanged (boolean positionChanged) {
 		this.positionChanged = positionChanged;
 	}
 
 	@Override
-	public boolean originChanged() {
+	public boolean originChanged () {
 		return originChanged;
 	}
 
 	@Override
-	public void setOriginChanged(boolean originChanged) {
+	public void setOriginChanged (boolean originChanged) {
 		this.originChanged = originChanged;
 	}
 }

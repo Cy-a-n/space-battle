@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.MovingWithAccelerationBehavior;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This class provides logic for managing entities that move with acceleration in the game.
  */
 class MovingWithAccelerationLogic {
-	private final List<MovingWithAccelerationBehavior> entities = new ArrayList<>();
+	private final Set<MovingWithAccelerationBehavior> entities = new HashSet<>();
 
 	/**
 	 * Adds a moving entity with acceleration to the set of moving entities.
@@ -20,6 +20,15 @@ class MovingWithAccelerationLogic {
 	 */
 	void addEntity (@NotNull MovingWithAccelerationBehavior entity) {
 		entities.add(entity);
+	}
+
+	/**
+	 * Removes a moving entity with acceleration from the set of moving entities.
+	 *
+	 * @param entity The moving entity with acceleration to be removed.
+	 */
+	void removeEntity (@NotNull MovingWithAccelerationBehavior entity) {
+		entities.remove(entity);
 	}
 
 	/**

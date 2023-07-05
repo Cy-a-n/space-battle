@@ -4,4 +4,8 @@ public interface HasHealth {
 	int getHealth ();
 
 	void setHealth (int health);
+
+	int getArmorClass ();
+
+	int effectiveAgainstArmorClass ();
 }

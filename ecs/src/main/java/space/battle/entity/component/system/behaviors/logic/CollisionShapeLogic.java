@@ -1,21 +1,41 @@
 package space.battle.entity.component.system.behaviors.logic;
 
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import space.battle.entity.component.system.behaviors.interfaces.CollisionShapeBehavior;
+import org.jetbrains.annotations.NotNull;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * This class provides logic for managing collision shapes in the game.
+ */
 class CollisionShapeLogic {
-	private List<CollisionShapeBehavior> entities = new ArrayList<>();
+	private final Set<CollisionShapeBehavior> entities = new HashSet<>();
 
-	void addEntity (CollisionShapeBehavior entity) {
+	/**
+	 * Adds a entity to the set of collision shapes.
+	 *
+	 * @param entity The entity to be added.
+	 */
+	void addEntity (@NotNull CollisionShapeBehavior entity) {
 		entities.add(entity);
 	}
 
+	/**
+	 * Removes a entity from the set of collision shapes.
+	 *
+	 * @param entity The entity to be removed.
+	 */
+	void removeEntity (@NotNull CollisionShapeBehavior entity) {
+		entities.remove(entity);
+	}
+
+	/**
+	 * Updates the position, rotation, and origin of each entity based on its current state.
+	 * Checks each pair of entities for possible collisions.
+	 */
 	void update () {
 		// Update each entity's position, rotation, and origin based on its current state
 		for (CollisionShapeBehavior entity : entities) {
@@ -31,19 +51,23 @@ class CollisionShapeLogic {
 		}
 
 		// Check each pair of entities for possible collisions
-		for (int i = 0; i < entities.size(); i++) {
-			CollisionShapeBehavior entity0 = entities.get(i);
+		CollisionShapeBehavior[] entityArray = entities.toArray(new CollisionShapeBehavior[0]);
+		for (int i = 0; i < entityArray.length; i++) {
+			CollisionShapeBehavior entity0 = entityArray[i];
 			Polygon shape0 = entity0.getShape();
 
-			for (int j = i + 1; j < entities.size(); j++) {
-				CollisionShapeBehavior entity1 = entities.get(j);
+			for (int j = i + 1; j < entityArray.length; j++) {
+				CollisionShapeBehavior entity1 = entityArray[j];
 				Polygon shape1 = entity1.getShape();
 
 				// If the bounding boxes of the two entities overlap, then check for a more precise collision using
 				// the Separating Axis Theorem (SAT)
 				if (shape1.getBoundingRectangle().overlaps(shape0.getBoundingRectangle())) {
 					if (areIntersecting(shape0, shape1)) {
-						System.out.println("test");
+						// Simply subtract the health of entities under consideration of armor and delete the one with
+						// less health.
+						BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity0);
+						BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity1);
 					}
 				}
 			}
@@ -115,3 +139,4 @@ class CollisionShapeLogic {
 		return dotProduct * axisX + dotProduct * axisY;
 	}
 }
+

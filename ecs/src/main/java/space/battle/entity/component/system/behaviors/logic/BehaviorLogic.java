@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
-import space.battle.entity.component.system.components.HasOrigin;
-import space.battle.entity.component.system.components.HasPosition;
-import space.battle.entity.component.system.components.HasRotationDegrees;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.HashSet;
@@ -31,6 +28,7 @@ public class BehaviorLogic {
 			new RelativePositionAndRotationLogic();
 	private final CollisionShapeLogic collisionShapeLogic = new CollisionShapeLogic();
 	private final Set<Entity> allEntities = new HashSet<>();
+	private final Set<Entity> entitiesQueuedForRemoval = new HashSet<>();
 
 	private BehaviorLogic () {}
 
@@ -44,6 +42,112 @@ public class BehaviorLogic {
 
 	public static void disposeInstance () {
 		instance = null;
+	}
+
+	/**
+	 * Queues an entity for removal from the system.
+	 * All entities queued for removal will be removed at the beginning of the next frame.
+	 *
+	 * @param entity The entity to be queued for removal.
+	 * @throws IllegalArgumentException If the entity was never added to the system.
+	 */
+	public void queueEntityForRemoval (Entity entity) {
+		if (!allEntities.contains(entity))
+			throw new IllegalArgumentException(String.format("%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.", allEntities, entity, Entity.class, "space.battle.entity.component.system.behaviors.logic.BehaviorLogic.addEntity()"));
+		entitiesQueuedForRemoval.add(entity);
+	}
+
+	/**
+	 * Remove all entities queued for removal from the game tree.
+	 */
+	private void removeEntities () {
+		for (Entity entity : entitiesQueuedForRemoval) {
+			// Remove entities queued for removal
+			allEntities.remove(entity);
+
+			if (entity instanceof PositionBehavior)
+				positionLogic.removeEntity((PositionBehavior) entity);
+
+			if (entity instanceof RotationDegreesBehavior)
+				rotationDegreesLogic.removeEntity((RotationDegreesBehavior) entity);
+
+			if (entity instanceof OriginBehavior)
+				originLogic.removeEntity((OriginBehavior) entity);
+
+			if (entity instanceof ConstantMovementBehavior)
+				movingConstantLogic.removeEntity((ConstantMovementBehavior) entity);
+
+			if (entity instanceof MovingWithAccelerationBehavior)
+				movingWithAccelerationLogic.removeEntity((MovingWithAccelerationBehavior) entity);
+
+			if (entity instanceof PlayerShipBehavior)
+				playerShipLogic.removeEntity((PlayerShipBehavior) entity);
+
+			if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
+				relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+
+			if (entity instanceof RelativePositionAndRotationBehavior) {
+				relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
+			}
+
+			if (entity instanceof TextureBehavior)
+				drawableLogic.removeEntity((TextureBehavior) entity);
+
+			if (entity instanceof CameraBehavior)
+				cameraLogic.removeEntity((CameraBehavior) entity);
+
+			if (entity instanceof CollisionShapeBehavior)
+				collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
+
+			if (entity instanceof VisualCollisionShapeBehavior)
+				visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
+		}
+		entitiesQueuedForRemoval.clear();
+	}
+
+	/**
+	 * Remove an entity directly. This method should only be called from other logic classes.
+	 */
+	void removeEntity (Entity entity) {
+		// Remove entities queued for removal
+		allEntities.remove(entity);
+
+		if (entity instanceof PositionBehavior)
+			positionLogic.removeEntity((PositionBehavior) entity);
+
+		if (entity instanceof RotationDegreesBehavior)
+			rotationDegreesLogic.removeEntity((RotationDegreesBehavior) entity);
+
+		if (entity instanceof OriginBehavior)
+			originLogic.removeEntity((OriginBehavior) entity);
+
+		if (entity instanceof ConstantMovementBehavior)
+			movingConstantLogic.removeEntity((ConstantMovementBehavior) entity);
+
+		if (entity instanceof MovingWithAccelerationBehavior)
+			movingWithAccelerationLogic.removeEntity((MovingWithAccelerationBehavior) entity);
+
+		if (entity instanceof PlayerShipBehavior)
+			playerShipLogic.removeEntity((PlayerShipBehavior) entity);
+
+		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
+			relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+
+		if (entity instanceof RelativePositionAndRotationBehavior) {
+			relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
+		}
+
+		if (entity instanceof TextureBehavior)
+			drawableLogic.removeEntity((TextureBehavior) entity);
+
+		if (entity instanceof CameraBehavior)
+			cameraLogic.removeEntity((CameraBehavior) entity);
+
+		if (entity instanceof CollisionShapeBehavior)
+			collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
+
+		if (entity instanceof VisualCollisionShapeBehavior)
+			visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
 	}
 
 	/**
@@ -101,6 +205,7 @@ public class BehaviorLogic {
 	 * @param deltaTimeInSeconds The time that has passed since the last update in seconds.
 	 */
 	public void update (float deltaTimeInSeconds) {
+		removeEntities();
 		// Update position, rotation, etc
 		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);
@@ -125,6 +230,7 @@ public class BehaviorLogic {
 	 */
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
 									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera) {
+		removeEntities();
 		// Update position, rotation, etc
 		playerShipLogic.update();
 		movingConstantLogic.update(deltaTimeInSeconds);

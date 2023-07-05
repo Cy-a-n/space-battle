@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.CameraBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
-import space.battle.entity.component.system.behaviors.logic.Entity;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
-public class SimpleShapeEntity extends Entity implements VisualCollisionShapeBehavior, CameraBehavior {
+public class SimpleShapeEntity implements VisualCollisionShapeBehavior, CameraBehavior {
 	private final Vector2 origin;
 	private final Vector2 position;
 	private final Polygon shape;
@@ -15,6 +15,7 @@ public class SimpleShapeEntity extends Entity implements VisualCollisionShapeBeh
 	private float rotationDegrees;
 	private boolean rotationChanged;
 	private boolean originChanged;
+	private float health;
 
 	public SimpleShapeEntity (Vector2 position, float rotationDegrees) {
 		this.shape = new Polygon(new float[]{0, 0, 0, 0x88, 0x88, 0});
@@ -24,6 +25,7 @@ public class SimpleShapeEntity extends Entity implements VisualCollisionShapeBeh
 		this.rotationDegrees = rotationDegrees;
 		this.rotationChanged = true;
 		this.originChanged = true;
+		health = 100;
 	}
 
 	@Override
@@ -79,5 +81,25 @@ public class SimpleShapeEntity extends Entity implements VisualCollisionShapeBeh
 	@Override
 	public @NotNull Polygon getShape () {
 		return shape;
+	}
+
+	@Override
+	public int getHealth () {
+		return 100;
+	}
+
+	@Override
+	public void setHealth (int health) {
+		this.health = health;
+	}
+
+	@Override
+	public int getArmorClass () {
+		return 1;
+	}
+
+	@Override
+	public int effectiveAgainstArmorClass () {
+		return 1;
 	}
 }

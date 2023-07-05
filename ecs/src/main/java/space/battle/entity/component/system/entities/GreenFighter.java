@@ -8,9 +8,9 @@ import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRel
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
-import space.battle.entity.component.system.behaviors.logic.Entity;
+import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
-public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCollisionShapeBehavior,
+public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBehavior,
 		ChildrenWithRelativePositionAndRotationDegreesBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
@@ -21,6 +21,8 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 	private final @NotNull Vector2 position;
 	private final @NotNull Vector2 velocity;
 	private final @NotNull Polygon shape;
+	private final int armorClass;
+	private final int effectiveAgainstAmorClass;
 	private float rotationDegrees;
 	private int health;
 	private boolean positionChanged;
@@ -43,6 +45,9 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 		positionChanged = true;
 		rotationChanged = true;
 		originChanged = true;
+		health = 100;
+		armorClass = 1;
+		effectiveAgainstAmorClass = 1;
 	}
 
 	@Override
@@ -133,6 +138,16 @@ public class GreenFighter extends Entity implements PlayerShipBehavior, VisualCo
 	@Override
 	public void setHealth (int health) {
 		this.health = health;
+	}
+
+	@Override
+	public int getArmorClass () {
+		return 0;
+	}
+
+	@Override
+	public int effectiveAgainstArmorClass () {
+		return 0;
 	}
 
 	@Override

@@ -46,6 +46,7 @@ public class App extends ApplicationAdapter {
 		behaviorLogic.addEntity(greenFighter);
 		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
 		behaviorLogic.addEntity(new StaticEntity(new Vector2(10, 10), 0f, textureAtlas));
+		behaviorLogic.addEntity(new StaticEntity(new Vector2(100, 10), 0f, textureAtlas));
 	}
 
 	@Override

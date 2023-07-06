@@ -57,27 +57,27 @@ class PlayerShipLogic {
 	}
 
 	void update () {
-		Vector2 resultingAcceleration = new Vector2();
-
-		if (input.isKeyPressed(Keys.A))
-			resultingAcceleration.x = -100;
-		if (input.isKeyPressed(Keys.D))
-			resultingAcceleration.x = 100;
-
-		if (input.isKeyPressed(Keys.S))
-			resultingAcceleration.y = -100;
-		if (input.isKeyPressed(Keys.W))
-
-			resultingAcceleration.y = 100;
-
-		float resultingRotationalAcceleration = 0;
-
-		if (input.isKeyPressed(Keys.E))
-			resultingRotationalAcceleration = -100;
-		if (input.isKeyPressed(Keys.Q))
-			resultingRotationalAcceleration = 100;
-
 		if (currentEntity != null) {
+			Vector2 resultingAcceleration = new Vector2();
+
+			if (input.isKeyPressed(Keys.S))
+				resultingAcceleration.x = -currentEntity.getThrustLeft();
+			if (input.isKeyPressed(Keys.W))
+				resultingAcceleration.x = currentEntity.getThrustRight();
+
+			if (input.isKeyPressed(Keys.D))
+				resultingAcceleration.y = -currentEntity.getThrustUp();
+			if (input.isKeyPressed(Keys.A))
+				resultingAcceleration.y = currentEntity.getThrustDown();
+			resultingAcceleration.rotateDeg(currentEntity.getRotationDegrees());
+
+			float resultingRotationalAcceleration = 0;
+
+			if (input.isKeyPressed(Keys.E))
+				resultingRotationalAcceleration = -currentEntity.getThrustClockwise();
+			if (input.isKeyPressed(Keys.Q))
+				resultingRotationalAcceleration = currentEntity.getThrustCounterclockwise();
+
 			currentEntity.getAcceleration().set(resultingAcceleration);
 			currentEntity.setRotationalAcceleration(resultingRotationalAcceleration);
 		}

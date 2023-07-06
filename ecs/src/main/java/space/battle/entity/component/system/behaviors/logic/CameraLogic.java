@@ -40,8 +40,12 @@ class CameraLogic {
 
 	void update (@NotNull OrthographicCamera camera, @NotNull SpriteBatch batch) {
 		if (currentEntity != null) {
+			// TODO: Potential for performance improvements
+			camera.up.set(0, 1, 0);
+			camera.direction.set(0, 0, -1);
 			camera.position.x = currentEntity.getPosition().x;
 			camera.position.y = currentEntity.getPosition().y;
+			camera.rotate(-currentEntity.getRotationDegrees() + 90);
 			camera.update();
 			batch.setProjectionMatrix(camera.combined);
 		}

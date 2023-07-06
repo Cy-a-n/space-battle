@@ -1,7 +1,10 @@
 package space.battle.entity.component.system.behaviors.logic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
 import space.earlygrey.shapedrawer.ShapeDrawer;
@@ -207,7 +210,9 @@ public class BehaviorLogic {
 	 * @param camera             The OrthographicCamera used for rendering.
 	 */
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
-									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera) {
+									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera0,
+									@NotNull OrthographicCamera camera1, @NotNull Viewport viewport0,
+									@NotNull Viewport viewport1) {
 		removeEntities();
 		playerShipLogic.update();
 
@@ -222,8 +227,17 @@ public class BehaviorLogic {
 		// Check for collisions
 		collisionShapeLogic.update();
 
-		// Draw
-		cameraLogic.update(camera, batch);
+		// Draw camera0
+		viewport0.apply(); // Set viewport for camera0
+		cameraLogic.update(camera0, batch);
+		batch.begin();
+		visualCollisionShapeLogic.update(shapeDrawer);
+		drawableLogic.update(batch);
+		batch.end();
+
+		// Draw camera1
+		viewport1.apply(); // Set viewport for camera1
+		cameraLogic.update(camera1, batch);
 		batch.begin();
 		visualCollisionShapeLogic.update(shapeDrawer);
 		drawableLogic.update(batch);

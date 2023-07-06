@@ -8,7 +8,6 @@ import space.battle.entity.component.system.behaviors.interfaces.ConstantRotatio
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 import com.badlogic.gdx.math.Vector2;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
 public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavior, ConstantRotationBehavior {
 	private final Polygon shape;
@@ -21,7 +20,7 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 	private boolean positionChanged;
 	private boolean rotationChanged;
 	private boolean originChanged;
-	private int health;
+	private float health;
 	private float rotationalVelocity;
 
 	public StaticEntity (Vector2 position, float rotationDegrees, TextureAtlas textureAtlas) {
@@ -111,12 +110,12 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 	}
 
 	@Override
-	public int getHealth () {
+	public float getHealth () {
 		return health;
 	}
 
 	@Override
-	public void setHealth (int health) {
+	public void setHealth (float health) {
 		this.health = health;
 	}
 
@@ -127,7 +126,7 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 
 	@Override
 	public int effectiveAgainstArmorClass () {
-		return 2;
+		return 1;
 	}
 
 	@Override

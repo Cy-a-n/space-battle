@@ -7,14 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.entities.GreenFighter;
-import space.battle.entity.component.system.entities.SimpleShapeEntity;
 import space.battle.entity.component.system.entities.StaticEntity;
 import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import java.util.HashSet;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -23,7 +24,10 @@ public class App extends ApplicationAdapter {
 	TextureAtlas textureAtlas;
 	SpriteBatch batch;
 	ShapeDrawer shapeDrawer;
-	OrthographicCamera camera;
+	OrthographicCamera camera0;
+	OrthographicCamera camera1;
+	Viewport viewport0;
+	Viewport viewport1;
 	BehaviorLogic behaviorLogic;
 
 	@Override
@@ -37,12 +41,15 @@ public class App extends ApplicationAdapter {
 		}
 		shapeDrawer = new ShapeDrawer(batch, textureAtlas.findRegion("white_pixel"));
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, (float) Gdx.graphics.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2);
+		camera0 = new OrthographicCamera();
+		camera1 = new OrthographicCamera();
+		viewport0 = new FitViewport(800, 600, camera0);
+		viewport1 = new FitViewport(800, 600, camera1);
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
-		GreenFighter greenFighter = new GreenFighter(new Vector2(100, 100), 180f, textureAtlas);
+		// Set up the entities
+		GreenFighter greenFighter = new GreenFighter(new Vector2(100, 100), 0f, textureAtlas);
 		behaviorLogic.addEntity(greenFighter);
 		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
 		behaviorLogic.addEntity(new StaticEntity(new Vector2(10, 10), 0f, textureAtlas));
@@ -52,7 +59,18 @@ public class App extends ApplicationAdapter {
 	@Override
 	public void render () {
 		ScreenUtils.clear(new Color(0.05f, 0.05f, 0.05f, 1f));
-		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera);
+		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera0, camera1, viewport0,
+				viewport1);
+	}
+
+	@Override
+	public void resize (int width, int height) {
+		// Update the viewports
+		viewport1.update(width / 2, height, true);
+		viewport0.update(width / 2, height, true);
+
+		viewport0.setScreenX(0);
+		viewport1.setScreenX(width / 2);
 	}
 
 	@Override

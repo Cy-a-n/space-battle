@@ -1,9 +1,9 @@
 package space.battle.entity.component.system.components;
 
 public interface HasHealth {
-	int getHealth ();
+	float getHealth ();
 
-	void setHealth (int health);
+	void setHealth (float health);
 
 	int getArmorClass ();
 

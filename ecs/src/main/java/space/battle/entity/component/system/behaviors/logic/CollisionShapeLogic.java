@@ -64,10 +64,27 @@ class CollisionShapeLogic {
 				// the Separating Axis Theorem (SAT)
 				if (shape1.getBoundingRectangle().overlaps(shape0.getBoundingRectangle())) {
 					if (areIntersecting(shape0, shape1)) {
-						// Simply subtract the health of entities under consideration of armor and delete the one with
-						// less health.
-						BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity0);
-						BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity1);
+						// Calculate the damage the entities can inflict upon another
+						float damage0 = (entity1.getArmorClass() > entity0.effectiveAgainstArmorClass()) ?
+								entity0.getHealth() * 0.5f : entity0.getHealth();
+						float damage1 = (entity0.getArmorClass() > entity1.effectiveAgainstArmorClass()) ?
+								entity1.getHealth() * 0.5f : entity1.getHealth();
+
+						// Divide the health of each entity by the effective damage the other entity inflicts onto it.
+						float healthDamageRatio0 = entity0.getHealth() / damage1;
+						float healthDamageRatio1 = entity1.getHealth() / damage0;
+
+						if (healthDamageRatio0 < healthDamageRatio1) {
+							BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity0);
+							entity1.setHealth(entity1.getHealth() - damage0 * healthDamageRatio0);
+							if (entity1.getHealth() < 1)
+								BehaviorLogic.getInstance().queueEntityForRemoval(entity1);
+						} else {
+							BehaviorLogic.getInstance().queueEntityForRemoval((Entity) entity1);
+							entity0.setHealth(entity0.getHealth() - damage1 * healthDamageRatio1);
+							if (entity0.getHealth() < 1)
+								BehaviorLogic.getInstance().queueEntityForRemoval(entity0);
+						}
 					}
 				}
 			}

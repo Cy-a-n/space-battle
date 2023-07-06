@@ -8,10 +8,11 @@ import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRel
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
-import space.battle.entity.component.system.behaviors.interfaces.Entity;
+import space.battle.entity.component.system.components.HasChildrenWithRelativePosition;
+import space.battle.entity.component.system.components.HasThrustVectoring;
 
 public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBehavior,
-		ChildrenWithRelativePositionAndRotationDegreesBehavior {
+		ChildrenWithRelativePositionAndRotationDegreesBehavior, HasThrustVectoring {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
@@ -24,8 +25,14 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private final int armorClass;
 	private final int effectiveAgainstAmorClass;
 	private final float rotationalFrictionConstant;
+	private final float thrustLeft;
+	private final float thrustRight;
+	private final float thrustDown;
+	private final float thrustUp;
+	private final float thrustCounterclockwise;
+	private final float thrustClockwise;
 	private float rotationDegrees;
-	private int health;
+	private float health;
 	private boolean positionChanged;
 	private boolean rotationChanged;
 	private boolean originChanged;
@@ -54,6 +61,12 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 		rotationalVelocity = 0;
 		rotationalAcceleration = 0;
 		rotationalFrictionConstant = 0.01f;
+		thrustLeft = 50;
+		thrustRight = 100;
+		thrustDown = 50;
+		thrustUp = 50;
+		thrustClockwise = 20;
+		thrustCounterclockwise = 20;
 	}
 
 	@Override
@@ -137,23 +150,23 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	}
 
 	@Override
-	public int getHealth () {
+	public float getHealth () {
 		return health;
 	}
 
 	@Override
-	public void setHealth (int health) {
+	public void setHealth (float health) {
 		this.health = health;
 	}
 
 	@Override
 	public int getArmorClass () {
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public int effectiveAgainstArmorClass () {
-		return 0;
+		return 1;
 	}
 
 	@Override
@@ -184,5 +197,35 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	@Override
 	public float getRotationalFrictionConstant () {
 		return rotationalFrictionConstant;
+	}
+
+	@Override
+	public float getThrustLeft () {
+		return thrustLeft;
+	}
+
+	@Override
+	public float getThrustRight () {
+		return thrustRight;
+	}
+
+	@Override
+	public float getThrustDown () {
+		return thrustDown;
+	}
+
+	@Override
+	public float getThrustUp () {
+		return thrustUp;
+	}
+
+	@Override
+	public float getThrustClockwise () {
+		return thrustClockwise;
+	}
+
+	@Override
+	public float getThrustCounterclockwise () {
+		return thrustCounterclockwise;
 	}
 }

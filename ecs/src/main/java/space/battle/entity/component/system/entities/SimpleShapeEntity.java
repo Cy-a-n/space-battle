@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.CameraBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.Entity;
 
 public class SimpleShapeEntity implements VisualCollisionShapeBehavior, CameraBehavior {
 	private final Vector2 origin;
@@ -84,12 +83,12 @@ public class SimpleShapeEntity implements VisualCollisionShapeBehavior, CameraBe
 	}
 
 	@Override
-	public int getHealth () {
+	public float getHealth () {
 		return 100;
 	}
 
 	@Override
-	public void setHealth (int health) {
+	public void setHealth (float health) {
 		this.health = health;
 	}
 

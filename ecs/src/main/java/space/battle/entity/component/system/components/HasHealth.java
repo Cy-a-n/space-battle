@@ -7,5 +7,5 @@ public interface HasHealth {
 
 	int getArmorClass ();
 
-	int effectiveAgainstArmorClass ();
+	int getEffectiveAgainstArmorClass ();
 }

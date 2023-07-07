@@ -65,9 +65,9 @@ class CollisionShapeLogic {
 				if (shape1.getBoundingRectangle().overlaps(shape0.getBoundingRectangle())) {
 					if (areIntersecting(shape0, shape1)) {
 						// Calculate the damage the entities can inflict upon another
-						float damage0 = (entity1.getArmorClass() > entity0.effectiveAgainstArmorClass()) ?
+						float damage0 = (entity1.getArmorClass() > entity0.getEffectiveAgainstArmorClass()) ?
 								entity0.getHealth() * 0.5f : entity0.getHealth();
-						float damage1 = (entity0.getArmorClass() > entity1.effectiveAgainstArmorClass()) ?
+						float damage1 = (entity0.getArmorClass() > entity1.getEffectiveAgainstArmorClass()) ?
 								entity1.getHealth() * 0.5f : entity1.getHealth();
 
 						// Divide the health of each entity by the effective damage the other entity inflicts onto it.

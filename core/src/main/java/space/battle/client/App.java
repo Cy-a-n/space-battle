@@ -7,14 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
+import space.battle.entity.component.system.components.HasPlayerInput;
 import space.battle.entity.component.system.entities.GreenFighter;
 import space.battle.entity.component.system.entities.StaticEntity;
-import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
@@ -43,17 +41,16 @@ public class App extends ApplicationAdapter {
 
 		camera0 = new OrthographicCamera();
 		camera1 = new OrthographicCamera();
-		viewport0 = new FitViewport(800, 600, camera0);
-		viewport1 = new FitViewport(800, 600, camera1);
+		viewport0 = new FitViewport((float) 512, 512, camera0);
+		viewport1 = new FitViewport((float) 512, 512, camera1);
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
 		// Set up the entities
-		GreenFighter greenFighter = new GreenFighter(new Vector2(100, 100), 0f, textureAtlas);
-		behaviorLogic.addEntity(greenFighter);
-		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
-		behaviorLogic.addEntity(new StaticEntity(new Vector2(10, 10), 0f, textureAtlas));
-		behaviorLogic.addEntity(new StaticEntity(new Vector2(100, 10), 0f, textureAtlas));
+		behaviorLogic.addEntity(new GreenFighter(new Vector2(-50, -50), 0f, textureAtlas,
+				HasPlayerInput.PlayerId.PLAYER_ONE));
+		behaviorLogic.addEntity(new GreenFighter(new Vector2(50, 50), 0f, textureAtlas,
+				HasPlayerInput.PlayerId.PLAYER_TWO));
 	}
 
 	@Override

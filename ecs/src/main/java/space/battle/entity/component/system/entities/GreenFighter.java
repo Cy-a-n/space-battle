@@ -4,15 +4,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.ChildrenWithRelativePositionAndRotationDegreesBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import com.badlogic.gdx.math.Vector2;
-import space.battle.entity.component.system.components.HasChildrenWithRelativePosition;
-import space.battle.entity.component.system.components.HasThrustVectoring;
+import space.battle.entity.component.system.components.HasPlayerInput;
 
-public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBehavior,
-		ChildrenWithRelativePositionAndRotationDegreesBehavior, HasThrustVectoring {
+public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
@@ -23,7 +20,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private final @NotNull Vector2 velocity;
 	private final @NotNull Polygon shape;
 	private final int armorClass;
-	private final int effectiveAgainstAmorClass;
+	private final int effectiveAgainstArmorClass;
 	private final float rotationalFrictionConstant;
 	private final float thrustLeft;
 	private final float thrustRight;
@@ -31,6 +28,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private final float thrustUp;
 	private final float thrustCounterclockwise;
 	private final float thrustClockwise;
+	private final PlayerId playerId;
 	private float rotationDegrees;
 	private float health;
 	private boolean positionChanged;
@@ -39,7 +37,9 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private float rotationalVelocity;
 	private float rotationalAcceleration;
 
-	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas) {
+	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas,
+						 PlayerId playerId) {
+		this.playerId = playerId;
 		this.frictionConstant = 0.01f;
 		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
 		this.acceleration = new Vector2(0, 0);
@@ -57,7 +57,7 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 		originChanged = true;
 		health = 100;
 		armorClass = 1;
-		effectiveAgainstAmorClass = 1;
+		effectiveAgainstArmorClass = 1;
 		rotationalVelocity = 0;
 		rotationalAcceleration = 0;
 		rotationalFrictionConstant = 0.01f;
@@ -161,12 +161,12 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 
 	@Override
 	public int getArmorClass () {
-		return 1;
+		return armorClass;
 	}
 
 	@Override
-	public int effectiveAgainstArmorClass () {
-		return 1;
+	public int getEffectiveAgainstArmorClass () {
+		return effectiveAgainstArmorClass;
 	}
 
 	@Override
@@ -227,5 +227,10 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	@Override
 	public float getThrustCounterclockwise () {
 		return thrustCounterclockwise;
+	}
+
+	@Override
+	public @NotNull HasPlayerInput.PlayerId getPlayerId () {
+		return playerId;
 	}
 }

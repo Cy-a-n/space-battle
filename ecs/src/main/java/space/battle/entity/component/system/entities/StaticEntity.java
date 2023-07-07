@@ -125,7 +125,7 @@ public class StaticEntity implements TextureBehavior, VisualCollisionShapeBehavi
 	}
 
 	@Override
-	public int effectiveAgainstArmorClass () {
+	public int getEffectiveAgainstArmorClass () {
 		return 1;
 	}
 

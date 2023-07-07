@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
+import space.battle.entity.component.system.components.HasPlayerInput;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 import java.util.HashSet;
@@ -229,7 +230,7 @@ public class BehaviorLogic {
 
 		// Draw camera0
 		viewport0.apply(); // Set viewport for camera0
-		cameraLogic.update(camera0, batch);
+		cameraLogic.update(camera0, batch, HasPlayerInput.PlayerId.PLAYER_ONE);
 		batch.begin();
 		visualCollisionShapeLogic.update(shapeDrawer);
 		drawableLogic.update(batch);
@@ -237,7 +238,7 @@ public class BehaviorLogic {
 
 		// Draw camera1
 		viewport1.apply(); // Set viewport for camera1
-		cameraLogic.update(camera1, batch);
+		cameraLogic.update(camera1, batch, HasPlayerInput.PlayerId.PLAYER_TWO);
 		batch.begin();
 		visualCollisionShapeLogic.update(shapeDrawer);
 		drawableLogic.update(batch);

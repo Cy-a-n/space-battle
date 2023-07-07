@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.CameraBehavior;
 import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 
-public class SimpleShapeEntity implements VisualCollisionShapeBehavior, CameraBehavior {
+public class SimpleShapeEntity implements VisualCollisionShapeBehavior {
 	private final Vector2 origin;
 	private final Vector2 position;
 	private final Polygon shape;
@@ -98,7 +98,7 @@ public class SimpleShapeEntity implements VisualCollisionShapeBehavior, CameraBe
 	}
 
 	@Override
-	public int effectiveAgainstArmorClass () {
+	public int getEffectiveAgainstArmorClass () {
 		return 1;
 	}
 }

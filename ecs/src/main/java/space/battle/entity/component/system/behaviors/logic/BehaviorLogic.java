@@ -1,6 +1,5 @@
 package space.battle.entity.component.system.behaviors.logic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,6 +9,7 @@ import space.battle.entity.component.system.behaviors.interfaces.*;
 import space.battle.entity.component.system.components.HasPlayerInput;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +23,7 @@ public class BehaviorLogic {
 	private final PositionLogic positionLogic = new PositionLogic();
 	private final RotationDegreesLogic rotationDegreesLogic = new RotationDegreesLogic();
 	private final CameraLogic cameraLogic = new CameraLogic();
-	private final DrawableLogic drawableLogic = new DrawableLogic();
+	private final TextureLogic textureLogic = new TextureLogic();
 	private final ConstantMovementLogic constantMovementLogic = new ConstantMovementLogic();
 	private final AcceleratedMovementLogic acceleratedMovementLogic = new AcceleratedMovementLogic();
 	private final PlayerShipLogic playerShipLogic = new PlayerShipLogic();
@@ -35,6 +35,8 @@ public class BehaviorLogic {
 	private final Set<Entity> entitiesQueuedForRemoval = new HashSet<>();
 	private final ConstantRotationLogic constantRotationLogic = new ConstantRotationLogic();
 	private final AcceleratedRotationLogic acceleratedRotationLogic = new AcceleratedRotationLogic();
+	private final PlayerShipWithFrontalCannonsLogic playerShipWithFrontalCannonsLogic =
+			new PlayerShipWithFrontalCannonsLogic();
 
 	private BehaviorLogic () {}
 
@@ -70,6 +72,9 @@ public class BehaviorLogic {
 		if (entity instanceof OriginBehavior)
 			originLogic.addEntity((OriginBehavior) entity);
 
+		if (entity instanceof PlayerShipWithFrontalCannonsBehavior)
+			playerShipWithFrontalCannonsLogic.addEntity((PlayerShipWithFrontalCannonsBehavior) entity);
+
 		if (entity instanceof PlayerShipBehavior)
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
@@ -99,7 +104,7 @@ public class BehaviorLogic {
 			cameraLogic.addEntity((CameraBehavior) entity);
 
 		if (entity instanceof TextureBehavior)
-			drawableLogic.addEntity((TextureBehavior) entity);
+			textureLogic.addEntity((TextureBehavior) entity);
 
 		if (entity instanceof VisualCollisionShapeBehavior)
 			visualCollisionShapeLogic.addEntity((VisualCollisionShapeBehavior) entity);
@@ -149,6 +154,9 @@ public class BehaviorLogic {
 		if (entity instanceof AcceleratedMovementBehavior)
 			acceleratedMovementLogic.removeEntity((AcceleratedMovementBehavior) entity);
 
+		if (entity instanceof PlayerShipWithFrontalCannonsBehavior)
+			playerShipWithFrontalCannonsLogic.removeEntity((PlayerShipWithFrontalCannonsBehavior) entity);
+
 		if (entity instanceof AcceleratedRotationBehavior)
 			acceleratedRotationLogic.addEntity((AcceleratedRotationBehavior) entity);
 
@@ -171,7 +179,7 @@ public class BehaviorLogic {
 			cameraLogic.removeEntity((CameraBehavior) entity);
 
 		if (entity instanceof TextureBehavior)
-			drawableLogic.removeEntity((TextureBehavior) entity);
+			textureLogic.removeEntity((TextureBehavior) entity);
 
 		if (entity instanceof VisualCollisionShapeBehavior)
 			visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
@@ -213,9 +221,10 @@ public class BehaviorLogic {
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
 									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera0,
 									@NotNull OrthographicCamera camera1, @NotNull Viewport viewport0,
-									@NotNull Viewport viewport1) {
+									@NotNull Viewport viewport1, TextureAtlas textureAtlas) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 		removeEntities();
 		playerShipLogic.update();
+		playerShipWithFrontalCannonsLogic.update(textureAtlas);
 
 		// Update position, rotation, etc
 		acceleratedMovementLogic.update(deltaTimeInSeconds);
@@ -233,7 +242,7 @@ public class BehaviorLogic {
 		cameraLogic.update(camera0, batch, HasPlayerInput.PlayerId.PLAYER_ONE);
 		batch.begin();
 		visualCollisionShapeLogic.update(shapeDrawer);
-		drawableLogic.update(batch);
+		textureLogic.update(batch);
 		batch.end();
 
 		// Draw camera1
@@ -241,7 +250,7 @@ public class BehaviorLogic {
 		cameraLogic.update(camera1, batch, HasPlayerInput.PlayerId.PLAYER_TWO);
 		batch.begin();
 		visualCollisionShapeLogic.update(shapeDrawer);
-		drawableLogic.update(batch);
+		textureLogic.update(batch);
 		batch.end();
 
 		// Reset the components

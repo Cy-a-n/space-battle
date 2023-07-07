@@ -128,9 +128,9 @@ class PlayerShipLogic {
 
 			float resultingRotationalAcceleration = 0;
 
-			if (input.isKeyPressed(Keys.U))
-				resultingRotationalAcceleration = -playerTwoEntity.getThrustClockwise();
 			if (input.isKeyPressed(Keys.O))
+				resultingRotationalAcceleration = -playerTwoEntity.getThrustClockwise();
+			if (input.isKeyPressed(Keys.U))
 				resultingRotationalAcceleration = playerTwoEntity.getThrustCounterclockwise();
 
 			playerTwoEntity.getAcceleration().set(resultingAcceleration);

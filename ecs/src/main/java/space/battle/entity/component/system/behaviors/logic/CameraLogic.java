@@ -70,8 +70,8 @@ class CameraLogic {
 			camera.position.x = currentEntity.getPosition().x;
 			camera.position.y = currentEntity.getPosition().y;
 			camera.rotate(-currentEntity.getRotationDegrees() + 90);
-			camera.update();
-			batch.setProjectionMatrix(camera.combined);
 		}
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
 	}
 }

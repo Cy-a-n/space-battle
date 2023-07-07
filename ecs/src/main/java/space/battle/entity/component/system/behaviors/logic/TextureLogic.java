@@ -1,6 +1,7 @@
 package space.battle.entity.component.system.behaviors.logic;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.TextureBehavior;
 
@@ -10,7 +11,7 @@ import java.util.Set;
 /**
  * This class provides logic for managing drawable entities in the game.
  */
-class DrawableLogic {
+class TextureLogic {
 	private final Set<TextureBehavior> entities = new HashSet<>();
 
 	/**
@@ -40,7 +41,7 @@ class DrawableLogic {
 		for (TextureBehavior entity : entities) {
 			batch.draw(entity.getTextureRegion(), entity.getPosition().x - entity.getOrigin().x,
 					entity.getPosition().y - entity.getOrigin().y, entity.getOrigin().x, entity.getOrigin().y,
-					entity.getSize().y, entity.getSize().x, entity.getScale().x, entity.getScale().y,
+					entity.getSize().x, entity.getSize().y, entity.getScale().x, entity.getScale().y,
 					entity.getRotationDegrees());
 		}
 	}

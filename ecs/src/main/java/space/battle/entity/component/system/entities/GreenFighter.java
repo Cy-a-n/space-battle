@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.PlayerShipBehavior;
-import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.*;
 import com.badlogic.gdx.math.Vector2;
 import space.battle.entity.component.system.components.HasPlayerInput;
 
-public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBehavior {
+public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, VisualCollisionShapeBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
@@ -29,6 +28,9 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	private final float thrustCounterclockwise;
 	private final float thrustClockwise;
 	private final PlayerId playerId;
+	private final Class<? extends ProjectileBehavior> projectileClass;
+	private final float projectilesPerMinute;
+	private final float timeOfLastProjectile;
 	private float rotationDegrees;
 	private float health;
 	private boolean positionChanged;
@@ -67,6 +69,9 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 		thrustUp = 50;
 		thrustClockwise = 20;
 		thrustCounterclockwise = 20;
+		projectileClass = BulletSmall.class;
+		projectilesPerMinute = 0.5f;
+		timeOfLastProjectile = 0;
 	}
 
 	@Override
@@ -232,5 +237,20 @@ public class GreenFighter implements PlayerShipBehavior, VisualCollisionShapeBeh
 	@Override
 	public @NotNull HasPlayerInput.PlayerId getPlayerId () {
 		return playerId;
+	}
+
+	@Override
+	public Class<? extends ProjectileBehavior> getProjectileClass () {
+		return projectileClass;
+	}
+
+	@Override
+	public float getProjectilesPerMinute () {
+		return projectilesPerMinute;
+	}
+
+	@Override
+	public float getTimeOfLastProjectile () {
+		return timeOfLastProjectile;
 	}
 }

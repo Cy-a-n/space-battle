@@ -1,7 +1,11 @@
 package space.battle.entity.component.system.components;
 
-import space.battle.entity.component.system.behaviors.interfaces.ConstantMovementBehavior;
+import space.battle.entity.component.system.behaviors.interfaces.ProjectileBehavior;
 
 public interface HasSpawnableProjectiles {
-     ConstantMovementBehavior getProjectileEntity();
+	Class<? extends ProjectileBehavior> getProjectileClass ();
+
+	float getProjectilesPerMinute ();
+
+	float getTimeOfLastProjectile ();
 }

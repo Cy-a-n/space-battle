@@ -69,7 +69,7 @@ class PlayerShipLogic {
 			case PLAYER_TWO -> {
 				playerTwoEntities.add(entity);
 				if (playerTwoEntities.size() == 1)
-					this.playerOneEntity = entity;
+					this.playerTwoEntity = entity;
 			}
 		}
 	}
@@ -115,22 +115,22 @@ class PlayerShipLogic {
 		if (playerTwoEntity != null) {
 			Vector2 resultingAcceleration = new Vector2();
 
-			if (input.isKeyPressed(Keys.DOWN))
+			if (input.isKeyPressed(Keys.K))
 				resultingAcceleration.x = -playerTwoEntity.getThrustLeft();
-			if (input.isKeyPressed(Keys.UP))
+			if (input.isKeyPressed(Keys.I))
 				resultingAcceleration.x = playerTwoEntity.getThrustRight();
 
-			if (input.isKeyPressed(Keys.RIGHT))
+			if (input.isKeyPressed(Keys.L))
 				resultingAcceleration.y = -playerTwoEntity.getThrustUp();
-			if (input.isKeyPressed(Keys.LEFT))
+			if (input.isKeyPressed(Keys.J))
 				resultingAcceleration.y = playerTwoEntity.getThrustDown();
 			resultingAcceleration.rotateDeg(playerTwoEntity.getRotationDegrees());
 
 			float resultingRotationalAcceleration = 0;
 
-			if (input.isKeyPressed(Keys.E))
+			if (input.isKeyPressed(Keys.U))
 				resultingRotationalAcceleration = -playerTwoEntity.getThrustClockwise();
-			if (input.isKeyPressed(Keys.Q))
+			if (input.isKeyPressed(Keys.O))
 				resultingRotationalAcceleration = playerTwoEntity.getThrustCounterclockwise();
 
 			playerTwoEntity.getAcceleration().set(resultingAcceleration);

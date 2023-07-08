@@ -13,10 +13,8 @@ import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.components.HasPlayerInput;
 import space.battle.entity.component.system.entities.BulletSmall;
 import space.battle.entity.component.system.entities.GreenFighter;
-import space.battle.entity.component.system.entities.StaticEntity;
+import space.battle.entity.component.system.entities.TestEntity;
 import space.earlygrey.shapedrawer.ShapeDrawer;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
@@ -49,29 +47,21 @@ public class App extends ApplicationAdapter {
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
+		GreenFighter greenFighter = new GreenFighter(new Vector2(-50, -50), 0f, textureAtlas,
+				HasPlayerInput.PlayerId.PLAYER_ONE);
 		// Set up the entities
-		behaviorLogic.addEntity(new GreenFighter(new Vector2(-50, -50), 0f, textureAtlas,
-				HasPlayerInput.PlayerId.PLAYER_ONE));
+		behaviorLogic.addEntity(greenFighter);
+		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
 		behaviorLogic.addEntity(new GreenFighter(new Vector2(50, 50), 0f, textureAtlas,
 				HasPlayerInput.PlayerId.PLAYER_TWO));
-		behaviorLogic.addEntity(new BulletSmall(new Vector2(0, 0), 0f, new Vector2(10, 0), textureAtlas));
+		behaviorLogic.addEntity(new BulletSmall(new Vector2(0, 0), 0f, new Vector2(10, 0), textureAtlas, teamHash));
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(new Color(0.05f, 0.05f, 0.05f, 1f));
-		try {
-			behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera0, camera1,
-					viewport0, viewport1, textureAtlas);
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e);
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
+		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera0, camera1, viewport0,
+				viewport1, textureAtlas);
 	}
 
 	@Override

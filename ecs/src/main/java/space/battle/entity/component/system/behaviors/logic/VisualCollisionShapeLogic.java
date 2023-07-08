@@ -2,8 +2,8 @@ package space.battle.entity.component.system.behaviors.logic;
 
 import com.badlogic.gdx.graphics.Color;
 import org.jetbrains.annotations.NotNull;
-import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+import space.battle.entity.component.system.behaviors.interfaces.VisualCollisionShapeBehavior;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,12 +42,12 @@ public class VisualCollisionShapeLogic {
 	void update (@NotNull ShapeDrawer shapeDrawer) {
 		shapeDrawer.setColor(Color.DARK_GRAY);
 		for (VisualCollisionShapeBehavior entity : entities) {
-			shapeDrawer.filledRectangle(entity.getShape().getBoundingRectangle());
+			shapeDrawer.filledRectangle(entity.getCollisionShape().getBoundingRectangle());
 		}
 
 		shapeDrawer.setColor(Color.WHITE);
 		for (VisualCollisionShapeBehavior entity : entities) {
-			shapeDrawer.filledPolygon(entity.getShape().getTransformedVertices());
+			shapeDrawer.filledPolygon(entity.getCollisionShape().getTransformedVertices());
 		}
 	}
 }

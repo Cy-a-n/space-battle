@@ -40,25 +40,25 @@ class CollisionShapeLogic {
 		// Update each entity's position, rotation, and origin based on its current state
 		for (CollisionShapeBehavior entity : entities) {
 			if (entity.positionChanged())
-				entity.getShape().setPosition(entity.getPosition().x - entity.getOrigin().x,
+				entity.getCollisionShape().setPosition(entity.getPosition().x - entity.getOrigin().x,
 						entity.getPosition().y - entity.getOrigin().y);
 
 			if (entity.rotationChanged())
-				entity.getShape().setRotation(entity.getRotationDegrees());
+				entity.getCollisionShape().setRotation(entity.getRotationDegrees());
 
 			if (entity.originChanged())
-				entity.getShape().setOrigin(entity.getOrigin().x, entity.getOrigin().y);
+				entity.getCollisionShape().setOrigin(entity.getOrigin().x, entity.getOrigin().y);
 		}
 
 		// Check each pair of entities for possible collisions
 		CollisionShapeBehavior[] entityArray = entities.toArray(new CollisionShapeBehavior[0]);
 		for (int i = 0; i < entityArray.length; i++) {
 			CollisionShapeBehavior entity0 = entityArray[i];
-			Polygon shape0 = entity0.getShape();
+			Polygon shape0 = entity0.getCollisionShape();
 
 			for (int j = i + 1; j < entityArray.length; j++) {
 				CollisionShapeBehavior entity1 = entityArray[j];
-				Polygon shape1 = entity1.getShape();
+				Polygon shape1 = entity1.getCollisionShape();
 
 				// If the bounding boxes of the two entities overlap, then check for a more precise collision using
 				// the Separating Axis Theorem (SAT)

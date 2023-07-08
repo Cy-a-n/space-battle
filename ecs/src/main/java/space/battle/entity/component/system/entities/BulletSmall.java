@@ -23,10 +23,12 @@ public class BulletSmall implements ProjectileBehavior, VisualCollisionShapeBeha
 	private float rotationDegrees;
 	private boolean rotationChanged;
 	private float health;
+	private int teamId;
 
 	public BulletSmall (@NotNull Vector2 position, float rotationDegrees, @NotNull Vector2 velocity,
-						@NotNull TextureAtlas textureAtlas) {
+						@NotNull TextureAtlas textureAtlas, int teamId) {
 		this.textureRegion = textureAtlas.findRegion("bullet_small");
+		this.teamId = teamId;
 		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
 				(float) textureRegion.getRegionHeight() / 2);
 		this.originChanged = true;
@@ -134,7 +136,17 @@ public class BulletSmall implements ProjectileBehavior, VisualCollisionShapeBeha
 	}
 
 	@Override
-	public @NotNull Polygon getShape () {
+	public @NotNull Polygon getCollisionShape () {
 		return shape;
+	}
+
+	@Override
+	public int getTeamId () {
+		return teamId;
+	}
+
+	@Override
+	public void setTeamId (int teamId) {
+		this.teamId = teamId;
 	}
 }

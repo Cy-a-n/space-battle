@@ -6,9 +6,12 @@ import com.badlogic.gdx.math.Polygon;
 import org.jetbrains.annotations.NotNull;
 import space.battle.entity.component.system.behaviors.interfaces.*;
 import com.badlogic.gdx.math.Vector2;
+import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
 import space.battle.entity.component.system.components.HasPlayerInput;
+import space.battle.entity.component.system.utilities.TeamIdGenerator;
 
-public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, VisualCollisionShapeBehavior {
+public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, VisualCollisionShapeBehavior,
+		ParentWithRelativePositionAndRotationDegreesBehavior {
 	private final float frictionConstant;
 	private final @NotNull Vector2 origin;
 	private final @NotNull Vector2 scale;
@@ -17,7 +20,7 @@ public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, Visua
 	private final @NotNull Vector2 acceleration;
 	private final @NotNull Vector2 position;
 	private final @NotNull Vector2 velocity;
-	private final @NotNull Polygon shape;
+	private final @NotNull Polygon collisionShape;
 	private final int armorClass;
 	private final int effectiveAgainstArmorClass;
 	private final float rotationalFrictionConstant;
@@ -38,22 +41,22 @@ public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, Visua
 	private boolean originChanged;
 	private float rotationalVelocity;
 	private float rotationalAcceleration;
+	private int teamId;
 
 	public GreenFighter (@NotNull Vector2 position, float rotationDegrees, @NotNull TextureAtlas textureAtlas,
 						 PlayerId playerId) {
 		this.playerId = playerId;
-		this.frictionConstant = 0.01f;
-		this.textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
-		this.acceleration = new Vector2(0, 0);
-		this.origin = new Vector2((float) textureRegion.getRegionWidth() / 2,
-				(float) textureRegion.getRegionHeight() / 2);
+		frictionConstant = 0.01f;
+		textureRegion = textureAtlas.findRegion("green_fighter_by_stephen_challener_on_open_game_art");
+		acceleration = new Vector2(0, 0);
+		origin = new Vector2((float) textureRegion.getRegionWidth() / 2, (float) textureRegion.getRegionHeight() / 2);
 		this.position = position;
 		this.rotationDegrees = rotationDegrees;
-		this.scale = new Vector2(1, 1);
-		this.size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
-		this.velocity = new Vector2(0, 0);
+		scale = new Vector2(1, 1);
+		size = new Vector2(textureRegion.getRegionWidth(), textureRegion.getRegionHeight());
+		velocity = new Vector2(0, 0);
 		this.health = 10;
-		this.shape = new Polygon(new float[]{0, 13, 2, 0, 29, 10, 34, 17, 29, 24, 2, 34, 0, 21});
+		collisionShape = new Polygon(new float[]{0, 13, 2, 0, 29, 10, 34, 17, 29, 24, 2, 34, 0, 21});
 		positionChanged = true;
 		rotationChanged = true;
 		originChanged = true;
@@ -72,6 +75,10 @@ public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, Visua
 		projectileClass = BulletSmall.class;
 		projectilesPerMinute = 0.5f;
 		timeOfLastProjectile = 0;
+		teamId = TeamIdGenerator.getNextTeamID();
+
+		// Spawn sub-entities
+		BehaviorLogic.getInstance().addEntity(new TestEntity());
 	}
 
 	@Override
@@ -175,8 +182,18 @@ public class GreenFighter implements PlayerShipWithFrontalCannonsBehavior, Visua
 	}
 
 	@Override
-	public @NotNull Polygon getShape () {
-		return shape;
+	public @NotNull Polygon getCollisionShape () {
+		return collisionShape;
+	}
+
+	@Override
+	public int getTeamId () {
+		return teamId;
+	}
+
+	@Override
+	public void setTeamId (int teamId) {
+		this.teamId = teamId;
 	}
 
 	@Override

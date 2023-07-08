@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="space.battle.entity.component.system.utilities.TeamIdGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-08T14:39:59" hostname="linux-pc" time="0.015">
+  <properties/>
+  <testcase name="getNextTeamID()" classname="space.battle.entity.component.system.utilities.TeamIdGeneratorTest" time="0.015"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -35,8 +35,6 @@ public class BehaviorLogic {
 	private final Set<Entity> entitiesQueuedForRemoval = new HashSet<>();
 	private final ConstantRotationLogic constantRotationLogic = new ConstantRotationLogic();
 	private final AcceleratedRotationLogic acceleratedRotationLogic = new AcceleratedRotationLogic();
-	private final PlayerShipWithFrontalCannonsLogic playerShipWithFrontalCannonsLogic =
-			new PlayerShipWithFrontalCannonsLogic();
 
 	private BehaviorLogic () {}
 
@@ -72,9 +70,6 @@ public class BehaviorLogic {
 		if (entity instanceof OriginBehavior)
 			originLogic.addEntity((OriginBehavior) entity);
 
-		if (entity instanceof PlayerShipWithFrontalCannonsBehavior)
-			playerShipWithFrontalCannonsLogic.addEntity((PlayerShipWithFrontalCannonsBehavior) entity);
-
 		if (entity instanceof PlayerShipBehavior)
 			playerShipLogic.addEntity((PlayerShipBehavior) entity);
 
@@ -90,8 +85,8 @@ public class BehaviorLogic {
 		if (entity instanceof ConstantRotationBehavior)
 			constantRotationLogic.addEntity((ConstantRotationBehavior) entity);
 
-		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
-			relativePositionAndRotationLogic.addEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+		if (entity instanceof ParentWithRelativePositionAndRotationDegreesBehavior)
+			relativePositionAndRotationLogic.addEntity((ParentWithRelativePositionAndRotationDegreesBehavior) entity);
 
 		if (entity instanceof CollisionShapeBehavior)
 			collisionShapeLogic.addEntity((CollisionShapeBehavior) entity);
@@ -154,9 +149,6 @@ public class BehaviorLogic {
 		if (entity instanceof AcceleratedMovementBehavior)
 			acceleratedMovementLogic.removeEntity((AcceleratedMovementBehavior) entity);
 
-		if (entity instanceof PlayerShipWithFrontalCannonsBehavior)
-			playerShipWithFrontalCannonsLogic.removeEntity((PlayerShipWithFrontalCannonsBehavior) entity);
-
 		if (entity instanceof AcceleratedRotationBehavior)
 			acceleratedRotationLogic.addEntity((AcceleratedRotationBehavior) entity);
 
@@ -166,8 +158,8 @@ public class BehaviorLogic {
 		if (entity instanceof ConstantRotationBehavior)
 			constantRotationLogic.removeEntity((ConstantRotationBehavior) entity);
 
-		if (entity instanceof ChildrenWithRelativePositionAndRotationDegreesBehavior)
-			relativePositionAndRotationLogic.removeEntity((ChildrenWithRelativePositionAndRotationDegreesBehavior) entity);
+		if (entity instanceof ParentWithRelativePositionAndRotationDegreesBehavior)
+			relativePositionAndRotationLogic.removeEntity((ParentWithRelativePositionAndRotationDegreesBehavior) entity);
 
 		if (entity instanceof RelativePositionAndRotationBehavior)
 			relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
@@ -221,10 +213,9 @@ public class BehaviorLogic {
 	public void updateWithGraphics (float deltaTimeInSeconds, @NotNull SpriteBatch batch,
 									@NotNull ShapeDrawer shapeDrawer, @NotNull OrthographicCamera camera0,
 									@NotNull OrthographicCamera camera1, @NotNull Viewport viewport0,
-									@NotNull Viewport viewport1, TextureAtlas textureAtlas) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+									@NotNull Viewport viewport1, TextureAtlas textureAtlas) {
 		removeEntities();
 		playerShipLogic.update();
-		playerShipWithFrontalCannonsLogic.update(textureAtlas);
 
 		// Update position, rotation, etc
 		acceleratedMovementLogic.update(deltaTimeInSeconds);

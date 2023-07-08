@@ -1,6 +1,0 @@
-eclipse.project.name = appName + '-shared'
-
-dependencies {
-    api "com.badlogicgames.gdx:gdx:$gdxVersion"
-    implementation "space.earlygrey:shapedrawer:$shapedrawerVersion"
-}

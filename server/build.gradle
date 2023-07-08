@@ -5,7 +5,7 @@ mainClassName = 'space.battle.client.ServerLauncher'
 eclipse.project.name = appName + '-server'
 
 dependencies {
-    implementation project(':ecs')
+    implementation project(':entity-component-system')
 }
 
 jar {

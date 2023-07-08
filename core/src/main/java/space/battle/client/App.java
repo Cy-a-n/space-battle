@@ -9,11 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import space.battle.entity.component.system.behaviors.logic.BehaviorLogic;
-import space.battle.entity.component.system.components.HasPlayerInput;
-import space.battle.entity.component.system.entities.BulletSmall;
-import space.battle.entity.component.system.entities.GreenFighter;
-import space.battle.entity.component.system.entities.TestEntity;
+import entity.component.system.components.*;
+import entity.component.system.entities.GreenFighter;
+import entity.component.system.logic.BehaviorLogic;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 /**
@@ -47,21 +45,16 @@ public class App extends ApplicationAdapter {
 
 		behaviorLogic = BehaviorLogic.getInstance();
 
-		GreenFighter greenFighter = new GreenFighter(new Vector2(-50, -50), 0f, textureAtlas,
-				HasPlayerInput.PlayerId.PLAYER_ONE);
-		// Set up the entities
-		behaviorLogic.addEntity(greenFighter);
-		behaviorLogic.addEntity(new TestEntity(textureAtlas, greenFighter));
-		behaviorLogic.addEntity(new GreenFighter(new Vector2(50, 50), 0f, textureAtlas,
-				HasPlayerInput.PlayerId.PLAYER_TWO));
-		behaviorLogic.addEntity(new BulletSmall(new Vector2(0, 0), 0f, new Vector2(10, 0), textureAtlas, teamHash));
+		// Instance entities and add them to the ECS.
+		behaviorLogic.addEntity(new GreenFighter(new CameraComponent(viewport0), new PositionComponent(new Vector2(0,
+				0)), new RotationComponent(0), textureAtlas));
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(new Color(0.05f, 0.05f, 0.05f, 1f));
-		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, camera0, camera1, viewport0,
-				viewport1, textureAtlas);
+		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, new Viewport[]{viewport0,
+				viewport1});
 	}
 
 	@Override

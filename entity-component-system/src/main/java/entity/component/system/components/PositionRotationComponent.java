@@ -1,10 +1,15 @@
 package entity.component.system.components;
 
-public class RotationComponent {
+import com.badlogic.gdx.math.Vector2;
+import org.jetbrains.annotations.NotNull;
+
+public class PositionRotationComponent {
+	private final @NotNull Vector2 position;
 	private float degrees;
 	private boolean changed;
 
-	public RotationComponent (final float degrees) {
+	public PositionRotationComponent (@NotNull final Vector2 position, float degrees) {
+		this.position = position;
 		this.degrees = degrees;
 		this.changed = true;
 	}
@@ -15,6 +20,10 @@ public class RotationComponent {
 
 	public void setDegrees (final float degrees) {
 		this.degrees = degrees;
+	}
+
+	public @NotNull Vector2 getPosition () {
+		return position;
 	}
 
 	public boolean isChanged () {

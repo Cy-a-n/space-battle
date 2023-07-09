@@ -4,23 +4,44 @@ import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 
 public class AccelerationComponent {
-	private final @NotNull Vector2 vector2;
-	private float friction;
+	private final @NotNull Vector2 translational;
+	private float degreesPerSecondSquared;
+	private float translationalFriction;
+	private float rotationalFriction;
 
-	public AccelerationComponent (@NotNull final Vector2 vector2, final float friction) {
-		this.vector2 = vector2;
-		this.friction = friction;
+	public AccelerationComponent (@NotNull final Vector2 translational, final float degreesPerSecondSquared,
+								  final float translationalFriction, final float rotationalFriction) {
+		this.translational = translational;
+		this.degreesPerSecondSquared = degreesPerSecondSquared;
+		this.translationalFriction = translationalFriction;
+		this.rotationalFriction = rotationalFriction;
 	}
 
-	public @NotNull Vector2 getVector2 () {
-		return vector2;
+	public float getRotationalFriction () {
+		return rotationalFriction;
 	}
 
-	public float getFriction () {
-		return friction;
+	public void setRotationalFriction (final float rotationalFriction) {
+		this.rotationalFriction = rotationalFriction;
 	}
 
-	public void setFriction (final float friction) {
-		this.friction = friction;
+	public float getDegreesPerSecondSquared () {
+		return degreesPerSecondSquared;
+	}
+
+	public void setDegreesPerSecondSquared (final float degreesPerSecondSquared) {
+		this.degreesPerSecondSquared = degreesPerSecondSquared;
+	}
+
+	public @NotNull Vector2 getTranslational () {
+		return translational;
+	}
+
+	public float getTranslationalFriction () {
+		return translationalFriction;
+	}
+
+	public void setTranslationalFriction (final float translationalFriction) {
+		this.translationalFriction = translationalFriction;
 	}
 }

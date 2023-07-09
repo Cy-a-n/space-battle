@@ -183,7 +183,7 @@ if "$cygwin" || "$msys" ; then
             arg=$( cygpath --path --ignore --mixed "$arg" )
         fi
         # Roll the args list around exactly as many times as the number of
-        # args, so each arg winds up back in the positionComponent where it started, but
+        # args, so each arg winds up back in the positionRotationComponent where it started, but
         # possibly modified.
         #
         # NB: a `for` loop captures its iteration list before it begins, so

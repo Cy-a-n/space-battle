@@ -1,6 +1,6 @@
 package entity.component.system.logic;
 
-import entity.component.system.behaviors.PositionBehavior;
+import entity.component.system.behaviors.PositionRotationBehavior;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -8,26 +8,26 @@ import java.util.Set;
 
 /**
  * PositionLogic class manages the entities having the behavior of positions.
- * It holds a set of all PositionBehavior entities, allowing for easy addition and removal.
+ * It holds a set of all PositionRotationBehavior entities, allowing for easy addition and removal.
  */
 class PositionLogic {
-	private final @NotNull Set<PositionBehavior> entities = new HashSet<>();
+	private final @NotNull Set<PositionRotationBehavior> entities = new HashSet<>();
 
 	/**
-	 * Adds a new PositionBehavior entity to the set.
+	 * Adds a new PositionRotationBehavior entity to the set.
 	 *
 	 * @param entity Behavior to add
 	 */
-	void addEntity (final @NotNull PositionBehavior entity) {
+	void addEntity (final @NotNull PositionRotationBehavior entity) {
 		entities.add(entity);
 	}
 
 	/**
-	 * Removes a PositionBehavior entity from the set.
+	 * Removes a PositionRotationBehavior entity from the set.
 	 *
 	 * @param entity Behavior to remove
 	 */
-	void removeEntity (final @NotNull PositionBehavior entity) {
+	void removeEntity (final @NotNull PositionRotationBehavior entity) {
 		entities.remove(entity);
 	}
 
@@ -35,8 +35,8 @@ class PositionLogic {
 	 * Updates the entities' position change status to false.
 	 */
 	void update () {
-		for (final @NotNull PositionBehavior entity : entities) {
-			entity.getPositionComponent().setChanged(false);
+		for (final @NotNull PositionRotationBehavior entity : entities) {
+			entity.getPositionRotationComponent().setChanged(false);
 		}
 	}
 }

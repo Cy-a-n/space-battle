@@ -2,6 +2,9 @@ package entity.component.system.logic;
 
 import com.badlogic.gdx.math.Vector2;
 import entity.component.system.behaviors.AcceleratedMovementBehavior;
+import entity.component.system.components.AccelerationComponent;
+import entity.component.system.components.VelocityComponent;
+import entity.component.system.entities.GreenFighter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -39,14 +42,17 @@ class AcceleratedMovementLogic {
 	 */
 	void update (final float deltaTimeInSeconds) {
 		for (final @NotNull AcceleratedMovementBehavior entity : entities) {
-			final float friction = entity.getAccelerationComponent().getFriction();
-
-			Vector2 acceleration = entity.getAccelerationComponent().getVector2();
-			Vector2 velocity = entity.getVelocityComponent().getVector2();
+			final float translationalFriction = entity.getAccelerationComponent().getTranslationalFriction();
+			final @NotNull AccelerationComponent acceleration = entity.getAccelerationComponent();
+			final @NotNull Vector2 translationalAcceleration = acceleration.getTranslational();
+			final @NotNull VelocityComponent velocity = entity.getVelocityComponent();
+			final @NotNull Vector2 translationalVelocity = velocity.getTranslational();
 
 			// Calculate the new velocity based on acceleration and friction.
-			velocity.x += acceleration.x * deltaTimeInSeconds - velocity.x * friction;
-			velocity.y += acceleration.y * deltaTimeInSeconds - velocity.y * friction;
+			translationalVelocity.x += translationalAcceleration.x * deltaTimeInSeconds - translationalVelocity.x * translationalFriction;
+			translationalVelocity.y += translationalAcceleration.y * deltaTimeInSeconds - translationalVelocity.y * translationalFriction;
+
+			velocity.setDegreesPerSecond(velocity.getDegreesPerSecond() + acceleration.getDegreesPerSecondSquared() * deltaTimeInSeconds - velocity.getDegreesPerSecond() * acceleration.getTranslationalFriction());
 		}
 	}
 }

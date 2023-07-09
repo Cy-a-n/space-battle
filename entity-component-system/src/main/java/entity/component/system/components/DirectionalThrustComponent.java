@@ -5,13 +5,33 @@ public class DirectionalThrustComponent {
 	private float backwards;
 	private float left;
 	private float right;
+	private float clockwise;
+	private float counterClockwise;
 
 	public DirectionalThrustComponent (final float forwards, final float backwards, final float left,
-									   final float right) {
+									   final float right, final float clockwise, final float counterClockwise) {
 		this.forwards = forwards;
 		this.backwards = backwards;
 		this.left = left;
 		this.right = right;
+		this.clockwise = clockwise;
+		this.counterClockwise = counterClockwise;
+	}
+
+	public float getClockwise () {
+		return clockwise;
+	}
+
+	public void setClockwise (final float clockwise) {
+		this.clockwise = clockwise;
+	}
+
+	public float getCounterClockwise () {
+		return counterClockwise;
+	}
+
+	public void setCounterClockwise (final float counterClockwise) {
+		this.counterClockwise = counterClockwise;
 	}
 
 	public float getForwards () {

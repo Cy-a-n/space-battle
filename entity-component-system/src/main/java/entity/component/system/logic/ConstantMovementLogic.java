@@ -2,6 +2,9 @@ package entity.component.system.logic;
 
 import com.badlogic.gdx.math.Vector2;
 import entity.component.system.behaviors.ConstantMovementBehavior;
+import entity.component.system.components.PositionRotationComponent;
+import entity.component.system.entities.GreenFighter;
+import entity.component.system.entities.TestSpaceShipLocalPlayer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -38,12 +41,14 @@ class ConstantMovementLogic {
 	 */
 	void update (final float deltaTimeInSeconds) {
 		for (final @NotNull ConstantMovementBehavior entity : entities) {
-			final Vector2 position = entity.getPositionComponent().getVector2();
-			final Vector2 velocity = entity.getVelocityComponent().getVector2();
+			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent();
+			final @NotNull Vector2 position = entity.getPositionRotationComponent().getPosition();
+			final @NotNull Vector2 translationalVelocity = entity.getVelocityComponent().getTranslational();
 
-			position.x += velocity.x * deltaTimeInSeconds;
-			position.y += velocity.y * deltaTimeInSeconds;
-			entity.getPositionComponent().setChanged(true);
+			position.x += translationalVelocity.x * deltaTimeInSeconds;
+			position.y += translationalVelocity.y * deltaTimeInSeconds;
+			positionRotationComponent.setDegrees(positionRotationComponent.getDegrees() + entity.getVelocityComponent().getDegreesPerSecond() * deltaTimeInSeconds);
+			entity.getPositionRotationComponent().setChanged(true);
 		}
 	}
 }

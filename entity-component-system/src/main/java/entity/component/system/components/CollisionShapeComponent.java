@@ -1,18 +1,20 @@
 package entity.component.system.components;
 
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 import org.jetbrains.annotations.NotNull;
 
 public class CollisionShapeComponent {
+	private static int nextNonCollidingGroupId;
 	private final @NotNull Polygon convexPolygon;
 	private final int armorClass;
 	private final int effectiveAgainstArmorClass;
 	private float health;
 	private float damage;
+	private int nonCollidingGroupId;
 
 	public CollisionShapeComponent (@NotNull final Polygon convexPolygon, final int armorClass,
-									final int effectiveAgainstArmorClass, final float health, final float damage) {
+									final int effectiveAgainstArmorClass, final float health, final float damage,
+									int nonCollidingGroupId) {
 		this.convexPolygon = convexPolygon;
 		convexPolygon.setOrigin(convexPolygon.getBoundingRectangle().width / 2,
 				convexPolygon.getBoundingRectangle().height / 2);
@@ -21,6 +23,19 @@ public class CollisionShapeComponent {
 		this.effectiveAgainstArmorClass = effectiveAgainstArmorClass;
 		this.health = health;
 		this.damage = damage;
+		this.nonCollidingGroupId = nonCollidingGroupId;
+	}
+
+	public static int getUniqueNonCollidingGroupId () {
+		return nextNonCollidingGroupId++;
+	}
+
+	public int getNonCollidingGroupId () {
+		return nonCollidingGroupId;
+	}
+
+	public void setNonCollidingGroupId (final int nonCollidingGroup) {
+		this.nonCollidingGroupId = nonCollidingGroup;
 	}
 
 	public @NotNull Polygon getConvexPolygon () {

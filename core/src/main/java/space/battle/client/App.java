@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entity.component.system.components.*;
 import entity.component.system.entities.GreenFighter;
+import entity.component.system.entities.TestSpaceShipLocalPlayer;
 import entity.component.system.logic.BehaviorLogic;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -46,8 +47,10 @@ public class App extends ApplicationAdapter {
 		behaviorLogic = BehaviorLogic.getInstance();
 
 		// Instance entities and add them to the ECS.
-		behaviorLogic.addEntity(new GreenFighter(new CameraComponent(viewport0), new PositionComponent(new Vector2(0,
-				0)), new RotationComponent(0), textureAtlas));
+		new GreenFighter(viewport0, textureAtlas, UserInputSpaceShipComponent.PLAYER_ONE, new Vector2(0, 0), 0);
+		//		BehaviorLogic.getInstance().addEntity(new TestSpaceShipLocalPlayer(viewport1, textureAtlas,
+		//		UserInputSpaceShipComponent.PLAYER_TWO, new Vector2(100,
+		//				0), 0));
 	}
 
 	@Override
@@ -84,5 +87,9 @@ public class App extends ApplicationAdapter {
 		// Might be overkill or not do anything, but still...
 		textureAtlas = null;
 		batch = null;
+		viewport0 = null;
+		viewport1 = null;
+		camera0 = null;
+		camera1 = null;
 	}
 }

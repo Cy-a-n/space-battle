@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import entity.component.system.behaviors.TextureBehavior;
+import entity.component.system.components.PositionRotationComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -40,13 +41,16 @@ class TextureLogic {
 	 */
 	void update (@NotNull SpriteBatch batch) {
 		for (final @NotNull TextureBehavior entity : entities) {
-			final @NotNull Vector2 position = entity.getPositionComponent().getVector2();
+			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent();
+			final @NotNull Vector2 position = positionRotationComponent.getPosition();
 			final @NotNull TextureRegion textureRegion = entity.getTextureComponent().getTextureRegion();
 			final int width = textureRegion.getRegionWidth();
 			final int height = textureRegion.getRegionHeight();
+			final float originX = (float) width / 2;
+			final float originY = (float) height / 2;
 
-			batch.draw(textureRegion, position.x - (float) width / 2, position.y - (float) height / 2, position.x,
-					position.y, width, height, 1, 1, entity.getRotationComponent().getDegrees());
+			batch.draw(textureRegion, position.x - originX, position.y - originY, originX, originY, width, height, 1,
+					1, positionRotationComponent.getDegrees());
 		}
 	}
 }

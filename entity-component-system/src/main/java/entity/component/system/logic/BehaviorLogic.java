@@ -3,7 +3,6 @@ package entity.component.system.logic;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entity.component.system.behaviors.*;
-import entity.component.system.components.UserInputSpaceShipComponent;
 import org.jetbrains.annotations.NotNull;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -17,7 +16,6 @@ import java.util.Set;
 public class BehaviorLogic {
 	private static BehaviorLogic instance;
 	private final @NotNull PositionLogic positionLogic = new PositionLogic();
-	private final @NotNull RotationLogic rotationLogic = new RotationLogic();
 	private final @NotNull CameraLogic cameraLogic = new CameraLogic();
 	private final @NotNull TextureLogic textureLogic = new TextureLogic();
 	private final @NotNull ConstantMovementLogic constantMovementLogic = new ConstantMovementLogic();
@@ -25,10 +23,8 @@ public class BehaviorLogic {
 	private final @NotNull VisualCollisionShapeLogic visualCollisionShapeLogic = new VisualCollisionShapeLogic();
 	private final @NotNull RelativePositionAndRotationLogic relativePositionAndRotationLogic =
 			new RelativePositionAndRotationLogic();
-	private final @NotNull ConstantSpinLogic constantSpinLogic = new ConstantSpinLogic();
-	private final @NotNull AcceleratedSpinLogic acceleratedSpinLogic = new AcceleratedSpinLogic();
 	private final @NotNull CollisionShapeLogic collisionShapeLogic = new CollisionShapeLogic();
-	private final @NotNull SpaceShipLocalPlayerLogic spaceShipLocalPlayerLogic = new SpaceShipLocalPlayerLogic();
+	private final @NotNull UserInputSpaceShipLogic userInputSpaceShipLogic = new UserInputSpaceShipLogic();
 	private final @NotNull Set<Behavior> allEntities = new HashSet<>();
 	private final @NotNull Set<Behavior> entitiesQueuedForRemoval = new HashSet<>();
 
@@ -57,33 +53,23 @@ public class BehaviorLogic {
 					+ "instance of %s twice.", allEntities, entity, Behavior.class));
 		allEntities.add(entity);
 
-		if (entity instanceof PositionBehavior)
-			positionLogic.addEntity((PositionBehavior) entity);
-
-		if (entity instanceof RotationBehavior)
-			rotationLogic.addEntity((RotationBehavior) entity);
+		if (entity instanceof PositionRotationBehavior)
+			positionLogic.addEntity((PositionRotationBehavior) entity);
 
 		if (entity instanceof AcceleratedMovementBehavior)
 			acceleratedMovementLogic.addEntity((AcceleratedMovementBehavior) entity);
 
-		if (entity instanceof AcceleratedSpinBehavior)
-			acceleratedSpinLogic.addEntity((AcceleratedSpinBehavior) entity);
-
 		if (entity instanceof ConstantMovementBehavior)
 			constantMovementLogic.addEntity((ConstantMovementBehavior) entity);
-
-		if (entity instanceof ConstantSpinBehavior)
-			constantSpinLogic.addEntity((ConstantSpinBehavior) entity);
-
-		if (entity instanceof ParentWithPositionAndRotationBehavior)
-			relativePositionAndRotationLogic.addEntity((ParentWithPositionAndRotationBehavior) entity);
 
 		if (entity instanceof CollisionShapeBehavior)
 			collisionShapeLogic.addEntity((CollisionShapeBehavior) entity);
 
-		if (entity instanceof RelativePositionAndRotationBehavior) {
-			relativePositionAndRotationLogic.addEntity((RelativePositionAndRotationBehavior) entity);
-		}
+		if (entity instanceof ParentWithPositionRotationBehavior)
+			relativePositionAndRotationLogic.addEntity((ParentWithPositionRotationBehavior) entity);
+
+		if (entity instanceof RelativePositionRotationBehavior)
+			relativePositionAndRotationLogic.addEntity((RelativePositionRotationBehavior) entity);
 
 		if (entity instanceof CameraBehavior)
 			cameraLogic.addEntity((CameraBehavior) entity);
@@ -95,7 +81,7 @@ public class BehaviorLogic {
 			visualCollisionShapeLogic.addEntity((VisualCollisionShapeBehavior) entity);
 
 		if (entity instanceof SpaceShipLocalPlayerBehavior)
-			spaceShipLocalPlayerLogic.addEntity((SpaceShipLocalPlayerBehavior) entity);
+			userInputSpaceShipLogic.addEntity((SpaceShipLocalPlayerBehavior) entity);
 	}
 
 	/**
@@ -127,32 +113,24 @@ public class BehaviorLogic {
 	void removeEntity (final @NotNull Behavior entity) {
 		allEntities.remove(entity);
 
-		if (entity instanceof PositionBehavior)
-			positionLogic.removeEntity((PositionBehavior) entity);
-
-		if (entity instanceof RotationBehavior)
-			rotationLogic.removeEntity((RotationBehavior) entity);
+		if (entity instanceof ParentWithPositionRotationBehavior) {
+			positionLogic.removeEntity((PositionRotationBehavior) entity);
+		}
 
 		if (entity instanceof AcceleratedMovementBehavior)
 			acceleratedMovementLogic.removeEntity((AcceleratedMovementBehavior) entity);
 
-		if (entity instanceof AcceleratedSpinBehavior)
-			acceleratedSpinLogic.removeEntity((AcceleratedSpinBehavior) entity);
-
 		if (entity instanceof ConstantMovementBehavior)
 			constantMovementLogic.removeEntity((ConstantMovementBehavior) entity);
-
-		if (entity instanceof ConstantSpinBehavior)
-			constantSpinLogic.removeEntity((ConstantSpinBehavior) entity);
-
-		if (entity instanceof ParentWithPositionAndRotationBehavior)
-			relativePositionAndRotationLogic.removeEntity((ParentWithPositionAndRotationBehavior) entity);
 
 		if (entity instanceof CollisionShapeBehavior)
 			collisionShapeLogic.removeEntity((CollisionShapeBehavior) entity);
 
-		if (entity instanceof RelativePositionAndRotationBehavior) {
-			relativePositionAndRotationLogic.removeEntity((RelativePositionAndRotationBehavior) entity);
+		if (entity instanceof ParentWithPositionRotationBehavior)
+			relativePositionAndRotationLogic.removeEntity((ParentWithPositionRotationBehavior) entity);
+
+		if (entity instanceof RelativePositionRotationBehavior) {
+			relativePositionAndRotationLogic.removeEntity((RelativePositionRotationBehavior) entity);
 		}
 
 		if (entity instanceof CameraBehavior)
@@ -165,7 +143,11 @@ public class BehaviorLogic {
 			visualCollisionShapeLogic.removeEntity((VisualCollisionShapeBehavior) entity);
 
 		if (entity instanceof SpaceShipLocalPlayerBehavior)
-			spaceShipLocalPlayerLogic.removeEntity((SpaceShipLocalPlayerBehavior) entity);
+			userInputSpaceShipLogic.removeEntity((SpaceShipLocalPlayerBehavior) entity);
+	}
+
+	public boolean containsEntity (final @NotNull Behavior entity) {
+		return allEntities.contains(entity);
 	}
 
 	/**
@@ -177,13 +159,11 @@ public class BehaviorLogic {
 		removeEntities();
 
 		// Update user input
-		spaceShipLocalPlayerLogic.update();
+		userInputSpaceShipLogic.update();
 
 		// Update position, rotation, etc
 		acceleratedMovementLogic.update(deltaTimeInSeconds);
-		acceleratedSpinLogic.update(deltaTimeInSeconds);
 		constantMovementLogic.update(deltaTimeInSeconds);
-		constantSpinLogic.update(deltaTimeInSeconds);
 
 		relativePositionAndRotationLogic.update();
 
@@ -192,7 +172,6 @@ public class BehaviorLogic {
 
 		// Reset the components
 		positionLogic.update();
-		rotationLogic.update();
 	}
 
 	/**
@@ -206,15 +185,13 @@ public class BehaviorLogic {
 		removeEntities();
 
 		// Update user input
-		spaceShipLocalPlayerLogic.update();
+		//		userInputSpaceShipLogic.update();
 
 		// Update position, rotation, etc
 		acceleratedMovementLogic.update(deltaTimeInSeconds);
-		acceleratedSpinLogic.update(deltaTimeInSeconds);
 		constantMovementLogic.update(deltaTimeInSeconds);
-		constantSpinLogic.update(deltaTimeInSeconds);
 
-		relativePositionAndRotationLogic.update();
+		//		relativePositionAndRotationLogic.update();
 
 		// Check for collisions
 		collisionShapeLogic.update();
@@ -223,6 +200,7 @@ public class BehaviorLogic {
 		cameraLogic.update();
 
 		for (Viewport viewport : viewports) {
+			viewport.getCamera().update();
 			batch.setProjectionMatrix(viewport.getCamera().combined);
 			viewport.apply(); // Set viewport for camera0
 			batch.begin();
@@ -233,6 +211,5 @@ public class BehaviorLogic {
 
 		// Reset the components
 		positionLogic.update();
-		rotationLogic.update();
 	}
 }

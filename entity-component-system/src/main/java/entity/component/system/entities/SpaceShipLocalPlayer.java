@@ -15,12 +15,13 @@ public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPla
 								 final @NotNull VelocityComponent velocityComponent,
 								 final @NotNull AccelerationComponent accelerationComponent,
 								 final @NotNull CollisionShapeComponent collisionShapeComponent,
-								 @NotNull final CameraComponent cameraComponent1,
+								 @NotNull final CameraComponent cameraComponent,
 								 @NotNull final DirectionalThrustComponent directionalThrustComponent1,
 								 @NotNull final UserInputSpaceShipComponent userInputSpaceShipComponent1) {
 		super(textureComponent, positionRotationComponent, velocityComponent, accelerationComponent,
 				collisionShapeComponent);
-		this.cameraComponent = cameraComponent1;
+
+		this.cameraComponent = cameraComponent;
 		this.directionalThrustComponent = directionalThrustComponent1;
 		this.userInputSpaceShipComponent = userInputSpaceShipComponent1;
 	}

@@ -5,13 +5,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entity.component.system.components.*;
 import entity.component.system.entities.GreenFighter;
-import entity.component.system.entities.TestSpaceShipLocalPlayer;
+import entity.component.system.entities.TestMovement;
 import entity.component.system.logic.BehaviorLogic;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
@@ -31,43 +32,49 @@ public class App extends ApplicationAdapter {
 	@Override
 	public void create () {
 		// Many libgdx types can only be instantiated in the create method, since they rely on native libraries
-		batch = new SpriteBatch();
-		textureAtlas = new TextureAtlas("texture_atlas.atlas");
+		batch = new SpriteBatch ();
+		textureAtlas = new TextureAtlas ("texture_atlas.atlas");
 		// Disable linear filtering for all textures in the atlas
-		for (Texture texture : textureAtlas.getTextures()) {
-			texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		for (Texture texture : textureAtlas.getTextures ()) {
+			texture.setFilter (Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		}
-		shapeDrawer = new ShapeDrawer(batch, textureAtlas.findRegion("white_pixel"));
+		shapeDrawer = new ShapeDrawer (batch, textureAtlas.findRegion ("white_pixel"));
 
-		camera0 = new OrthographicCamera();
-		camera1 = new OrthographicCamera();
-		viewport0 = new FitViewport((float) 512, 512, camera0);
-		viewport1 = new FitViewport((float) 512, 512, camera1);
+		camera0 = new OrthographicCamera ();
+		camera1 = new OrthographicCamera ();
+		viewport0 = new FitViewport ((float) 512, 512, camera0);
+		viewport1 = new FitViewport ((float) 512, 512, camera1);
 
-		behaviorLogic = BehaviorLogic.getInstance();
+		behaviorLogic = BehaviorLogic.getInstance ();
 
 		// Instance entities and add them to the ECS.
-		new GreenFighter(viewport0, textureAtlas, UserInputSpaceShipComponent.PLAYER_ONE, new Vector2(0, 0), 0);
+		new GreenFighter (viewport0, textureAtlas, UserInputSpaceShipComponent.PLAYER_ONE, new Vector2 (0, 0), 0);
 		//		BehaviorLogic.getInstance().addEntity(new TestSpaceShipLocalPlayer(viewport1, textureAtlas,
 		//		UserInputSpaceShipComponent.PLAYER_TWO, new Vector2(100,
 		//				0), 0));
+
+		//		BehaviorLogic.getInstance().addEntity(new TestMovement(new VelocityComponent(new Vector2(10, 0), 0),
+		//				new PositionRotationComponent(new Vector2(0, 0), 0), new TextureComponent(textureAtlas.findRegion(
+		//						"green_fighter_by_stephen_challener_on_open_game_art")), new CameraComponent(viewport0),
+		//				new AccelerationComponent(new Vector2(0, 10), 0, 0, 0),
+		//				new CollisionShapeComponent(new Polygon(new float[]{0, 0, 0, 32, 32, 32, 32, 0}), 1, 1, 100, 100, 0),
+		//				new DirectionalThrustComponent(100, 100, 100, 100, 100, 100), UserInputSpaceShipComponent.PLAYER_ONE));
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(new Color(0.05f, 0.05f, 0.05f, 1f));
-		behaviorLogic.updateWithGraphics(Gdx.graphics.getDeltaTime(), batch, shapeDrawer, new Viewport[]{viewport0,
-				viewport1});
+		ScreenUtils.clear (new Color (0.05f, 0.05f, 0.05f, 1f));
+		behaviorLogic.updateWithGraphics (Gdx.graphics.getDeltaTime (), batch, shapeDrawer, new Viewport[]{viewport0, viewport1});
 	}
 
 	@Override
 	public void resize (int width, int height) {
 		// Update the viewports
-		viewport1.update(width / 2, height, true);
-		viewport0.update(width / 2, height, true);
+		viewport1.update (width / 2, height, true);
+		viewport0.update (width / 2, height, true);
 
-		viewport0.setScreenX(0);
-		viewport1.setScreenX(width / 2);
+		viewport0.setScreenX (0);
+		viewport1.setScreenX (width / 2);
 	}
 
 	@Override
@@ -80,10 +87,10 @@ public class App extends ApplicationAdapter {
 		// of these types.
 		behaviorLogic = null;
 		shapeDrawer = null;
-		BehaviorLogic.disposeInstance();
+		BehaviorLogic.disposeInstance ();
 
-		textureAtlas.dispose();
-		batch.dispose();
+		textureAtlas.dispose ();
+		batch.dispose ();
 		// Might be overkill or not do anything, but still...
 		textureAtlas = null;
 		batch = null;

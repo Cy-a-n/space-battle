@@ -185,7 +185,7 @@ public class BehaviorLogic {
 		removeEntities();
 
 		// Update user input
-		//		userInputSpaceShipLogic.update();
+		userInputSpaceShipLogic.update();
 
 		// Update position, rotation, etc
 		acceleratedMovementLogic.update(deltaTimeInSeconds);

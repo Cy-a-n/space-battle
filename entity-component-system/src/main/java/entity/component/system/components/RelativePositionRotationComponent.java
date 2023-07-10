@@ -9,26 +9,27 @@ public class RelativePositionRotationComponent {
 	private final ParentWithPositionRotationBehavior parentWithPositionRotationBehavior;
 	private float degrees;
 
-	public RelativePositionRotationComponent (@NotNull final Vector2 position,
-											  final ParentWithPositionRotationBehavior parentWithPositionRotationBehavior, final float degrees) {
+	public RelativePositionRotationComponent ( @NotNull final Vector2 position,
+											   final ParentWithPositionRotationBehavior parentWithPositionRotationBehavior,
+											   final float degrees ) {
 		this.position = position;
 		this.parentWithPositionRotationBehavior = parentWithPositionRotationBehavior;
 		this.degrees = degrees;
 	}
 
-	public ParentWithPositionRotationBehavior getParentWithPositionRotationBehavior () {
+	public ParentWithPositionRotationBehavior getParentWithPositionRotationBehavior ( ) {
 		return parentWithPositionRotationBehavior;
 	}
 
-	public @NotNull Vector2 getPosition () {
+	public @NotNull Vector2 getPosition ( ) {
 		return position;
 	}
 
-	public float getDegrees () {
+	public float getDegrees ( ) {
 		return degrees;
 	}
 
-	public void setDegrees (final float degrees) {
+	public void setDegrees ( final float degrees ) {
 		this.degrees = degrees;
 	}
 }

@@ -9,8 +9,8 @@ import entity.component.system.components.PositionRotationComponent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * This class is responsible for processing relative position and rotation logic.
@@ -19,11 +19,11 @@ class RelativePositionAndRotationLogic {
 	/**
 	 * Stores entities and their children. The HashSet allows O(1) complexity for removal operations.
 	 */
-	private final @NotNull Map<ParentWithPositionRotationBehavior, HashSet<RelativePositionRotationBehavior>> parentChildrenEntities =
-			new HashMap<> ();
+	private final @NotNull Map<ParentWithPositionRotationBehavior, HashSet<RelativePositionRotationBehavior>> parentChildrenEntities
+			= new HashMap<> ( );
 
-	void addEntity (ParentWithPositionRotationBehavior entity) {
-		parentChildrenEntities.put (entity, new HashSet<> ());
+	void addEntity ( ParentWithPositionRotationBehavior entity ) {
+		parentChildrenEntities.put ( entity, new HashSet<> ( ) );
 	}
 
 	/**
@@ -36,13 +36,13 @@ class RelativePositionAndRotationLogic {
 	 *               part of the BehaviorLogic instance.
 	 * @throws IllegalArgumentException if the entity is not part of the BehaviorLogic instance.
 	 */
-	void addEntity (final @NotNull RelativePositionRotationBehavior entity) {
-		ParentWithPositionRotationBehavior parent = entity.getRelativePositionAndRotationComponent ().getParentWithPositionRotationBehavior ();
+	void addEntity ( final @NotNull RelativePositionRotationBehavior entity ) {
+		ParentWithPositionRotationBehavior parent = entity.getRelativePositionAndRotationComponent ( ).getParentWithPositionRotationBehavior ( );
 
-		if (!BehaviorLogic.getInstance ().containsEntity (parent)) {
-			BehaviorLogic.getInstance ().addEntity (parent);
+		if ( !BehaviorLogic.getInstance ( ).containsEntity ( parent ) ) {
+			BehaviorLogic.getInstance ( ).addEntity ( parent );
 		}
-		parentChildrenEntities.get (parent).add (entity);
+		parentChildrenEntities.get ( parent ).add ( entity );
 	}
 
 	/**
@@ -51,15 +51,15 @@ class RelativePositionAndRotationLogic {
 	 *
 	 * @param entity - The entity and its children being removed.
 	 */
-	void removeEntity (final ParentWithPositionRotationBehavior entity) {
-		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get (entity);
-		if (children != null) {
-			for (RelativePositionRotationBehavior child : children) {
-				BehaviorLogic.getInstance ().removeEntity (child);
+	void removeEntity ( final ParentWithPositionRotationBehavior entity ) {
+		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get ( entity );
+		if ( children != null ) {
+			for ( RelativePositionRotationBehavior child : children ) {
+				BehaviorLogic.getInstance ( ).removeEntity ( child );
 			}
 		}
 
-		parentChildrenEntities.remove (entity);
+		parentChildrenEntities.remove ( entity );
 	}
 
 	/**
@@ -67,12 +67,12 @@ class RelativePositionAndRotationLogic {
 	 *
 	 * @param entity - The entity being removed.
 	 */
-	void removeEntity (final @NotNull RelativePositionRotationBehavior entity) {
-		PositionRotationBehavior parent = entity.getRelativePositionAndRotationComponent ().getParentWithPositionRotationBehavior ();
+	void removeEntity ( final @NotNull RelativePositionRotationBehavior entity ) {
+		PositionRotationBehavior parent = entity.getRelativePositionAndRotationComponent ( ).getParentWithPositionRotationBehavior ( );
 
-		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get (parent);
-		if (children != null) {
-			children.remove (entity);
+		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get ( parent );
+		if ( children != null ) {
+			children.remove ( entity );
 		}
 	}
 
@@ -84,23 +84,23 @@ class RelativePositionAndRotationLogic {
 	 * cosine
 	 * and sine of the parent's rotation angle.
 	 */
-	void update () {
-		for (final Map.Entry<ParentWithPositionRotationBehavior, HashSet<RelativePositionRotationBehavior>> parentChildrenPair :
-				parentChildrenEntities.entrySet ()) {
-			final ParentWithPositionRotationBehavior parent = parentChildrenPair.getKey ();
-			final @NotNull PositionRotationComponent parentPositionRotationComponent = parent.getPositionRotationComponent ();
-			final @NotNull Vector2 parentPosition = parentPositionRotationComponent.getPosition ();
-			final @NotNull HashSet<RelativePositionRotationBehavior> children = parentChildrenPair.getValue ();
+	void update ( ) {
+		for ( final Map.Entry<ParentWithPositionRotationBehavior, HashSet<RelativePositionRotationBehavior>> parentChildrenPair :
+				parentChildrenEntities.entrySet ( ) ) {
+			final ParentWithPositionRotationBehavior parent = parentChildrenPair.getKey ( );
+			final @NotNull PositionRotationComponent parentPositionRotationComponent = parent.getPositionRotationComponent ( );
+			final @NotNull Vector2 parentPosition = parentPositionRotationComponent.getPosition ( );
+			final @NotNull HashSet<RelativePositionRotationBehavior> children = parentChildrenPair.getValue ( );
 
-			final float parentRadians = MathUtils.degreesToRadians * parentPositionRotationComponent.getDegrees ();
-			final float cosTheta = MathUtils.cos (parentRadians);
-			final float sinTheta = MathUtils.sin (parentRadians);
+			final float parentRadians = MathUtils.degreesToRadians * parentPositionRotationComponent.getDegrees ( );
+			final float cosTheta = MathUtils.cos ( parentRadians );
+			final float sinTheta = MathUtils.sin ( parentRadians );
 
-			for (final @NotNull RelativePositionRotationBehavior child : children) {
-				final @NotNull Vector2 relativePosition = child.getRelativePositionAndRotationComponent ().getPosition ();
-				final @NotNull Vector2 resultingRelativePosition = new Vector2 ();
-				final @NotNull PositionRotationComponent childPositionRotationComponent = child.getPositionRotationComponent ();
-				final @NotNull Vector2 childPosition = childPositionRotationComponent.getPosition ();
+			for ( final @NotNull RelativePositionRotationBehavior child : children ) {
+				final @NotNull Vector2 relativePosition = child.getRelativePositionAndRotationComponent ( ).getPosition ( );
+				final @NotNull Vector2 resultingRelativePosition = new Vector2 ( );
+				final @NotNull PositionRotationComponent childPositionRotationComponent = child.getPositionRotationComponent ( );
+				final @NotNull Vector2 childPosition = childPositionRotationComponent.getPosition ( );
 
 				// TODO: Rotating every frame is kinda inefficient
 				resultingRelativePosition.x = relativePosition.x * cosTheta - relativePosition.y * sinTheta;
@@ -108,10 +108,10 @@ class RelativePositionAndRotationLogic {
 
 				childPosition.x = resultingRelativePosition.x + parentPosition.x;
 				childPosition.y = resultingRelativePosition.y + parentPosition.y;
-				child.getPositionRotationComponent ().setChanged (true);
+				child.getPositionRotationComponent ( ).setChanged ( true );
 
 				childPositionRotationComponent.setDegrees (
-						parentPositionRotationComponent.getDegrees () + child.getRelativePositionAndRotationComponent ().getDegrees ());
+						parentPositionRotationComponent.getDegrees ( ) + child.getRelativePositionAndRotationComponent ( ).getDegrees ( ) );
 			}
 		}
 	}

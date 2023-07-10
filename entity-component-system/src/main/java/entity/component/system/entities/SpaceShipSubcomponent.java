@@ -15,31 +15,27 @@ public class SpaceShipSubcomponent implements RelativePositionRotationBehavior, 
 	private final @NotNull RelativePositionRotationComponent relativePositionAndRotationBehavior;
 	private final @NotNull TextureComponent textureComponent;
 
-	public SpaceShipSubcomponent (@NotNull final RelativePositionRotationComponent relativePositionAndRotationBehavior,
-								  final @NotNull TextureComponent textureComponent) {
-		this.positionRotationComponent = new PositionRotationComponent (new Vector2 (0, 0), 0);
+	public SpaceShipSubcomponent ( @NotNull final RelativePositionRotationComponent relativePositionAndRotationBehavior,
+								   final @NotNull TextureComponent textureComponent ) {
+		this.positionRotationComponent = new PositionRotationComponent ( new Vector2 ( 0, 0 ), 0 );
 		this.relativePositionAndRotationBehavior = relativePositionAndRotationBehavior;
 		this.textureComponent = textureComponent;
-		entityComponent = new EntityComponent ();
+		entityComponent = new EntityComponent ( );
 	}
 
-	@Override
-	public @NotNull PositionRotationComponent getPositionRotationComponent () {
+	@Override public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
 		return positionRotationComponent;
 	}
 
-	@Override
-	public @NotNull RelativePositionRotationComponent getRelativePositionAndRotationComponent () {
+	@Override public @NotNull RelativePositionRotationComponent getRelativePositionAndRotationComponent ( ) {
 		return relativePositionAndRotationBehavior;
 	}
 
-	@Override
-	public @NotNull TextureComponent getTextureComponent () {
+	@Override public @NotNull TextureComponent getTextureComponent ( ) {
 		return textureComponent;
 	}
 
-	@Override
-	public @NotNull EntityComponent getEntityComponent () {
+	@Override public @NotNull EntityComponent getEntityComponent ( ) {
 		return entityComponent;
 	}
 }

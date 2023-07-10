@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 public class TextureComponent {
 	private final @NotNull TextureRegion textureRegion;
 
-	public TextureComponent (@NotNull final TextureRegion textureRegion) {
+	public TextureComponent ( @NotNull final TextureRegion textureRegion ) {
 		this.textureRegion = textureRegion;
 	}
 
-	public @NotNull TextureRegion getTextureRegion () {
+	public @NotNull TextureRegion getTextureRegion ( ) {
 		return textureRegion;
 	}
 }

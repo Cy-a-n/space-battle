@@ -4,5 +4,5 @@ import entity.component.system.components.RelativePositionRotationComponent;
 import org.jetbrains.annotations.NotNull;
 
 public interface RelativePositionRotationBehavior extends PositionRotationBehavior {
-	@NotNull RelativePositionRotationComponent getRelativePositionAndRotationComponent ();
+	@NotNull RelativePositionRotationComponent getRelativePositionAndRotationComponent ( );
 }

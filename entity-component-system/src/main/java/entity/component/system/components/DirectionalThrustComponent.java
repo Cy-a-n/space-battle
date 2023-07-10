@@ -8,8 +8,12 @@ public class DirectionalThrustComponent {
 	private float clockwise;
 	private float counterClockwise;
 
-	public DirectionalThrustComponent (final float forwards, final float backwards, final float left,
-									   final float right, final float clockwise, final float counterClockwise) {
+	public DirectionalThrustComponent ( final float forwards,
+										final float backwards,
+										final float left,
+										final float right,
+										final float clockwise,
+										final float counterClockwise ) {
 		this.forwards = forwards;
 		this.backwards = backwards;
 		this.left = left;
@@ -18,51 +22,51 @@ public class DirectionalThrustComponent {
 		this.counterClockwise = counterClockwise;
 	}
 
-	public float getClockwise () {
+	public float getClockwise ( ) {
 		return clockwise;
 	}
 
-	public void setClockwise (final float clockwise) {
+	public void setClockwise ( final float clockwise ) {
 		this.clockwise = clockwise;
 	}
 
-	public float getCounterClockwise () {
+	public float getCounterClockwise ( ) {
 		return counterClockwise;
 	}
 
-	public void setCounterClockwise (final float counterClockwise) {
+	public void setCounterClockwise ( final float counterClockwise ) {
 		this.counterClockwise = counterClockwise;
 	}
 
-	public float getForwards () {
+	public float getForwards ( ) {
 		return forwards;
 	}
 
-	public void setForwards (final float forwards) {
+	public void setForwards ( final float forwards ) {
 		this.forwards = forwards;
 	}
 
-	public float getBackwards () {
+	public float getBackwards ( ) {
 		return backwards;
 	}
 
-	public void setBackwards (final float backwards) {
+	public void setBackwards ( final float backwards ) {
 		this.backwards = backwards;
 	}
 
-	public float getLeft () {
+	public float getLeft ( ) {
 		return left;
 	}
 
-	public void setLeft (final float left) {
+	public void setLeft ( final float left ) {
 		this.left = left;
 	}
 
-	public float getRight () {
+	public float getRight ( ) {
 		return right;
 	}
 
-	public void setRight (final float right) {
+	public void setRight ( final float right ) {
 		this.right = right;
 	}
 }

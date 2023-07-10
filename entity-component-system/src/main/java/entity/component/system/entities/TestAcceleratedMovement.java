@@ -23,23 +23,19 @@ public class TestAcceleratedMovement implements AcceleratedMovementBehavior {
 		this.acceleratedMovementBehavior = acceleratedMovementBehavior;
 	}
 
-	@Override
-	public @NotNull VelocityComponent getVelocityComponent ( ) {
+	@Override public @NotNull VelocityComponent getVelocityComponent ( ) {
 		return velocityComponent;
 	}
 
-	@Override
-	public @NotNull EntityComponent getEntityComponent ( ) {
+	@Override public @NotNull EntityComponent getEntityComponent ( ) {
 		return entityComponent;
 	}
 
-	@Override
-	public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
+	@Override public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
 		return positionRotationComponent;
 	}
 
-	@Override
-	public @NotNull AccelerationComponent getAccelerationComponent ( ) {
+	@Override public @NotNull AccelerationComponent getAccelerationComponent ( ) {
 		return acceleratedMovementBehavior;
 	}
 }

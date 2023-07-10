@@ -9,29 +9,26 @@ public class Cannon extends SpaceShipSubcomponent implements CannonBehavior {
 	private final @NotNull CollisionShapeComponent collisionShapeComponent;
 	private final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent;
 
-	public Cannon (final @NotNull RelativePositionRotationComponent relativePositionAndRotationBehavior,
-				   final @NotNull TextureComponent textureComponent,
-				   @NotNull final CannonComponent cannonComponent,
-				   @NotNull final CollisionShapeComponent collisionShapeComponent,
-				   @NotNull final UserInputSpaceShipComponent userInputSpaceShipComponent) {
-		super (relativePositionAndRotationBehavior, textureComponent);
+	public Cannon ( final @NotNull RelativePositionRotationComponent relativePositionAndRotationBehavior,
+					final @NotNull TextureComponent textureComponent,
+					@NotNull final CannonComponent cannonComponent,
+					@NotNull final CollisionShapeComponent collisionShapeComponent,
+					@NotNull final UserInputSpaceShipComponent userInputSpaceShipComponent ) {
+		super ( relativePositionAndRotationBehavior, textureComponent );
 		this.cannonComponent = cannonComponent;
 		this.collisionShapeComponent = collisionShapeComponent;
 		this.userInputSpaceShipComponent = userInputSpaceShipComponent;
 	}
 
-	@Override
-	public @NotNull CannonComponent getCannonComponent () {
+	@Override public @NotNull CannonComponent getCannonComponent ( ) {
 		return cannonComponent;
 	}
 
-	@Override
-	public @NotNull CollisionShapeComponent getCollisionShapeComponent () {
+	@Override public @NotNull CollisionShapeComponent getCollisionShapeComponent ( ) {
 		return collisionShapeComponent;
 	}
 
-	@Override
-	public @NotNull UserInputSpaceShipComponent getUserInputSpaceShipComponent () {
+	@Override public @NotNull UserInputSpaceShipComponent getUserInputSpaceShipComponent ( ) {
 		return userInputSpaceShipComponent;
 	}
 }

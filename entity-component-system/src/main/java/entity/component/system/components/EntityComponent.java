@@ -5,33 +5,33 @@ public class EntityComponent {
 	private boolean addedToBehaviorLogic;
 	private boolean queuedForRemoval;
 
-	public EntityComponent () {
+	public EntityComponent ( ) {
 		this.queuedForAddition = false;
 		this.addedToBehaviorLogic = false;
 		this.queuedForRemoval = false;
 	}
 
-	public boolean isAddedToBehaviorLogic () {
+	public boolean isAddedToBehaviorLogic ( ) {
 		return addedToBehaviorLogic;
 	}
 
-	public void setAddedToBehaviorLogic (final boolean addedToBehaviorLogic) {
+	public void setAddedToBehaviorLogic ( final boolean addedToBehaviorLogic ) {
 		this.addedToBehaviorLogic = addedToBehaviorLogic;
 	}
 
-	public boolean isQueuedForAddition () {
+	public boolean isQueuedForAddition ( ) {
 		return queuedForAddition;
 	}
 
-	public void setQueuedForAddition (final boolean queuedForAddition) {
+	public void setQueuedForAddition ( final boolean queuedForAddition ) {
 		this.queuedForAddition = queuedForAddition;
 	}
 
-	public boolean isQueuedForRemoval () {
+	public boolean isQueuedForRemoval ( ) {
 		return queuedForRemoval;
 	}
 
-	public void setQueuedForRemoval (final boolean queuedForRemoval) {
+	public void setQueuedForRemoval ( final boolean queuedForRemoval ) {
 		this.queuedForRemoval = queuedForRemoval;
 	}
 }

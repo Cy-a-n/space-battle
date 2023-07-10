@@ -8,29 +8,29 @@ public class PositionRotationComponent {
 	private float degrees;
 	private boolean changed;
 
-	public PositionRotationComponent (@NotNull final Vector2 position, float degrees) {
+	public PositionRotationComponent ( @NotNull final Vector2 position, float degrees ) {
 		this.position = position;
 		this.degrees = degrees;
 		this.changed = true;
 	}
 
-	public float getDegrees () {
+	public float getDegrees ( ) {
 		return degrees;
 	}
 
-	public void setDegrees (final float degrees) {
+	public void setDegrees ( final float degrees ) {
 		this.degrees = degrees;
 	}
 
-	public @NotNull Vector2 getPosition () {
+	public @NotNull Vector2 getPosition ( ) {
 		return position;
 	}
 
-	public boolean isChanged () {
+	public boolean isChanged ( ) {
 		return changed;
 	}
 
-	public void setChanged (final boolean changed) {
+	public void setChanged ( final boolean changed ) {
 		this.changed = changed;
 	}
 }

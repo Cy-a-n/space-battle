@@ -14,15 +14,15 @@ import java.util.Set;
  * presence of entities.
  */
 public class VisualCollisionShapeLogic {
-	private final @NotNull Set<VisualCollisionShapeBehavior> entities = new HashSet<>();
+	private final @NotNull Set<VisualCollisionShapeBehavior> entities = new HashSet<> ( );
 
 	/**
 	 * Adds an entity to the set of entities.
 	 *
 	 * @param entity the entity to be added to the set
 	 */
-	void addEntity (final @NotNull VisualCollisionShapeBehavior entity) {
-		entities.add(entity);
+	void addEntity ( final @NotNull VisualCollisionShapeBehavior entity ) {
+		entities.add ( entity );
 	}
 
 	/**
@@ -30,8 +30,8 @@ public class VisualCollisionShapeLogic {
 	 *
 	 * @param entity the entity to be removed from the set
 	 */
-	void removeEntity (final @NotNull VisualCollisionShapeBehavior entity) {
-		entities.remove(entity);
+	void removeEntity ( final @NotNull VisualCollisionShapeBehavior entity ) {
+		entities.remove ( entity );
 	}
 
 	/**
@@ -39,15 +39,15 @@ public class VisualCollisionShapeLogic {
 	 *
 	 * @param shapeDrawer tool used for drawing shapes
 	 */
-	void update (final @NotNull ShapeDrawer shapeDrawer) {
-		shapeDrawer.setColor(Color.DARK_GRAY);
-		for (final @NotNull VisualCollisionShapeBehavior entity : entities) {
-			shapeDrawer.filledRectangle(entity.getCollisionShapeComponent().getConvexPolygon().getBoundingRectangle());
+	void update ( final @NotNull ShapeDrawer shapeDrawer ) {
+		shapeDrawer.setColor ( Color.DARK_GRAY );
+		for ( final @NotNull VisualCollisionShapeBehavior entity : entities ) {
+			shapeDrawer.filledRectangle ( entity.getCollisionShapeComponent ( ).getConvexPolygon ( ).getBoundingRectangle ( ) );
 		}
 
-		shapeDrawer.setColor(Color.WHITE);
-		for (VisualCollisionShapeBehavior entity : entities) {
-			shapeDrawer.filledPolygon(entity.getCollisionShapeComponent().getConvexPolygon().getTransformedVertices());
+		shapeDrawer.setColor ( Color.WHITE );
+		for ( VisualCollisionShapeBehavior entity : entities ) {
+			shapeDrawer.filledPolygon ( entity.getCollisionShapeComponent ( ).getConvexPolygon ( ).getTransformedVertices ( ) );
 		}
 	}
 }

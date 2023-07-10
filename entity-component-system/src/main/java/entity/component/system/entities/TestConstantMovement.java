@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class TestConstantMovement implements ConstantMovementBehavior {
 	private final @NotNull VelocityComponent velocityComponent;
-
 	private final @NotNull EntityComponent entityComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;
 
@@ -20,18 +19,15 @@ public class TestConstantMovement implements ConstantMovementBehavior {
 		this.positionRotationComponent = positionRotationComponent;
 	}
 
-	@Override
-	public @NotNull VelocityComponent getVelocityComponent ( ) {
+	@Override public @NotNull VelocityComponent getVelocityComponent ( ) {
 		return velocityComponent;
 	}
 
-	@Override
-	public @NotNull EntityComponent getEntityComponent ( ) {
+	@Override public @NotNull EntityComponent getEntityComponent ( ) {
 		return entityComponent;
 	}
 
-	@Override
-	public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
+	@Override public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
 		return positionRotationComponent;
 	}
 }

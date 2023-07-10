@@ -12,15 +12,15 @@ import java.util.Set;
  * This class provides logic for managing entities that move constantly in the game.
  */
 class ConstantMovementLogic {
-	private final @NotNull Set<ConstantMovementBehavior> entities = new HashSet<> ();
+	private final @NotNull Set<ConstantMovementBehavior> entities = new HashSet<> ( );
 
 	/**
 	 * Adds a constantly moving entity to the set of moving entities.
 	 *
 	 * @param entity The constantly moving entity to be added.
 	 */
-	void addEntity (final @NotNull ConstantMovementBehavior entity) {
-		entities.add (entity);
+	void addEntity ( final @NotNull ConstantMovementBehavior entity ) {
+		entities.add ( entity );
 	}
 
 	/**
@@ -28,8 +28,8 @@ class ConstantMovementLogic {
 	 *
 	 * @param entity The constantly moving entity to be removed.
 	 */
-	void removeEntity (final @NotNull ConstantMovementBehavior entity) {
-		entities.remove (entity);
+	void removeEntity ( final @NotNull ConstantMovementBehavior entity ) {
+		entities.remove ( entity );
 	}
 
 	/**
@@ -37,17 +37,17 @@ class ConstantMovementLogic {
 	 *
 	 * @param deltaTimeInSeconds The elapsed time since the last update, in seconds.
 	 */
-	void update (final float deltaTimeInSeconds) {
-		for (final @NotNull ConstantMovementBehavior entity : entities) {
-			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ();
-			final @NotNull Vector2 position = entity.getPositionRotationComponent ().getPosition ();
-			final @NotNull Vector2 translationalVelocity = entity.getVelocityComponent ().getTranslational ();
+	void update ( final float deltaTimeInSeconds ) {
+		for ( final @NotNull ConstantMovementBehavior entity : entities ) {
+			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ( );
+			final @NotNull Vector2 position = entity.getPositionRotationComponent ( ).getPosition ( );
+			final @NotNull Vector2 translationalVelocity = entity.getVelocityComponent ( ).getTranslational ( );
 
 			position.x += translationalVelocity.x * deltaTimeInSeconds;
 			position.y += translationalVelocity.y * deltaTimeInSeconds;
 			positionRotationComponent.setDegrees (
-					positionRotationComponent.getDegrees () + entity.getVelocityComponent ().getDegreesPerSecond () * deltaTimeInSeconds);
-			entity.getPositionRotationComponent ().setChanged (true);
+					positionRotationComponent.getDegrees ( ) + entity.getVelocityComponent ( ).getDegreesPerSecond ( ) * deltaTimeInSeconds );
+			entity.getPositionRotationComponent ( ).setChanged ( true );
 		}
 	}
 }

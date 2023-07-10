@@ -57,15 +57,15 @@ public class App
 		new GreenFighter (viewport0,
 						  textureAtlas,
 						  UserInputSpaceShipComponent.PLAYER_ONE,
-						  new Vector2 (0,
+						  new Vector2 (128,
 									   0),
 						  0);
 		new GreenFighter (viewport1,
 						  textureAtlas,
 						  UserInputSpaceShipComponent.PLAYER_TWO,
-						  new Vector2 (100,
+						  new Vector2 (-128,
 									   0),
-						  0);
+						  180);
 	}
 
 	@Override

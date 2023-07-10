@@ -4,7 +4,7 @@ import entity.component.system.behaviors.*;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPlayerBehavior, VisualCollisionShapeBehavior {
+public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPlayerBehavior {
 	private final @NotNull CameraComponent cameraComponent;
 	private final @NotNull DirectionalThrustComponent directionalThrustComponent;
 	private final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent;

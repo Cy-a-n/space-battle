@@ -15,7 +15,7 @@ public class CannonGreen
 		super (relativePositionAndRotationBehavior,
 			   new TextureComponent (textureAtlas.findRegion ("green_cannon")),
 			   new CannonComponent (BulletSmall.class,
-									500),
+									500, 60),
 			   new CollisionShapeComponent (new Polygon (new float[]{0, 0, 15, 2, 15, 9, 0, 10}),
 											1,
 											2,

@@ -5,7 +5,7 @@ import entity.component.system.behaviors.VisualCollisionShapeBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShip implements SpaceShipBehavior, VisualCollisionShapeBehavior {
+public class SpaceShip implements SpaceShipBehavior {
 	private final @NotNull EntityComponent entityComponent;
 	private final @NotNull TextureComponent textureComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;

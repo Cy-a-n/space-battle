@@ -1,2 +1,2 @@
-include 'server', 'lwjgl3', 'core', 'entity-component-system'
+include 'lwjgl3', 'core', 'entity-component-system'
 

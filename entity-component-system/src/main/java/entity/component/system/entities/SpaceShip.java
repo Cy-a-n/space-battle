@@ -6,6 +6,7 @@ import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
 public class SpaceShip implements SpaceShipBehavior, VisualCollisionShapeBehavior {
+	private final @NotNull EntityComponent entityComponent;
 	private final @NotNull TextureComponent textureComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;
 	private final @NotNull VelocityComponent velocityComponent;
@@ -22,6 +23,7 @@ public class SpaceShip implements SpaceShipBehavior, VisualCollisionShapeBehavio
 		this.velocityComponent = velocityComponent;
 		this.accelerationComponent = accelerationComponent;
 		this.collisionShapeComponent = collisionShapeComponent;
+		entityComponent = new EntityComponent ();
 	}
 
 	@Override
@@ -47,5 +49,10 @@ public class SpaceShip implements SpaceShipBehavior, VisualCollisionShapeBehavio
 	@Override
 	public @NotNull TextureComponent getTextureComponent () {
 		return textureComponent;
+	}
+
+	@Override
+	public @NotNull EntityComponent getEntityComponent () {
+		return entityComponent;
 	}
 }

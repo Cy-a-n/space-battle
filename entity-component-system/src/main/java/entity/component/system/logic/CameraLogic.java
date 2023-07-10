@@ -11,29 +11,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 class CameraLogic {
-	private final @NotNull Set<CameraBehavior> entities = new HashSet<>();
+	private final @NotNull Set<CameraBehavior> entities = new HashSet<> ();
 
 	void addEntity (final @NotNull CameraBehavior entity) {
-		entities.add(entity);
+		entities.add (entity);
 	}
 
 	void removeEntity (final @NotNull CameraBehavior entity) {
-		entities.remove(entity);
+		entities.remove (entity);
 	}
 
 	void update () {
 		for (final CameraBehavior entity : entities) {
-			final OrthographicCamera camera = entity.getCameraComponent().getCamera();
+			final OrthographicCamera camera = entity.getCameraComponent ().getCamera ();
 			final @NotNull Vector3 cameraPosition = camera.position;
-			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent();
-			final @NotNull Vector2 position = positionRotationComponent.getPosition();
+			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ();
+			final @NotNull Vector2 position = positionRotationComponent.getPosition ();
 
 			// TODO: Potential for performance improvements
-			camera.up.set(0, 1, 0);
-			camera.direction.set(0, 0, 1);
+			camera.up.set (0, 1, 0);
+			camera.direction.set (0, 0, -1);
 			cameraPosition.x = position.x;
 			cameraPosition.y = position.y;
-			camera.rotate(positionRotationComponent.getDegrees() - 90);
+			camera.rotate (-positionRotationComponent.getDegrees () + 90);
 		}
 	}
 }

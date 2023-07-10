@@ -2,7 +2,6 @@ package entity.component.system.logic;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import entity.component.system.behaviors.Behavior;
 import entity.component.system.behaviors.CollisionShapeBehavior;
 import entity.component.system.components.CollisionShapeComponent;
 import entity.component.system.components.PositionRotationComponent;
@@ -15,7 +14,7 @@ import java.util.Set;
  * This class provides logic for managing collision shapes in the game.
  */
 class CollisionShapeLogic {
-	private final Set<CollisionShapeBehavior> entities = new HashSet<>();
+	private final Set<CollisionShapeBehavior> entities = new HashSet<> ();
 
 	/**
 	 * Adds a entity to the set of collision shapes.
@@ -23,7 +22,7 @@ class CollisionShapeLogic {
 	 * @param entity The entity to be added.
 	 */
 	void addEntity (@NotNull CollisionShapeBehavior entity) {
-		entities.add(entity);
+		entities.add (entity);
 	}
 
 	/**
@@ -32,7 +31,7 @@ class CollisionShapeLogic {
 	 * @param entity The entity to be removed.
 	 */
 	void removeEntity (@NotNull CollisionShapeBehavior entity) {
-		entities.remove(entity);
+		entities.remove (entity);
 	}
 
 	/**
@@ -42,59 +41,68 @@ class CollisionShapeLogic {
 	void update () {
 		// Update each entity's position, rotation, and origin based on its current state
 		for (CollisionShapeBehavior entity : entities) {
-			final @NotNull Polygon shape = entity.getCollisionShapeComponent().getConvexPolygon();
-			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent();
-			final @NotNull Vector2 position = positionRotationComponent.getPosition();
+			final @NotNull Polygon shape = entity.getCollisionShapeComponent ().getConvexPolygon ();
+			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ();
+			final @NotNull Vector2 position = positionRotationComponent.getPosition ();
 
-			if (positionRotationComponent.isChanged()) {
-				shape.setPosition(position.x - shape.getOriginX(), position.y - shape.getOriginY());
-				shape.setRotation(positionRotationComponent.getDegrees());
+			if (positionRotationComponent.isChanged ()) {
+				shape.setPosition (position.x - shape.getOriginX (), position.y - shape.getOriginY ());
+				shape.setRotation (positionRotationComponent.getDegrees ());
 			}
 		}
 
 		// Check each pair of entities for possible collisions
-		CollisionShapeBehavior[] entityArray = entities.toArray(new CollisionShapeBehavior[0]);
+		CollisionShapeBehavior[] entityArray = entities.toArray (new CollisionShapeBehavior[0]);
 		for (int i = 0; i < entityArray.length; i++) {
 			final @NotNull CollisionShapeBehavior entity0 = entityArray[i];
-			final @NotNull CollisionShapeComponent collisionShapeComponent0 = entity0.getCollisionShapeComponent();
-			final @NotNull Polygon shape0 = collisionShapeComponent0.getConvexPolygon();
-			final int nonCollidingGroupId0 = collisionShapeComponent0.getNonCollidingGroupId();
+			final @NotNull CollisionShapeComponent collisionShapeComponent0 = entity0.getCollisionShapeComponent ();
+			final @NotNull Polygon shape0 = collisionShapeComponent0.getConvexPolygon ();
+			final int nonCollidingGroupId0 = collisionShapeComponent0.getNonCollidingGroupId ();
 
 			for (int j = i + 1; j < entityArray.length; j++) {
 				CollisionShapeBehavior entity1 = entityArray[j];
-				final @NotNull CollisionShapeComponent collisionShapeComponent1 = entity1.getCollisionShapeComponent();
-				if (nonCollidingGroupId0 == collisionShapeComponent1.getNonCollidingGroupId())
+				final @NotNull CollisionShapeComponent collisionShapeComponent1 = entity1.getCollisionShapeComponent ();
+
+				// Skip this collision check if possible
+				if (nonCollidingGroupId0 == collisionShapeComponent1.getNonCollidingGroupId () ||
+					entity0.getEntityComponent ().isQueuedForRemoval () || entity1.getEntityComponent ().isQueuedForRemoval ())
 					continue;
 
-				Polygon shape1 = collisionShapeComponent1.getConvexPolygon();
+				Polygon shape1 = collisionShapeComponent1.getConvexPolygon ();
 
 				// If the bounding boxes of the two entities overlap, then check for a more precise collision using
 				// the Separating Axis Theorem (SAT)
-				if (shape1.getBoundingRectangle().overlaps(shape0.getBoundingRectangle())) {
-					if (areIntersecting(shape0, shape1)) {
-						final float health0 = collisionShapeComponent0.getHealth();
-						final float health1 = collisionShapeComponent1.getHealth();
+				if (shape1.getBoundingRectangle ().overlaps (shape0.getBoundingRectangle ())) {
+					if (areIntersecting (shape0, shape1)) {
+						final float health0 = collisionShapeComponent0.getHealth ();
+						final float health1 = collisionShapeComponent1.getHealth ();
 
-						float damage0 = collisionShapeComponent0.getDamage();
-						float damage1 = collisionShapeComponent1.getDamage();
+						float damage0 = collisionShapeComponent0.getDamage ();
+						float damage1 = collisionShapeComponent1.getDamage ();
 
 						final float effectiveDamage0 =
-								(collisionShapeComponent1.getArmorClass() > collisionShapeComponent0.getEffectiveAgainstArmorClass()) ? damage0 / 2 : damage0;
+								(collisionShapeComponent1.getArmorClass () > collisionShapeComponent0.getEffectiveAgainstArmorClass ()) ?
+										damage0 / 2 : damage0;
 
 						final float effectiveDamage1 =
-								(collisionShapeComponent0.getArmorClass() > collisionShapeComponent1.getEffectiveAgainstArmorClass()) ? damage1 / 2 : damage1;
+								(collisionShapeComponent0.getArmorClass () > collisionShapeComponent1.getEffectiveAgainstArmorClass ()) ?
+										damage1 / 2 : damage1;
 
 						final float damageHealthRatio0 = effectiveDamage0 / health1;
 						final float damageHealthRatio1 = effectiveDamage1 / health0;
 
 						if (damageHealthRatio0 > damageHealthRatio1) {
-							BehaviorLogic.getInstance().removeEntity(entity1);
-							collisionShapeComponent0.setHealth(health0 - effectiveDamage1 / damageHealthRatio0);
-							collisionShapeComponent0.setDamage(damage0 - effectiveDamage1 / damageHealthRatio0 / 2);
+							BehaviorLogic.getInstance ().queueEntityForRemoval (entity1);
+							collisionShapeComponent0.setHealth (health0 - effectiveDamage1 / damageHealthRatio0);
+							collisionShapeComponent0.setDamage (damage0 - effectiveDamage1 / damageHealthRatio0 / 2);
+							if (collisionShapeComponent0.getHealth () < 1)
+								BehaviorLogic.getInstance ().queueEntityForRemoval (entity0);
 						} else {
-							BehaviorLogic.getInstance().removeEntity(entity0);
-							collisionShapeComponent1.setHealth(health1 - effectiveDamage0 / damageHealthRatio1);
-							collisionShapeComponent1.setDamage(damage1 - effectiveDamage0 / damageHealthRatio1 / 2);
+							BehaviorLogic.getInstance ().queueEntityForRemoval (entity0);
+							collisionShapeComponent1.setHealth (health1 - effectiveDamage0 / damageHealthRatio1);
+							collisionShapeComponent1.setDamage (damage1 - effectiveDamage0 / damageHealthRatio1 / 2);
+							if (collisionShapeComponent1.getHealth () < 1)
+								BehaviorLogic.getInstance ().queueEntityForRemoval (entity1);
 						}
 					}
 				}
@@ -104,8 +112,8 @@ class CollisionShapeLogic {
 
 	// Check if two polygons are intersecting by applying the Separating Axis Theorem (SAT)
 	private boolean areIntersecting (Polygon shape1, Polygon shape2) {
-		float[] vertices1 = shape1.getTransformedVertices();
-		float[] vertices2 = shape2.getTransformedVertices();
+		float[] vertices1 = shape1.getTransformedVertices ();
+		float[] vertices2 = shape2.getTransformedVertices ();
 
 		// Project all points of both polygons onto a series of axes perpendicular to the edges of the polygons
 		for (int i = 0; i < vertices1.length; i += 2) {
@@ -126,7 +134,7 @@ class CollisionShapeLogic {
 
 			// If there exists an axis along which the projections of the two polygons do not overlap, then the
 			// polygons do not intersect
-			if (!overlap(axisX, axisY, vertices1, vertices2)) {
+			if (!overlap (axisX, axisY, vertices1, vertices2)) {
 				return false;
 			}
 		}
@@ -136,10 +144,10 @@ class CollisionShapeLogic {
 
 	// Check if the projections of the two polygons overlap along the given axis
 	private boolean overlap (float axisX, float axisY, float[] vertices1, float[] vertices2) {
-		float min1 = project(axisX, axisY, vertices1[0], vertices1[1]);
+		float min1 = project (axisX, axisY, vertices1[0], vertices1[1]);
 		float max1 = min1;
 		for (int i = 2; i < vertices1.length; i += 2) {
-			float p = project(axisX, axisY, vertices1[i], vertices1[i + 1]);
+			float p = project (axisX, axisY, vertices1[i], vertices1[i + 1]);
 			if (p < min1) {
 				min1 = p;
 			} else if (p > max1) {
@@ -147,10 +155,10 @@ class CollisionShapeLogic {
 			}
 		}
 
-		float min2 = project(axisX, axisY, vertices2[0], vertices2[1]);
+		float min2 = project (axisX, axisY, vertices2[0], vertices2[1]);
 		float max2 = min2;
 		for (int i = 2; i < vertices2.length; i += 2) {
-			float p = project(axisX, axisY, vertices2[i], vertices2[i + 1]);
+			float p = project (axisX, axisY, vertices2[i], vertices2[i + 1]);
 			if (p < min2) {
 				min2 = p;
 			} else if (p > max2) {

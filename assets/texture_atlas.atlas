@@ -1,25 +1,32 @@
 texture_atlas.png
-size: 52, 35
+size: 35, 46
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 bullet_small
   rotate: false
-  xy: 0, 0
+  xy: 1, 0
   size: 16, 4
   orig: 16, 4
   offset: 0, 0
   index: -1
+green_cannon
+  rotate: false
+  xy: 17, 0
+  size: 16, 11
+  orig: 16, 11
+  offset: 0, 0
+  index: -1
 green_fighter_by_stephen_challener_on_open_game_art
   rotate: false
-  xy: 16, 0
+  xy: 0, 11
   size: 35, 35
   orig: 35, 35
   offset: 0, 0
   index: -1
 white_pixel
   rotate: false
-  xy: 51, 0
+  xy: 0, 0
   size: 1, 1
   orig: 1, 1
   offset: 0, 0

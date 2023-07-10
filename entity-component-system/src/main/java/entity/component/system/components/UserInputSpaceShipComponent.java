@@ -2,38 +2,51 @@ package entity.component.system.components;
 
 import com.badlogic.gdx.Input;
 
-import java.security.Key;
-
 public enum UserInputSpaceShipComponent {
-	PLAYER_ONE(Input.Keys.W, Input.Keys.S, Input.Keys.D, Input.Keys.A, Input.Keys.E, Input.Keys.Q,
-			Input.Keys.ALT_LEFT), PLAYER_TWO(Input.Keys.I, Input.Keys.K, Input.Keys.L, Input.Keys.J, Input.Keys.O,
-			Input.Keys.U, Input.Keys.SPACE);
+	PLAYER_ONE (Input.Keys.W,
+				Input.Keys.S,
+				Input.Keys.D,
+				Input.Keys.A,
+				Input.Keys.E,
+				Input.Keys.Q,
+				Input.Keys.SHIFT_LEFT),
+	PLAYER_TWO (Input.Keys.I,
+				Input.Keys.K,
+				Input.Keys.L,
+				Input.Keys.J,
+				Input.Keys.O,
+				Input.Keys.U,
+				Input.Keys.SPACE);
 	private int forwards;
 	private int backwards;
 	private int left;
 	private int right;
 	private int spinCounterClockwise;
 	private int spinClockwise;
-	private int shootPrimaryWeapons;
+	private int primaryCannons;
 
-	UserInputSpaceShipComponent (final int forwards, final int backwards, final int right, final int left,
-								 final int spinClockwise, final int spinCounterClockwise,
-								 final int shootPrimaryWeapons) {
+	UserInputSpaceShipComponent (final int forwards,
+								 final int backwards,
+								 final int right,
+								 final int left,
+								 final int spinClockwise,
+								 final int spinCounterClockwise,
+								 final int primaryCannons) {
 		this.forwards = forwards;
 		this.backwards = backwards;
 		this.left = left;
 		this.right = right;
 		this.spinCounterClockwise = spinCounterClockwise;
 		this.spinClockwise = spinClockwise;
-		this.shootPrimaryWeapons = shootPrimaryWeapons;
+		this.primaryCannons = primaryCannons;
 	}
 
-	public int getShootPrimaryWeapons () {
-		return shootPrimaryWeapons;
+	public int getPrimaryCannons () {
+		return primaryCannons;
 	}
 
-	public void setShootPrimaryWeapons (final int shootPrimaryWeapons) {
-		this.shootPrimaryWeapons = shootPrimaryWeapons;
+	public void setPrimaryCannons (final int primaryCannons) {
+		this.primaryCannons = primaryCannons;
 	}
 
 	public int getForwards () {

@@ -11,24 +11,24 @@ import java.util.Set;
  * It holds a set of all PositionRotationBehavior entities, allowing for easy addition and removal.
  */
 class PositionLogic {
-	private final @NotNull Set<PositionRotationBehavior> entities = new HashSet<>();
+	private final @NotNull Set<PositionRotationBehavior> entities = new HashSet<> ();
 
 	/**
 	 * Adds a new PositionRotationBehavior entity to the set.
 	 *
-	 * @param entity Behavior to add
+	 * @param entity Entity to add
 	 */
 	void addEntity (final @NotNull PositionRotationBehavior entity) {
-		entities.add(entity);
+		entities.add (entity);
 	}
 
 	/**
 	 * Removes a PositionRotationBehavior entity from the set.
 	 *
-	 * @param entity Behavior to remove
+	 * @param entity Entity to remove
 	 */
 	void removeEntity (final @NotNull PositionRotationBehavior entity) {
-		entities.remove(entity);
+		entities.remove (entity);
 	}
 
 	/**
@@ -36,7 +36,8 @@ class PositionLogic {
 	 */
 	void update () {
 		for (final @NotNull PositionRotationBehavior entity : entities) {
-			entity.getPositionRotationComponent().setChanged(false);
+			entity.getPositionRotationComponent ()
+					.setChanged (false);
 		}
 	}
 }

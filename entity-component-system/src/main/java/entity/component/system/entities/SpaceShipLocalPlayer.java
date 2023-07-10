@@ -4,8 +4,7 @@ import entity.component.system.behaviors.*;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPlayerBehavior,
-		VisualCollisionShapeBehavior {
+public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPlayerBehavior, VisualCollisionShapeBehavior {
 	private final @NotNull CameraComponent cameraComponent;
 	private final @NotNull DirectionalThrustComponent directionalThrustComponent;
 	private final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent;
@@ -18,8 +17,7 @@ public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPla
 								 @NotNull final CameraComponent cameraComponent,
 								 @NotNull final DirectionalThrustComponent directionalThrustComponent1,
 								 @NotNull final UserInputSpaceShipComponent userInputSpaceShipComponent1) {
-		super(textureComponent, positionRotationComponent, velocityComponent, accelerationComponent,
-				collisionShapeComponent);
+		super (textureComponent, positionRotationComponent, velocityComponent, accelerationComponent, collisionShapeComponent);
 
 		this.cameraComponent = cameraComponent;
 		this.directionalThrustComponent = directionalThrustComponent1;
@@ -37,7 +35,7 @@ public class SpaceShipLocalPlayer extends SpaceShip implements SpaceShipLocalPla
 	}
 
 	@Override
-	public UserInputSpaceShipComponent getUserInputSpaceShipBehavior () {
+	public @NotNull UserInputSpaceShipComponent getUserInputSpaceShipComponent () {
 		return userInputSpaceShipComponent;
 	}
 }

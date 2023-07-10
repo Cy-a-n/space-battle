@@ -63,7 +63,6 @@ public class CannonComponent {
 	 */
 	public void setMillisecondsOfLastProjectile ( long millisecondsOfLastProjectile ) {
 		this.millisecondsOfLastProjectile = millisecondsOfLastProjectile;
-		this.millisecondsOfLastProjectile = 0;
 	}
 
 	/**

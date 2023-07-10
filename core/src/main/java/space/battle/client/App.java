@@ -28,6 +28,7 @@ public class App extends ApplicationAdapter {
 	private Viewport viewport0;
 	private Viewport viewport1;
 	private BehaviorLogic behaviorLogic;
+	private long test = 0;
 
 	@Override public void create ( ) {
 		// Many libgdx types can only be instantiated in the create method since they rely on native libraries

@@ -35,6 +35,7 @@ public class CannonLogic {
 			if ( input.isKeyPressed ( entity.getUserInputSpaceShipComponent ( ).getPrimaryCannons ( ) ) &&
 				 TimeUtils.timeSinceMillis ( cannonComponent.getMillisecondsOfLastProjectile ( ) ) >
 				 cannonComponent.getMillisecondsPerProjectile ( ) ) {
+
 				cannonComponent.setMillisecondsOfLastProjectile ( TimeUtils.millis ( ) );
 
 				final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ( );

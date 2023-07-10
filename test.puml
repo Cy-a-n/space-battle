@@ -1,0 +1,30 @@
+@startuml
+class entity.component.system.logic.BehaviorLogic {
+- {static} BehaviorLogic instance
+- PositionLogic positionLogic
+- CameraLogic cameraLogic
+- TextureLogic textureLogic
+- ConstantMovementLogic constantMovementLogic
+- AcceleratedMovementLogic acceleratedMovementLogic
+- VisualCollisionShapeLogic visualCollisionShapeLogic
+- RelativePositionAndRotationLogic relativePositionAndRotationLogic
+- CollisionShapeLogic collisionShapeLogic
+- UserInputSpaceShipMovementLogic userInputSpaceShipMovementLogic
+- CannonLogic cannonLogic
+- LifeTimeLogic lifeTimeLogic
+- Set<Entity> allEntities
+- Set<Entity> entitiesQueuedForAddition
+- Set<Entity> entitiesQueuedForRemoval
++ {static} BehaviorLogic getInstance()
++ {static} void disposeInstance()
++ void queueForAddition(Entity)
+~ void addEntities()
+~ void addEntity(Entity)
++ void queueEntityForRemoval(Entity)
+- void removeEntities()
+~ void removeEntity(Entity)
++ boolean containsEntity(Entity)
++ void update(float)
++ void updateWithGraphics(float,SpriteBatch,ShapeDrawer,Viewport[],TextureAtlas)
+}
+@enduml

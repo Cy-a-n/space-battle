@@ -1,0 +1,127 @@
+@startuml
+class entity.component.system.logic.ConstantMovementLogic {
+- Set<ConstantMovementBehavior> entities
+~ void addEntity(ConstantMovementBehavior)
+~ void removeEntity(ConstantMovementBehavior)
+~ void update(float)
+}
+class entity.component.system.logic.PositionLogic {
+- Set<PositionRotationBehavior> entities
+~ void addEntity(PositionRotationBehavior)
+~ void removeEntity(PositionRotationBehavior)
+~ void update()
+}
+interface entity.component.system.behaviors.Entity {
+~ EntityComponent getEntityComponent()
+}
+class entity.component.system.components.PositionRotationComponent {
+- Vector2 position
+- float degrees
+- boolean changed
++ float getDegrees()
++ void setDegrees(float)
++ Vector2 getPosition()
++ boolean isChanged()
++ void setChanged(boolean)
+}
+class entity.component.system.components.EntityComponent {
+- boolean queuedForAddition
+- boolean addedToBehaviorLogic
+- boolean queuedForRemoval
++ boolean isAddedToBehaviorLogic()
++ void setAddedToBehaviorLogic(boolean)
++ boolean isQueuedForAddition()
++ void setQueuedForAddition(boolean)
++ boolean isQueuedForRemoval()
++ void setQueuedForRemoval(boolean)
+}
+class entity.component.system.entities.TestConstantMovement {
+- VelocityComponent velocityComponent
+- EntityComponent entityComponent
+- PositionRotationComponent positionRotationComponent
++ VelocityComponent getVelocityComponent()
++ EntityComponent getEntityComponent()
++ PositionRotationComponent getPositionRotationComponent()
+}
+interface entity.component.system.behaviors.AcceleratedMovementBehavior {
+~ AccelerationComponent getAccelerationComponent()
+}
+interface entity.component.system.behaviors.ConstantMovementBehavior {
+~ VelocityComponent getVelocityComponent()
+}
+class entity.component.system.components.VelocityComponent {
+- Vector2 translational
+- float degreesPerSecond
++ float getDegreesPerSecond()
++ void setDegreesPerSecond(float)
++ Vector2 getTranslational()
+}
+class entity.component.system.components.AccelerationComponent {
+- Vector2 translational
+- float degreesPerSecondSquared
+- float translationalFriction
+- float rotationalFriction
++ float getRotationalFriction()
++ void setRotationalFriction(float)
++ float getDegreesPerSecondSquared()
++ void setDegreesPerSecondSquared(float)
++ Vector2 getTranslational()
++ float getTranslationalFriction()
++ void setTranslationalFriction(float)
+}
+interface entity.component.system.behaviors.PositionRotationBehavior {
+~ PositionRotationComponent getPositionRotationComponent()
+}
+class entity.component.system.logic.AcceleratedMovementLogic {
+- Set<AcceleratedMovementBehavior> entities
+~ void addEntity(AcceleratedMovementBehavior)
+~ void removeEntity(AcceleratedMovementBehavior)
+~ void update(float)
+}
+class entity.component.system.entities.TestAcceleratedMovement {
+- VelocityComponent velocityComponent
+- EntityComponent entityComponent
+- PositionRotationComponent positionRotationComponent
+- AccelerationComponent acceleratedMovementBehavior
++ VelocityComponent getVelocityComponent()
++ EntityComponent getEntityComponent()
++ PositionRotationComponent getPositionRotationComponent()
++ AccelerationComponent getAccelerationComponent()
+}
+
+class entity.component.system.logic.BehaviorLogic {
+- {static} BehaviorLogic instance
+- PositionLogic positionLogic
+- CameraLogic cameraLogic
+- TextureLogic textureLogic
+- ConstantMovementLogic constantMovementLogic
+- AcceleratedMovementLogic acceleratedMovementLogic
+- VisualCollisionShapeLogic visualCollisionShapeLogic
+- RelativePositionAndRotationLogic relativePositionAndRotationLogic
+- CollisionShapeLogic collisionShapeLogic
+- UserInputSpaceShipMovementLogic userInputSpaceShipMovementLogic
+- CannonLogic cannonLogic
+- LifeTimeLogic lifeTimeLogic
+- Set<Entity> allEntities
+- Set<Entity> entitiesQueuedForAddition
+- Set<Entity> entitiesQueuedForRemoval
++ {static} BehaviorLogic getInstance()
++ {static} void disposeInstance()
++ void queueForAddition(Entity)
+~ void addEntities()
+~ void addEntity(Entity)
++ void queueEntityForRemoval(Entity)
+- void removeEntities()
+~ void removeEntity(Entity)
++ boolean containsEntity(Entity)
++ void update(float)
++ void updateWithGraphics(float,SpriteBatch,ShapeDrawer,Viewport[],TextureAtlas)
+}
+
+
+entity.component.system.behaviors.ConstantMovementBehavior <|.. entity.component.system.entities.TestConstantMovement
+entity.component.system.behaviors.ConstantMovementBehavior <|-- entity.component.system.behaviors.AcceleratedMovementBehavior
+entity.component.system.behaviors.PositionRotationBehavior <|-- entity.component.system.behaviors.ConstantMovementBehavior
+entity.component.system.behaviors.Entity <|-- entity.component.system.behaviors.PositionRotationBehavior
+entity.component.system.behaviors.AcceleratedMovementBehavior <|.. entity.component.system.entities.TestAcceleratedMovement
+@enduml

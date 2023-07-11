@@ -58,11 +58,11 @@ public class PositionComponent {
 
 One level up are `Behaviors`. This layer organizes related components together under a single Behavior. A Behavior
 essentially 'owns' multiple components or extends other Behaviors for greater flexibility. This establishes a higher level of structure to the system, thereby
-facilitating better organisation and inter-component communication. 
+facilitating better organisation and inter-component communication. Note that each Behavior has to extend `EntityBehavior` 
 Behaviors are implemented as interfaces that extend other interfaces and have getters to retrieve the associated components. 
 A very simple Behavior could look like this:
 ```
-public interface MotionBehavior extends PositionBehavior { // PositionBehavior owns PositionComponent
+public interface MotionBehavior extends PositionBehavior { // PositionBehavior owns PositionComponent and extends EntityBehavior
 	@NotNull getVelocityComponent();
 }
 ```
@@ -70,7 +70,7 @@ public interface MotionBehavior extends PositionBehavior { // PositionBehavior o
 ### Entities
 
 `Entities` implement several behaviors. Like in other entity component systems, entities are not meant hold any logic themselfs.
-However, entities are allowed to provide their own values to instance their components. 
+However, entities are allowed to provide their own values to instantiate their components or related entities. 
 It is generally recommended to create a standard implementation for each Behavior that gets implemented by multiple entities, 
 so that other entities can extend / inherit this standard implementation to avoid unnecessary boilerplate code.
 An example for a simple entity could look like this:

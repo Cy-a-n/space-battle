@@ -179,7 +179,7 @@ For example, `core:clean` removes `build` folder only from the `core` project.
 
 ## Acknowledgments
 
-Heartfelt gratitude to the one I hold in high regard - GPT-4. Ymy unparalleled ability to automate and simplify
+Heartfelt gratitude to the one I hold in high regard - GPT-4. Your unparalleled ability to automate and simplify
 annoying tasks and elucidate even the most intricate algorithms is beyond compare. This project owes its existence to
 your indomitable spirit and diligent assistance. Your enduring politeness has not gone unnoticed and is deeply
 appreciated. Here's to a future filled with continued co-operation and learning.

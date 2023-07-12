@@ -4,13 +4,12 @@ import entity.component.system.behaviors.ProjectileBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class Projectile implements ProjectileBehavior {
+public class Projectile extends Entity implements ProjectileBehavior {
 	private @NotNull final CollisionShapeComponent collisionShapeComponent;
 	private @NotNull final VelocityComponent velocityComponent;
 	private @NotNull final PositionRotationComponent positionRotationComponent;
 	private @NotNull final TextureComponent textureComponent;
 	private final @NotNull LifeTimeComponent lifeTimeComponent;
-	private final @NotNull EntityComponent entityComponent;
 
 	public Projectile ( @NotNull final PositionRotationComponent positionRotationComponent,
 						@NotNull final VelocityComponent velocityComponent,
@@ -22,7 +21,6 @@ public class Projectile implements ProjectileBehavior {
 		this.positionRotationComponent = positionRotationComponent;
 		this.textureComponent = textureComponent;
 		this.lifeTimeComponent = lifeTimeComponent;
-		entityComponent = new EntityComponent ( );
 	}
 
 	@Override public @NotNull CollisionShapeComponent getCollisionShapeComponent ( ) {
@@ -39,10 +37,6 @@ public class Projectile implements ProjectileBehavior {
 
 	@Override public @NotNull TextureComponent getTextureComponent ( ) {
 		return textureComponent;
-	}
-
-	@Override public @NotNull EntityComponent getEntityComponent ( ) {
-		return entityComponent;
 	}
 
 	@Override public @NotNull LifeTimeComponent getLifeTimeComponent ( ) {

@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entity.component.system.behaviors.*;
+import entity.component.system.components.EntityComponent;
+import entity.component.system.entities.Entity;
 import org.jetbrains.annotations.NotNull;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,9 +30,9 @@ public class BehaviorLogic {
 	private final @NotNull UserInputSpaceShipMovementLogic userInputSpaceShipMovementLogic = new UserInputSpaceShipMovementLogic ( );
 	private final @NotNull CannonLogic cannonLogic = new CannonLogic ( );
 	private final @NotNull LifeTimeLogic lifeTimeLogic = new LifeTimeLogic ( );
-	private final @NotNull Set<Entity> allEntities = new HashSet<> ( );
-	private final @NotNull Set<Entity> entitiesQueuedForAddition = new HashSet<> ( );
-	private final @NotNull Set<Entity> entitiesQueuedForRemoval = new HashSet<> ( );
+	private final @NotNull Set<EntityBehavior> allEntities = new HashSet<> ( );
+	private  @NotNull Set<EntityBehavior> entitiesQueuedForAddition = new HashSet<> ( );
+	private  @NotNull Set<EntityBehavior> entitiesQueuedForRemoval = new HashSet<> ( );
 
 	private BehaviorLogic ( ) { }
 
@@ -45,16 +48,17 @@ public class BehaviorLogic {
 		instance = null;
 	}
 
-	public void queueForAddition ( Entity entity ) {
+	public void queueForAddition ( EntityBehavior entity ) {
 		entitiesQueuedForAddition.add ( entity );
 		entity.getEntityComponent ( ).setQueuedForAddition ( true );
 	}
 
-	void addEntities ( ) {
-		for ( Entity entity : entitiesQueuedForAddition )
-			addEntity ( entity );
+	private void addEntities ( ) {
+		final @NotNull Set<EntityBehavior> entitiesToBeAdded = new HashSet<> ( entitiesQueuedForAddition );
+		entitiesQueuedForAddition = new HashSet<> ();
 
-		entitiesQueuedForAddition.clear ( );
+		for ( EntityBehavior entity :  entitiesToBeAdded  )
+			addEntity ( entity );
 	}
 
 	/**
@@ -62,12 +66,16 @@ public class BehaviorLogic {
 	 *
 	 * @param entity The entity to be added.
 	 */
-	void addEntity ( @NotNull Entity entity ) {
+	private void addEntity ( @NotNull EntityBehavior entity ) {
 		if ( !allEntities.add ( entity ) )
 			throw new IllegalArgumentException ( String.format (
-					"%s already contains element %s. You cannot add the same " + "instance of %s " + "twice.", allEntities, entity, Entity.class ) );
-		entity.getEntityComponent ( ).setQueuedForAddition ( false );
-		entity.getEntityComponent ( ).setAddedToBehaviorLogic ( true );
+					"%s already contains element %s. You cannot add the same " + "instance of %s " + "twice.", allEntities, entity, EntityBehavior.class ) );
+
+		EntityComponent entityComponent = entity.getEntityComponent ();
+		entityComponent.setQueuedForAddition ( false );
+		entityComponent.setAddedToBehaviorLogic ( true );
+		entitiesQueuedForAddition.addAll ( entityComponent.getQueueEntitiesOnAddition () );
+
 
 		if ( entity instanceof PositionRotationBehavior )
 			positionLogic.addEntity ( ( PositionRotationBehavior ) entity );
@@ -104,6 +112,8 @@ public class BehaviorLogic {
 
 		if ( entity instanceof LifeTimeBehavior )
 			lifeTimeLogic.addEntity ( ( LifeTimeBehavior ) entity );
+
+
 	}
 
 	/**
@@ -113,7 +123,7 @@ public class BehaviorLogic {
 	 * @param entity The entity to be queued for removal.
 	 * @throws IllegalArgumentException If the entity was never added to the system.
 	 */
-	public void queueEntityForRemoval ( final @NotNull Entity entity ) {
+	public void queueEntityForRemoval ( final @NotNull EntityBehavior entity ) {
 		entitiesQueuedForRemoval.add ( entity );
 		entity.getEntityComponent ( ).setQueuedForRemoval ( true );
 	}
@@ -122,26 +132,29 @@ public class BehaviorLogic {
 	 * Remove all entities queued for removal from the game tree.
 	 */
 	private void removeEntities ( ) {
-		for ( Entity entity : entitiesQueuedForRemoval )
-			removeEntity ( entity );
+		final @NotNull Set<EntityBehavior> entitiesToBeRemoved = new HashSet<> ( entitiesQueuedForRemoval );
+		entitiesQueuedForRemoval = new HashSet<> ();
 
-		entitiesQueuedForRemoval.clear ( );
+		for ( EntityBehavior entity : new HashSet<> ( entitiesToBeRemoved )   )
+			removeEntity ( entity );
 	}
 
 	/**
 	 * Remove an entity directly.
 	 */
-	void removeEntity ( final @NotNull Entity entity ) {
+	private void removeEntity ( final @NotNull EntityBehavior entity ) {
 		if ( !allEntities.remove ( entity ) )
 			throw new IllegalArgumentException ( String.format (
 					"%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.",
 					allEntities,
 					entity,
-					Entity.class,
+					EntityBehavior.class,
 					"space.battle.entity.component" + ".system.behaviors.logic.BehaviorLogic.addEntity()" ) );
 
-		entity.getEntityComponent ( ).setQueuedForRemoval ( true );
-		entity.getEntityComponent ( ).setAddedToBehaviorLogic ( false );
+		EntityComponent entityComponent = entity.getEntityComponent ();
+		entityComponent.setQueuedForRemoval ( true );
+		entityComponent.setAddedToBehaviorLogic ( false );
+		entitiesQueuedForRemoval.addAll ( entityComponent.getQueueEntitiesOnRemoval () );
 
 		if ( entity instanceof ParentWithPositionRotationBehavior ) {
 			positionLogic.removeEntity ( ( PositionRotationBehavior ) entity );
@@ -181,7 +194,7 @@ public class BehaviorLogic {
 			lifeTimeLogic.removeEntity ( ( LifeTimeBehavior ) entity );
 	}
 
-	public boolean containsEntity ( final @NotNull Entity entity ) {
+	public boolean containsEntity ( final @NotNull EntityBehavior entity ) {
 		return allEntities.contains ( entity );
 	}
 

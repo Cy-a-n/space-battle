@@ -9,8 +9,7 @@ import entity.component.system.components.RelativePositionRotationComponent;
 import entity.component.system.components.TextureComponent;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShipSubcomponent implements RelativePositionRotationBehavior, TextureBehavior {
-	private final @NotNull EntityComponent entityComponent;
+public class SpaceShipSubcomponent extends Entity implements RelativePositionRotationBehavior, TextureBehavior {
 	private final @NotNull PositionRotationComponent positionRotationComponent;
 	private final @NotNull RelativePositionRotationComponent relativePositionAndRotationBehavior;
 	private final @NotNull TextureComponent textureComponent;
@@ -20,7 +19,6 @@ public class SpaceShipSubcomponent implements RelativePositionRotationBehavior, 
 		this.positionRotationComponent = new PositionRotationComponent ( new Vector2 ( 0, 0 ), 0 );
 		this.relativePositionAndRotationBehavior = relativePositionAndRotationBehavior;
 		this.textureComponent = textureComponent;
-		entityComponent = new EntityComponent ( );
 	}
 
 	@Override public @NotNull PositionRotationComponent getPositionRotationComponent ( ) {
@@ -33,9 +31,5 @@ public class SpaceShipSubcomponent implements RelativePositionRotationBehavior, 
 
 	@Override public @NotNull TextureComponent getTextureComponent ( ) {
 		return textureComponent;
-	}
-
-	@Override public @NotNull EntityComponent getEntityComponent ( ) {
-		return entityComponent;
 	}
 }

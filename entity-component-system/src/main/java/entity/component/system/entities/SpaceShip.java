@@ -4,8 +4,7 @@ import entity.component.system.behaviors.SpaceShipBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShip implements SpaceShipBehavior {
-	private final @NotNull EntityComponent entityComponent;
+public class SpaceShip extends Entity implements SpaceShipBehavior {
 	private final @NotNull TextureComponent textureComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;
 	private final @NotNull VelocityComponent velocityComponent;
@@ -22,7 +21,6 @@ public class SpaceShip implements SpaceShipBehavior {
 		this.velocityComponent = velocityComponent;
 		this.accelerationComponent = accelerationComponent;
 		this.collisionShapeComponent = collisionShapeComponent;
-		entityComponent = new EntityComponent ( );
 	}
 
 	@Override public @NotNull AccelerationComponent getAccelerationComponent ( ) {
@@ -43,9 +41,5 @@ public class SpaceShip implements SpaceShipBehavior {
 
 	@Override public @NotNull TextureComponent getTextureComponent ( ) {
 		return textureComponent;
-	}
-
-	@Override public @NotNull EntityComponent getEntityComponent ( ) {
-		return entityComponent;
 	}
 }

@@ -41,6 +41,9 @@ class TextureLogic {
 	 */
 	void update ( @NotNull SpriteBatch batch ) {
 		for ( final @NotNull TextureBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ( );
 			final @NotNull Vector2 position = positionRotationComponent.getPosition ( );
 			final @NotNull TextureRegion textureRegion = entity.getTextureComponent ( ).getTextureRegion ( );

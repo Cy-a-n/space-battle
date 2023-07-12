@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import entity.component.system.behaviors.CannonBehavior;
-import entity.component.system.behaviors.ProjectileBehavior;
 import entity.component.system.components.CannonComponent;
 import entity.component.system.components.PositionRotationComponent;
 import entity.component.system.components.VelocityComponent;
@@ -30,6 +29,9 @@ public class CannonLogic {
 
 	void update ( TextureAtlas textureAtlas ) {
 		for ( final @NotNull CannonBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull CannonComponent cannonComponent = entity.getCannonComponent ( );
 
 			if ( input.isKeyPressed ( entity.getUserInputSpaceShipComponent ( ).getPrimaryCannons ( ) ) &&
@@ -42,19 +44,20 @@ public class CannonLogic {
 				final float rotationDegrees = positionRotationComponent.getDegrees ( );
 
 				try {
-					ProjectileBehavior projectile = cannonComponent.getProjectile ( )
-																   .getDeclaredConstructor ( PositionRotationComponent.class,
-																							 VelocityComponent.class,
-																							 int.class,
-																							 TextureAtlas.class )
-																   .newInstance ( new PositionRotationComponent ( positionRotationComponent.getPosition ( )
-																																		   .cpy ( ),
-																												  rotationDegrees ),
-																				  new VelocityComponent ( new Vector2 ( cannonComponent.getTranslationalVelocity ( ),
-																														0 ).rotateDeg (
-																						  rotationDegrees ), 0 ),
-																				  entity.getCollisionShapeComponent ( ).getNonCollidingGroupId ( ),
-																				  textureAtlas );
+					BehaviorLogic.getInstance ( ).queueForAddition ( cannonComponent.getProjectile ( )
+																					.getDeclaredConstructor ( PositionRotationComponent.class,
+																											  VelocityComponent.class,
+																											  int.class,
+																											  TextureAtlas.class )
+																					.newInstance ( new PositionRotationComponent (
+																										   positionRotationComponent.getPosition ( ).cpy ( ),
+																										   rotationDegrees ),
+																								   new VelocityComponent ( new Vector2 (
+																										   cannonComponent.getTranslationalVelocity ( ),
+																										   0 ).rotateDeg ( rotationDegrees ), 0 ),
+																								   entity.getCollisionShapeComponent ( )
+																										 .getNonCollidingGroupId ( ),
+																								   textureAtlas ) );
 				} catch ( InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e ) {
 					throw new RuntimeException ( e );
 				}

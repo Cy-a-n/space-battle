@@ -2,7 +2,13 @@ package entity.component.system.components;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import entity.component.system.behaviors.PositionRotationBehavior;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The CameraComponent class represents the camera properties of an entity.
@@ -11,20 +17,41 @@ import org.jetbrains.annotations.NotNull;
 public class CameraComponent {
 	private final @NotNull Viewport viewport;
 	private final @NotNull OrthographicCamera camera;
+	private final float minWidth;
+	private final float minHeight;
+	private final @NotNull Set<PositionRotationBehavior> entitiesAlwaysInFrame;
+
+	public float getMinWidth ( ) {
+		return minWidth;
+	}
+
+	public float getMinHeight ( ) {
+		return minHeight;
+	}
+
+	public void addEntityAlwaysInFrame ( final PositionRotationBehavior entityInFrame ) { entitiesAlwaysInFrame.add ( entityInFrame ); }
+
+	public Set<PositionRotationBehavior> getEntitiesAlwaysInFrame ( ) {
+		return Collections.unmodifiableSet ( entitiesAlwaysInFrame );
+	}
 
 	/**
 	 * Constructs a new CameraComponent with the specified viewport.
 	 *
-	 * @param viewport the viewport associated with the camera
+	 * @param viewport              the viewport associated with the camera
+	 * @param entitiesAlwaysInFrame
 	 * @throws IllegalArgumentException if the viewport does not contain a non-null instance of OrthographicCamera
 	 */
-	public CameraComponent ( @NotNull final Viewport viewport ) {
-		if ( viewport.getCamera ( ) == null || !( viewport.getCamera ( ) instanceof OrthographicCamera orthographicCamera ) ) {
+	public CameraComponent ( @NotNull final Viewport viewport, final @NotNull PositionRotationBehavior... entitiesAlwaysInFrame ) {
+
+		if ( viewport.getCamera ( ) == null || !( viewport.getCamera ( ) instanceof OrthographicCamera orthographicCamera ) )
 			throw new IllegalArgumentException ( "Viewport must contain a non-null instance of OrthographicCamera" );
-		}
 
 		this.viewport = viewport;
 		this.camera = orthographicCamera;
+		this.minWidth = viewport.getWorldWidth ( );
+		this.minHeight = viewport.getWorldHeight ( );
+		this.entitiesAlwaysInFrame = new HashSet<> ( List.of ( entitiesAlwaysInFrame ) );
 	}
 
 	/**

@@ -39,6 +39,9 @@ class ConstantMovementLogic {
 	 */
 	void update ( final float deltaTimeInSeconds ) {
 		for ( final @NotNull ConstantMovementBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ( );
 			final @NotNull Vector2 position = entity.getPositionRotationComponent ( ).getPosition ( );
 			final @NotNull Vector2 translationalVelocity = entity.getVelocityComponent ( ).getTranslational ( );

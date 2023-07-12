@@ -25,6 +25,9 @@ public class UserInputSpaceShipMovementLogic {
 
 	void update ( ) {
 		for ( final @NotNull SpaceShipLocalPlayerBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull UserInputSpaceShipComponent userInput = entity.getUserInputSpaceShipComponent ( );
 			final @NotNull DirectionalThrustComponent directionalThrust = entity.getDirectionalThrustComponent ( );
 			final @NotNull Vector2 translationalThrustDirection = new Vector2 ( );

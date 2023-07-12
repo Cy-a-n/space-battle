@@ -16,7 +16,7 @@ class PositionLogic {
 	/**
 	 * Adds a new PositionRotationBehavior entity to the set.
 	 *
-	 * @param entity Entity to add
+	 * @param entity EntityBehavior to add
 	 */
 	void addEntity ( final @NotNull PositionRotationBehavior entity ) {
 		entities.add ( entity );
@@ -25,7 +25,7 @@ class PositionLogic {
 	/**
 	 * Removes a PositionRotationBehavior entity from the set.
 	 *
-	 * @param entity Entity to remove
+	 * @param entity EntityBehavior to remove
 	 */
 	void removeEntity ( final @NotNull PositionRotationBehavior entity ) {
 		entities.remove ( entity );
@@ -36,6 +36,9 @@ class PositionLogic {
 	 */
 	void update ( ) {
 		for ( final @NotNull PositionRotationBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			entity.getPositionRotationComponent ( ).setChanged ( false );
 		}
 	}

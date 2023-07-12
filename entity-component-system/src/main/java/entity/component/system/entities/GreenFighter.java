@@ -10,7 +10,7 @@ import entity.component.system.logic.BehaviorLogic;
 import org.jetbrains.annotations.NotNull;
 
 public class GreenFighter extends SpaceShipLocalPlayer implements ParentWithPositionRotationBehavior {
-	public GreenFighter ( final @NotNull Viewport viewport,
+	public GreenFighter ( final @NotNull CameraComponent cameraComponent,
 						  final @NotNull TextureAtlas textureAtlas,
 						  final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent,
 						  final @NotNull Vector2 position,
@@ -25,12 +25,21 @@ public class GreenFighter extends SpaceShipLocalPlayer implements ParentWithPosi
 											  50,
 											  25,
 											  CollisionShapeComponent.getUniqueNonCollidingGroupId ( ) ),
-				new CameraComponent ( viewport ),
+				cameraComponent,
 				new DirectionalThrustComponent ( 300, 250, 150, 150, 50, 50 ),
 				userInputSpaceShipComponent );
-		BehaviorLogic.getInstance ( ).queueForAddition ( new CannonGreen ( new RelativePositionRotationComponent ( new Vector2 ( 0, 10 ), this, 0 ),
-																		   textureAtlas,
-																		   getCollisionShapeComponent ( ).getNonCollidingGroupId ( ),
-																		   userInputSpaceShipComponent ) );
+		getEntityComponent ( ).addEntityToQueueOnAddition ( new CannonGreen ( new RelativePositionRotationComponent ( new Vector2 ( 0, 10 ),
+																													  this,
+																													  0 ),
+																			  textureAtlas,
+																			  getCollisionShapeComponent ( ).getNonCollidingGroupId ( ),
+																			  userInputSpaceShipComponent ) );
+
+		getEntityComponent ( ).addEntityToQueueOnAddition ( new CannonGreen ( new RelativePositionRotationComponent ( new Vector2 ( 0, -10 ),
+																													  this,
+																													  0 ),
+																			  textureAtlas,
+																			  getCollisionShapeComponent ( ).getNonCollidingGroupId ( ),
+																			  userInputSpaceShipComponent ) );
 	}
 }

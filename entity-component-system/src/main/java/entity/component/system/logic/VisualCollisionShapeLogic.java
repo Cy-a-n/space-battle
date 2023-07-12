@@ -40,13 +40,13 @@ public class VisualCollisionShapeLogic {
 	 * @param shapeDrawer tool used for drawing shapes
 	 */
 	void update ( final @NotNull ShapeDrawer shapeDrawer ) {
-		shapeDrawer.setColor ( Color.DARK_GRAY );
 		for ( final @NotNull VisualCollisionShapeBehavior entity : entities ) {
-			shapeDrawer.filledRectangle ( entity.getCollisionShapeComponent ( ).getConvexPolygon ( ).getBoundingRectangle ( ) );
-		}
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
 
-		shapeDrawer.setColor ( Color.WHITE );
-		for ( VisualCollisionShapeBehavior entity : entities ) {
+			shapeDrawer.setColor ( Color.DARK_GRAY );
+			shapeDrawer.filledRectangle ( entity.getCollisionShapeComponent ( ).getConvexPolygon ( ).getBoundingRectangle ( ) );
+			shapeDrawer.setColor ( Color.WHITE );
 			shapeDrawer.filledPolygon ( entity.getCollisionShapeComponent ( ).getConvexPolygon ( ).getTransformedVertices ( ) );
 		}
 	}

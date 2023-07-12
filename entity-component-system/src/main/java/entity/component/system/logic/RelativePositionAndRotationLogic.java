@@ -38,11 +38,15 @@ class RelativePositionAndRotationLogic {
 	 */
 	void addEntity ( final @NotNull RelativePositionRotationBehavior entity ) {
 		ParentWithPositionRotationBehavior parent = entity.getRelativePositionAndRotationComponent ( ).getParentWithPositionRotationBehavior ( );
+		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get ( parent );
 
-		if ( !BehaviorLogic.getInstance ( ).containsEntity ( parent ) ) {
-			BehaviorLogic.getInstance ( ).addEntity ( parent );
+		if ( children == null ) {
+				throw new IllegalArgumentException ( "Make sure to add the parent associated with this entity before the frame this entity is added" +
+													 ". You can use the EntityComponent.addEntityToQueueOnAddition(Entity) method to achieve this " +
+													 "behavior." );
+		} else {
+			children.add ( entity );
 		}
-		parentChildrenEntities.get ( parent ).add ( entity );
 	}
 
 	/**
@@ -55,7 +59,7 @@ class RelativePositionAndRotationLogic {
 		HashSet<RelativePositionRotationBehavior> children = parentChildrenEntities.get ( entity );
 		if ( children != null ) {
 			for ( RelativePositionRotationBehavior child : children ) {
-				BehaviorLogic.getInstance ( ).removeEntity ( child );
+				BehaviorLogic.getInstance ( ).queueEntityForRemoval ( child );
 			}
 		}
 
@@ -87,7 +91,12 @@ class RelativePositionAndRotationLogic {
 	void update ( ) {
 		for ( final Map.Entry<ParentWithPositionRotationBehavior, HashSet<RelativePositionRotationBehavior>> parentChildrenPair :
 				parentChildrenEntities.entrySet ( ) ) {
+
 			final ParentWithPositionRotationBehavior parent = parentChildrenPair.getKey ( );
+
+			if ( parent.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull PositionRotationComponent parentPositionRotationComponent = parent.getPositionRotationComponent ( );
 			final @NotNull Vector2 parentPosition = parentPositionRotationComponent.getPosition ( );
 			final @NotNull HashSet<RelativePositionRotationBehavior> children = parentChildrenPair.getValue ( );
@@ -97,6 +106,9 @@ class RelativePositionAndRotationLogic {
 			final float sinTheta = MathUtils.sin ( parentRadians );
 
 			for ( final @NotNull RelativePositionRotationBehavior child : children ) {
+				if ( child.getEntityComponent ().isQueuedForRemoval () )
+					continue;
+
 				final @NotNull Vector2 relativePosition = child.getRelativePositionAndRotationComponent ( ).getPosition ( );
 				final @NotNull Vector2 resultingRelativePosition = new Vector2 ( );
 				final @NotNull PositionRotationComponent childPositionRotationComponent = child.getPositionRotationComponent ( );
@@ -112,6 +124,7 @@ class RelativePositionAndRotationLogic {
 
 				childPositionRotationComponent.setDegrees (
 						parentPositionRotationComponent.getDegrees ( ) + child.getRelativePositionAndRotationComponent ( ).getDegrees ( ) );
+
 			}
 		}
 	}

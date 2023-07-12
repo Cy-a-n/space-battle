@@ -15,8 +15,6 @@ public class BulletSmall extends Projectile {
 				velocityComponent,
 				new CollisionShapeComponent ( new Polygon ( new float[] { 0, 0, 15, 0, 15, 3, 0, 3 } ), 1, 1, 10, 10, nonCollidingGroupId ),
 				new TextureComponent ( textureAtlas.findRegion ( "bullet_small" ) ),
-				new LifeTimeComponent ( 5000 ) );
-
-		BehaviorLogic.getInstance ( ).queueForAddition ( this );
+				new LifeTimeComponent ( 50000 ) );
 	}
 }

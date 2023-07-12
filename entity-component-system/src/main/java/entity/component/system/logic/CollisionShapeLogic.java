@@ -41,6 +41,9 @@ class CollisionShapeLogic {
 	void update ( ) {
 		// Update each entity's position, rotation, and origin based on its current state
 		for ( CollisionShapeBehavior entity : entities ) {
+			if ( entity.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull Polygon shape = entity.getCollisionShapeComponent ( ).getConvexPolygon ( );
 			final @NotNull PositionRotationComponent positionRotationComponent = entity.getPositionRotationComponent ( );
 			final @NotNull Vector2 position = positionRotationComponent.getPosition ( );
@@ -55,12 +58,19 @@ class CollisionShapeLogic {
 		CollisionShapeBehavior[] entityArray = entities.toArray ( new CollisionShapeBehavior[ 0 ] );
 		for ( int i = 0; i < entityArray.length; i++ ) {
 			final @NotNull CollisionShapeBehavior entity0 = entityArray[ i ];
+			if ( entity0.getEntityComponent ().isQueuedForRemoval () )
+				continue;
+
 			final @NotNull CollisionShapeComponent collisionShapeComponent0 = entity0.getCollisionShapeComponent ( );
 			final @NotNull Polygon shape0 = collisionShapeComponent0.getConvexPolygon ( );
 			final int nonCollidingGroupId0 = collisionShapeComponent0.getNonCollidingGroupId ( );
 
 			for ( int j = i + 1; j < entityArray.length; j++ ) {
 				CollisionShapeBehavior entity1 = entityArray[ j ];
+
+				if ( entity1.getEntityComponent ().isQueuedForRemoval () )
+					continue;
+
 				final @NotNull CollisionShapeComponent collisionShapeComponent1 = entity1.getCollisionShapeComponent ( );
 
 				// Skip this collision check if possible

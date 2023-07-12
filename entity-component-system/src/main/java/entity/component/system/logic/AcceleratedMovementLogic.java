@@ -41,6 +41,9 @@ class AcceleratedMovementLogic {
 	 */
 	void update ( final float deltaTimeInSeconds ) {
 		for ( final @NotNull AcceleratedMovementBehavior entity : entities ) {
+			if (entity.getEntityComponent ().isQueuedForRemoval ())
+				continue;
+
 			final float translationalFriction = entity.getAccelerationComponent ( ).getTranslationalFriction ( );
 			final @NotNull AccelerationComponent acceleration = entity.getAccelerationComponent ( );
 			final @NotNull Vector2 translationalAcceleration = acceleration.getTranslational ( );

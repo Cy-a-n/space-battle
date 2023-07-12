@@ -17,17 +17,8 @@ import java.util.Set;
 public class CameraComponent {
 	private final @NotNull Viewport viewport;
 	private final @NotNull OrthographicCamera camera;
-	private final float minWidth;
-	private final float minHeight;
 	private final @NotNull Set<PositionRotationBehavior> entitiesAlwaysInFrame;
-
-	public float getMinWidth ( ) {
-		return minWidth;
-	}
-
-	public float getMinHeight ( ) {
-		return minHeight;
-	}
+	private final float boundary;
 
 	public void addEntityAlwaysInFrame ( final PositionRotationBehavior entityInFrame ) { entitiesAlwaysInFrame.add ( entityInFrame ); }
 
@@ -39,18 +30,20 @@ public class CameraComponent {
 	 * Constructs a new CameraComponent with the specified viewport.
 	 *
 	 * @param viewport              the viewport associated with the camera
+	 * @param boundary
 	 * @param entitiesAlwaysInFrame
 	 * @throws IllegalArgumentException if the viewport does not contain a non-null instance of OrthographicCamera
 	 */
-	public CameraComponent ( @NotNull final Viewport viewport, final @NotNull PositionRotationBehavior... entitiesAlwaysInFrame ) {
+	public CameraComponent ( @NotNull final Viewport viewport,
+							 final float boundary,
+							 final @NotNull PositionRotationBehavior... entitiesAlwaysInFrame ) {
+		this.boundary = boundary;
 
 		if ( viewport.getCamera ( ) == null || !( viewport.getCamera ( ) instanceof OrthographicCamera orthographicCamera ) )
 			throw new IllegalArgumentException ( "Viewport must contain a non-null instance of OrthographicCamera" );
 
 		this.viewport = viewport;
 		this.camera = orthographicCamera;
-		this.minWidth = viewport.getWorldWidth ( );
-		this.minHeight = viewport.getWorldHeight ( );
 		this.entitiesAlwaysInFrame = new HashSet<> ( List.of ( entitiesAlwaysInFrame ) );
 	}
 

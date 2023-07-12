@@ -11,31 +11,41 @@ public class EntityComponent {
 	private boolean queuedForAddition;
 	private boolean addedToBehaviorLogic;
 	private boolean queuedForRemoval;
-	private final @NotNull Set<EntityBehavior> queueEntitiesOnAddition;
-	private final @NotNull Set<EntityBehavior> queueEntitiesOnRemoval;
-
-	public Set<EntityBehavior> getQueueEntitiesOnAddition ( ) {
-		return Collections.unmodifiableSet ( queueEntitiesOnAddition );
-	}
-
-	public void addEntityToQueueOnAddition ( EntityBehavior entity ) {
-		queueEntitiesOnAddition.add ( entity );
-	}
-
-	public Set<EntityBehavior> getQueueEntitiesOnRemoval ( ) {
-		return Collections.unmodifiableSet ( queueEntitiesOnRemoval );
-	}
-
-	public void addEntityToQueueOnRemoval (EntityBehavior entity) {
-		queueEntitiesOnAddition.add ( entity );
-	}
+	private final @NotNull Set<EntityBehavior> queueEntitiesOnAdditionForAddition;
+	private final @NotNull Set<EntityBehavior> queueEntitiesOnRemovalForRemoval;
+	private final @NotNull Set<EntityBehavior> queueEntitiesOnRemovalForAddition;
 
 	public EntityComponent ( ) {
 		this.queuedForAddition = false;
 		this.addedToBehaviorLogic = false;
 		this.queuedForRemoval = false;
-		this.queueEntitiesOnAddition = new HashSet<> ();
-		this.queueEntitiesOnRemoval = new HashSet<> ();
+		this.queueEntitiesOnAdditionForAddition = new HashSet<> ( );
+		this.queueEntitiesOnRemovalForRemoval = new HashSet<> ( );
+		this.queueEntitiesOnRemovalForAddition = new HashSet<> ( );
+	}
+
+	public Set<EntityBehavior> getQueueEntitiesOnAdditionForAddition ( ) {
+		return Collections.unmodifiableSet ( queueEntitiesOnAdditionForAddition );
+	}
+
+	public void addEntityToQueueOnAdditionForAddition ( EntityBehavior entity ) {
+		queueEntitiesOnAdditionForAddition.add ( entity );
+	}
+
+	public Set<EntityBehavior> getQueueEntitiesOnRemovalForRemoval ( ) {
+		return Collections.unmodifiableSet ( queueEntitiesOnRemovalForRemoval );
+	}
+
+	public void addEntityToQueueOnRemovalForRemoval ( EntityBehavior entity ) {
+		queueEntitiesOnAdditionForAddition.add ( entity );
+	}
+
+	public Set<EntityBehavior> getQueueEntitiesOnRemovalForAddition ( ) {
+		return queueEntitiesOnRemovalForAddition;
+	}
+
+	public void addEntityToQueueOnRemovalForAddition ( EntityBehavior entity ) {
+		queueEntitiesOnRemovalForAddition.add ( entity );
 	}
 
 	public boolean isAddedToBehaviorLogic ( ) {
@@ -61,6 +71,4 @@ public class EntityComponent {
 	public void setQueuedForRemoval ( final boolean queuedForRemoval ) {
 		this.queuedForRemoval = queuedForRemoval;
 	}
-
-
 }

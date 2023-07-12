@@ -63,8 +63,8 @@ class CameraLogic {
 			cameraPosition.x = ( minX + maxX ) / 2;
 			cameraPosition.y = ( minY + maxY ) / 2;
 
-			final float cameraWidth = Math.abs ( maxX - minX ) + 125;
-			final float cameraHeight = Math.abs ( maxY - minY ) + 125 ;
+			final float cameraWidth = Math.abs ( maxX - minX ) + 256;
+			final float cameraHeight = Math.abs ( maxY - minY ) + 256 ;
 
 			final float cameraWidthPerViewportWidth = cameraWidth / camera.viewportWidth;
 			final float cameraHeightPerViewportHeight = cameraHeight / camera.viewportHeight;

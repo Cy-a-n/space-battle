@@ -42,7 +42,7 @@ class RelativePositionAndRotationLogic {
 
 		if ( children == null ) {
 				throw new IllegalArgumentException ( "Make sure to add the parent associated with this entity before the frame this entity is added" +
-													 ". You can use the EntityComponent.addEntityToQueueOnAddition(Entity) method to achieve this " +
+													 ". You can use the EntityComponent.addEntityToQueueOnAdditionForAddition(Entity) method to achieve this " +
 													 "behavior." );
 		} else {
 			children.add ( entity );

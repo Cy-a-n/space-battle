@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entity.component.system.behaviors.*;
 import entity.component.system.components.EntityComponent;
-import entity.component.system.entities.Entity;
 import org.jetbrains.annotations.NotNull;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,7 +72,7 @@ public class BehaviorLogic {
 		EntityComponent entityComponent = entity.getEntityComponent ();
 		entityComponent.setQueuedForAddition ( false );
 		entityComponent.setAddedToBehaviorLogic ( true );
-		entitiesQueuedForAddition.addAll ( entityComponent.getQueueEntitiesOnAddition () );
+		entitiesQueuedForAddition.addAll ( entityComponent.getQueueEntitiesOnAdditionForAddition ( ) );
 
 
 		if ( entity instanceof PositionRotationBehavior )
@@ -143,18 +141,20 @@ public class BehaviorLogic {
 	 * Remove an entity directly.
 	 */
 	private void removeEntity ( final @NotNull EntityBehavior entity ) {
-		if ( !allEntities.remove ( entity ) )
-			throw new IllegalArgumentException ( String.format (
-					"%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.",
-					allEntities,
-					entity,
-					EntityBehavior.class,
-					"space.battle.entity.component" + ".system.behaviors.logic.BehaviorLogic.addEntity()" ) );
+		if ( !allEntities.remove ( entity ) ) {
+			//			throw new IllegalArgumentException ( String.format (
+			//					"%s does not contain element %s. You cannot remove an " + "entity that was never added with %s.",
+			//					allEntities,
+			//					entity,
+			//					EntityBehavior.class,
+			//					"space.battle.entity.component" + ".system.behaviors.logic.BehaviorLogic.addEntity()" ) );}
+		}
 
 		EntityComponent entityComponent = entity.getEntityComponent ();
 		entityComponent.setQueuedForRemoval ( true );
 		entityComponent.setAddedToBehaviorLogic ( false );
-		entitiesQueuedForRemoval.addAll ( entityComponent.getQueueEntitiesOnRemoval () );
+		entitiesQueuedForRemoval.addAll ( entityComponent.getQueueEntitiesOnRemovalForRemoval ( ) );
+		entitiesQueuedForAddition.addAll ( entityComponent.getQueueEntitiesOnRemovalForAddition ( ) );
 
 		if ( entity instanceof ParentWithPositionRotationBehavior ) {
 			positionLogic.removeEntity ( ( PositionRotationBehavior ) entity );

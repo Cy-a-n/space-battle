@@ -55,7 +55,7 @@ class AcceleratedMovementLogic {
 			translationalVelocity.y += translationalAcceleration.y * deltaTimeInSeconds - translationalVelocity.y * translationalFriction;
 
 			velocity.setDegreesPerSecond ( velocity.getDegreesPerSecond ( ) + acceleration.getDegreesPerSecondSquared ( ) * deltaTimeInSeconds -
-										   velocity.getDegreesPerSecond ( ) * acceleration.getTranslationalFriction ( ) );
+										   velocity.getDegreesPerSecond ( ) * acceleration.getRotationalFriction ( ) );
 		}
 	}
 }

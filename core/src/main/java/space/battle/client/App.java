@@ -11,14 +11,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import entity.component.system.components.CameraComponent;
 import entity.component.system.components.CollisionShapeComponent;
+import entity.component.system.components.PositionRotationComponent;
 import entity.component.system.components.UserInputSpaceShipComponent;
+import entity.component.system.components.VelocityComponent;
+import entity.component.system.entities.Asteroid;
 import entity.component.system.entities.GreenFighter;
 import entity.component.system.entities.Observer;
 import entity.component.system.entities.Wall;
 import entity.component.system.logic.BehaviorLogic;
+import org.jetbrains.annotations.NotNull;
 import space.earlygrey.shapedrawer.ShapeDrawer;
+
+import java.util.Random;
 
 /**
  * Implementation of {@link com.badlogic.gdx.ApplicationListener} shared by all platforms.
@@ -72,20 +77,35 @@ public class App extends ApplicationAdapter {
 	}
 
 	private void spawnEntities ( ) {
+		final @NotNull Vector2 spawnPoint = new Vector2 ( ( float ) Wall.WORLD_SIZE / 2, 0 );
+
 		// Spawn the players.
-		GreenFighter player0 = new GreenFighter ( new CameraComponent ( player0Viewport ),
+		GreenFighter player0 = new GreenFighter ( player0Viewport,
 												  textureAtlas,
 												  UserInputSpaceShipComponent.PLAYER_ONE,
-												  new Vector2 ( -150f, 0f ),
+												  spawnPoint.cpy ( ).scl ( -1 ),
 												  0 );
-		GreenFighter player1 = new GreenFighter ( new CameraComponent ( player1Viewport ),
-												  textureAtlas,
-												  UserInputSpaceShipComponent.PLAYER_TWO,
-												  new Vector2 ( 150f, 0f ),
-												  180 );
+		GreenFighter player1 = new GreenFighter ( player1Viewport, textureAtlas, UserInputSpaceShipComponent.PLAYER_TWO, spawnPoint.cpy ( ), 180 );
 		BehaviorLogic.getInstance ( ).queueForAddition ( player0 );
 		BehaviorLogic.getInstance ( ).queueForAddition ( player1 );
-		BehaviorLogic.getInstance ( ).queueForAddition ( new Observer ( new CameraComponent ( observerViewport, player0, player1 ), player0 ) );
+		player0.getEntityComponent ( ).addEntityToQueueOnAdditionForAddition ( new Observer ( observerViewport, player0, player1 ) );
+
+		// Spawn random asteroids
+		Random random = new Random ( );
+		for ( int i = -Wall.WORLD_SIZE; i < Wall.WORLD_SIZE; i += 512 ) {
+			for ( int y = -Wall.WORLD_SIZE; y < Wall.WORLD_SIZE; y += 512 ) {
+				if ( random.nextInt ( 0, 20 ) == 1 ) {
+					BehaviorLogic.getInstance ( ).queueForAddition ( new Asteroid ( new PositionRotationComponent ( new Vector2 (
+							i + random.nextFloat ( 0, 100 ), y + random.nextFloat ( 0, 100 ) ), random.nextFloat ( 0, 360 ) ),
+																					new VelocityComponent ( new Vector2 ( random.nextFloat ( 0,
+																																			 100 ),
+																														  random.nextFloat ( 0, 100 )
+
+																					), random.nextFloat ( 0, 100 ) ),
+																					textureAtlas ) );
+				}
+			}
+		}
 
 		// Spawn the kill zone.
 		final int nonCollidingGroupId = CollisionShapeComponent.getUniqueNonCollidingGroupId ( );

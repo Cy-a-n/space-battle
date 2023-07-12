@@ -13,18 +13,24 @@ public class Wall extends Entity implements ConstantMovementBehavior, VisualColl
 	private final @NotNull CollisionShapeComponent collisionShapeComponent;
 	private final @NotNull VelocityComponent velocityComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;
+	public static final int WORLD_SIZE = 4092;
+	public static final int DOUBLE_WORLD_SIZE = WORLD_SIZE * 2;
 
 	public Wall ( final int nonCollidingGroupId, @NotNull final Vector2 direction ) {
 		final @NotNull Vector2 normalizedDirection = direction.nor ();
 
-		this.collisionShapeComponent = new CollisionShapeComponent ( new Polygon ( new float[] { 0, 0, 8192, 0, 8192, 8192, 0, 8192 } ),
+		this.collisionShapeComponent = new CollisionShapeComponent ( new Polygon ( new float[] { 0, 0,
+																								 DOUBLE_WORLD_SIZE, 0,
+																								 DOUBLE_WORLD_SIZE,
+																								 DOUBLE_WORLD_SIZE, 0,
+																								 DOUBLE_WORLD_SIZE } ),
 																	 Integer.MAX_VALUE,
 																	 Integer.MAX_VALUE,
 																	 Integer.MAX_VALUE,
 																	 Integer.MAX_VALUE,
 																	 nonCollidingGroupId );
-		this.velocityComponent = new VelocityComponent ( normalizedDirection.cpy ().scl ( -50 ), 0 );
-		this.positionRotationComponent = new PositionRotationComponent ( normalizedDirection.cpy ().scl ( 8192 ), 0 );
+		this.velocityComponent = new VelocityComponent ( normalizedDirection.cpy ().scl ( -32 ), 0 );
+		this.positionRotationComponent = new PositionRotationComponent ( normalizedDirection.cpy ().scl ( DOUBLE_WORLD_SIZE ), 0 );
 	}
 
 	@Override public @NotNull CollisionShapeComponent getCollisionShapeComponent ( ) {

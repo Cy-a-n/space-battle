@@ -10,7 +10,7 @@ import entity.component.system.behaviors.VisualCollisionShapeBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class GreenCruiser extends SpaceShipLocalPlayer implements VisualCollisionShapeBehavior {
+public class GreenCruiser extends SpaceShipLocalPlayer {
 	public GreenCruiser ( final @NotNull Viewport viewport,
 						  final @NotNull TextureAtlas textureAtlas,
 						  final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent,

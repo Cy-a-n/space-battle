@@ -25,7 +25,7 @@ public class GreenFighter extends SpaceShipLocalPlayer  {
 											  100,
 											  CollisionShapeComponent.getUniqueNonCollidingGroupId ( ) ),
 				viewport,
-				new DirectionalThrustComponent ( 300, 250, 150, 150, 100, 100 ),
+				new DirectionalThrustComponent ( 300, 250, 150, 150, 150, 150 ),
 				userInputSpaceShipComponent );
 		getEntityComponent ( ).addEntityToQueueOnAdditionForAddition ( new CannonGreen ( new RelativePositionRotationComponent ( new Vector2 ( 0, 10 ),
 																																 this,

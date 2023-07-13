@@ -42,6 +42,8 @@ public class App extends ApplicationAdapter {
 	private int playerViewportHeight;
 	private float playerViewportRelativeWidth;
 	private float observerViewportRelativeWidth;
+	public static int player0Ship;
+	public static int player1Ship;
 
 	@Override public void create ( ) {
 		// Many libgdx types can only be instantiated in the create method since they rely on native libraries

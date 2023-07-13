@@ -95,12 +95,13 @@ public class App extends ApplicationAdapter {
 			for ( int y = -Wall.WORLD_SIZE; y < Wall.WORLD_SIZE; y += 512 ) {
 				if ( random.nextInt ( 0, 10 ) == 1 ) {
 					BehaviorLogic.getInstance ( ).queueForAddition ( new Asteroid ( new PositionRotationComponent ( new Vector2 (
-							i + random.nextFloat ( 0, 100 ), y + random.nextFloat ( 0, 100 ) ), random.nextFloat ( 0, 360 ) ),
-																					new VelocityComponent ( new Vector2 ( random.nextFloat ( 0,
+							i + random.nextFloat ( -100, 100 ), y + random.nextFloat ( -100, 100 ) ), random.nextFloat ( 0, 360 ) ),
+																					new VelocityComponent ( new Vector2 ( random.nextFloat ( -100,
 																																			 100 ),
-																														  random.nextFloat ( 0, 100 )
+																														  random.nextFloat ( -100,
+																																			 100 )
 
-																					), random.nextFloat ( 0, 100 ) ),
+																					), random.nextFloat ( -100, 100 ) ),
 																					textureAtlas ) );
 				}
 			}

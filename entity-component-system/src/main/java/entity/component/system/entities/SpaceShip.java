@@ -1,10 +1,11 @@
 package entity.component.system.entities;
 
+import entity.component.system.behaviors.ParentWithPositionRotationBehavior;
 import entity.component.system.behaviors.SpaceShipBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class SpaceShip extends Entity implements SpaceShipBehavior {
+public class SpaceShip extends Entity implements SpaceShipBehavior, ParentWithPositionRotationBehavior {
 	private final @NotNull TextureComponent textureComponent;
 	private final @NotNull PositionRotationComponent positionRotationComponent;
 	private final @NotNull VelocityComponent velocityComponent;

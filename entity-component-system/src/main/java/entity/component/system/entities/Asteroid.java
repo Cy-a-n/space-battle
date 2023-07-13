@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Polygon;
 import entity.component.system.behaviors.CollisionShapeBehavior;
 import entity.component.system.behaviors.ConstantMovementBehavior;
 import entity.component.system.behaviors.TextureBehavior;
+import entity.component.system.behaviors.VisualCollisionShapeBehavior;
 import entity.component.system.components.CollisionShapeComponent;
 import entity.component.system.components.PositionRotationComponent;
 import entity.component.system.components.TextureComponent;

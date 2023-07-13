@@ -8,7 +8,7 @@ import entity.component.system.behaviors.ParentWithPositionRotationBehavior;
 import entity.component.system.components.*;
 import org.jetbrains.annotations.NotNull;
 
-public class GreenFighter extends SpaceShipLocalPlayer implements ParentWithPositionRotationBehavior {
+public class GreenFighter extends SpaceShipLocalPlayer  {
 	public GreenFighter ( final @NotNull Viewport viewport,
 						  final @NotNull TextureAtlas textureAtlas,
 						  final @NotNull UserInputSpaceShipComponent userInputSpaceShipComponent,
@@ -19,12 +19,12 @@ public class GreenFighter extends SpaceShipLocalPlayer implements ParentWithPosi
 				new VelocityComponent ( new Vector2 ( 0, 0 ), 0 ),
 				new AccelerationComponent ( new Vector2 ( 0, 0 ), 0, 0.01f, 0.05f ),
 				new CollisionShapeComponent ( new Polygon ( new float[] { 0, 13, 2, 0, 29, 10, 34, 15, 34, 19, 29, 24, 2, 34, 0, 21 } ),
-											  3,
+											  1,
 											  2,
-											  50,
-											  25,
+											  100,
+											  100,
 											  CollisionShapeComponent.getUniqueNonCollidingGroupId ( ) ),
-				new CameraComponent ( viewport, 256 ),
+				viewport,
 				new DirectionalThrustComponent ( 300, 250, 150, 150, 100, 100 ),
 				userInputSpaceShipComponent );
 		getEntityComponent ( ).addEntityToQueueOnAdditionForAddition ( new CannonGreen ( new RelativePositionRotationComponent ( new Vector2 ( 0, 10 ),
